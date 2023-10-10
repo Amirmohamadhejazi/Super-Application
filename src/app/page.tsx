@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
     useEffect(() => {
         console.log(fullData);
     }, [fullData]);
-    return 'A';
+    return <Link href="/itemsShop">item Shop</Link>;
 }
+
 
