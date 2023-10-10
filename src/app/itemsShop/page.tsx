@@ -13,9 +13,10 @@ interface ISortData {
 
 const itemsShop = ({ searchParams: { sortOrder } }: Props) => {
     const sortData: ISortData[] = [
-        { name: 'name', id: 0 },
-        { name: 'numbers', id: 1 },
-        { name: 'brand', id: 2 }
+        { name: 'All', id: 0 },
+        { name: 'name', id: 1 },
+        { name: 'numbers', id: 2 },
+        { name: 'brand', id: 3 }
     ];
     return (
         <div className="p-5 flex flex-col gap-y-6">

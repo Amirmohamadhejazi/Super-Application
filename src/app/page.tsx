@@ -29,7 +29,6 @@ export default function Home() {
     useEffect(() => {
         console.log(fullData);
     }, [fullData]);
-    return <Link href="/itemsShop">item Shop</Link>;
+    return <Link href="/itemsShop/All">item Shop</Link>;
 }
-
 
