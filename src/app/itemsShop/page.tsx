@@ -22,7 +22,7 @@ const itemsShop = ({ searchParams: { sortOrder } }: Props) => {
             <div className="p-5 flex flex-col gap-y-6">
                 <div className="flex flex-col justify-end items-end">
                     <div className="flex gap-x-5">
-                        <p className="font-semibold">Sort by:</p>
+                        <p className="font-semibold hidden md:block">Sort by:</p>
                         <div className="flex gap-x-2 text-lg font-bold">
                             {sortData.map((items) => (
                                 <Link href={`itemsShop?sortOrder=${items.name}`} key={items.id}>

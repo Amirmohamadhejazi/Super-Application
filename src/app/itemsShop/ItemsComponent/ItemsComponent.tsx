@@ -62,7 +62,7 @@ const ItemsComponent = ({ sortOrder }: Props) => {
     );
     return (
         <div className="flex flex-col gap-2">
-            <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
                 {SortedItems.map((items) => (
                     <div key={items.id} className="bg-slate-200 p-1 flex flex-col gap-y-2 rounded-md">
                         <div className="w-full flex items-center justify-center   rounded-md overflow-hidden">
