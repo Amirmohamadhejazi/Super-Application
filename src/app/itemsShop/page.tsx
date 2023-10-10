@@ -16,6 +16,7 @@ const itemsShop = ({ searchParams: { sortOrder } }: Props) => {
         { name: 'numbers', id: 2 },
         { name: 'brand', id: 3 }
     ];
+    
     return (
         <>
             <div className="p-5 flex flex-col gap-y-6">
