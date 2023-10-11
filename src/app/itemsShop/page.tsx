@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';

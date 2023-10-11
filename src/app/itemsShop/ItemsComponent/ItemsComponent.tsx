@@ -15,9 +15,7 @@ interface Props {
     data: IItemShop[];
 }
 const ItemsComponent = ({ sortOrder, data }: Props) => {
-    const dataItems = data;
-
-    console.log(dataItems);
+    const dataItems = data; 
 
     const SortedItems = sort(dataItems).asc(
         sortOrder === 'name'
