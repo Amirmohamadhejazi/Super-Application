@@ -16,16 +16,14 @@ interface IItemShop {
     id: number;
 }
 
-const itemsShop = async ({ searchParams: { sortOrder } }: Props) => { 
+const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
     const res = await fetch('http://localhost:3000/api/itemsShop', { cache: 'no-store' });
-    const dataItems: IItemShop[] = await res.json(); 
+    const dataItems: IItemShop[] = await res.json();
     const renderItemsComponent = () => {
-        if (dataItems) {    
-            console.log("aa");
-             
+        if (dataItems) {
+            console.log('aa');
             return <ItemsComponent sortOrder={sortOrder} data={dataItems} />;
         } else {
-            
             console.log('bb');
             return <p>loading</p>;
         }

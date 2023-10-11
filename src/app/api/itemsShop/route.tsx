@@ -38,6 +38,6 @@ export function GET(request: NextRequest) {
             brand: 'lg',
             id: 5
         }
-    ]; 
-    return NextResponse.json(dataItems); 
+    ];
+    return NextResponse.json(dataItems);
 }
