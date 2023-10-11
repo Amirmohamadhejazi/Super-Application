@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';
@@ -14,12 +13,13 @@ interface IItemShop {
     name: string;
     numbers: number;
     brand: string;
+    data: any;
     id: number;
 }
 
 const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
     const res = await fetch('http://localhost:3000/api/items', { cache: 'no-store' });
-    const dataItems: IItemShop[] = await res.json();
+    const dataItems: { data: IItemShop[] } = await res.json();
     const renderItemsComponent = () => {
         if (res.status === 200) {
             console.log('aa');
