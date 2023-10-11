@@ -1,4 +1,4 @@
-'use client';
+ 
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';
@@ -18,12 +18,12 @@ interface IItemShop {
 }
 
 const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
-    const res = await fetch('http://localhost:3000/api/itemsShop', { cache: 'no-store' });
+    const res = await fetch('http://localhost:3000/api/items', { cache: 'no-store' });
     const dataItems: IItemShop[] = await res.json();
     const renderItemsComponent = () => {
         if (res.status === 200) {
             console.log('aa');
-            return <ItemsComponent sortOrder={sortOrder} data={dataItems} />;
+            return <ItemsComponent sortOrder={sortOrder} data={dataItems.data} />;
         } else {
             console.log('bb');
             return <p>loading</p>;
