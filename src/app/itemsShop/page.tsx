@@ -20,7 +20,7 @@ const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
     const res = await fetch('http://localhost:3000/api/itemsShop', { cache: 'no-store' });
     const dataItems: IItemShop[] = await res.json();
     const renderItemsComponent = () => {
-        if (dataItems) {
+        if (res.status === 200) {
             console.log('aa');
             return <ItemsComponent sortOrder={sortOrder} data={dataItems} />;
         } else {
