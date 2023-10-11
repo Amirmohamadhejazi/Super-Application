@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';
@@ -9,14 +8,35 @@ interface ISortData {
     name: string;
     id: number;
 }
-const itemsShop = ({ searchParams: { sortOrder } }: Props) => {
+
+interface IItemShop {
+    name: string;
+    numbers: number;
+    brand: string;
+    id: number;
+}
+
+const itemsShop = async ({ searchParams: { sortOrder } }: Props) => { 
+    const res = await fetch('http://localhost:3000/api/itemsShop', { cache: 'no-store' });
+    const dataItems: IItemShop[] = await res.json(); 
+    const renderItemsComponent = () => {
+        if (dataItems) {    
+            console.log("aa");
+             
+            return <ItemsComponent sortOrder={sortOrder} data={dataItems} />;
+        } else {
+            
+            console.log('bb');
+            return <p>loading</p>;
+        }
+    };
+
     const sortData: ISortData[] = [
         { name: 'All', id: 0 },
         { name: 'name', id: 1 },
         { name: 'numbers', id: 2 },
         { name: 'brand', id: 3 }
     ];
-    
     return (
         <>
             <div className="p-5 flex flex-col gap-y-6">
@@ -39,7 +59,7 @@ const itemsShop = ({ searchParams: { sortOrder } }: Props) => {
                     </div>
                 </div>
 
-                <ItemsComponent sortOrder={sortOrder} />
+                {renderItemsComponent()}
             </div>
         </>
     );

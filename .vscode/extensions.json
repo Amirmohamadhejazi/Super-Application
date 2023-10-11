@@ -1,9 +1,0 @@
-{
-    "recommendations": [
-        "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss",
-        "esbenp.prettier-vscode",
-        "pkief.material-icon-theme",
-        "dsznajder.es7-react-js-snippets"
-    ]
-}
