@@ -1,20 +1,13 @@
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';
+import { IItemShop } from '../types/type';
 interface Props {
     searchParams: { sortOrder: string };
 }
 interface ISortData {
-    name: string;
-    id: number;
-}
-
-interface IItemShop {
-    name: string;
-    numbers: number;
-    brand: string;
-    data: any;
-    id: number;
+    name?: string;
+    id?: number;
 }
 
 const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {

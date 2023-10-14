@@ -2,13 +2,7 @@
 import React from 'react';
 import { iphone15 } from '../../../../public/picture';
 import { sort } from 'fast-sort';
-
-interface IItemShop {
-    name: string;
-    numbers: number;
-    brand: string;
-    id: number;
-}
+import { IItemShop } from '@/app/types/type';
 
 interface Props {
     sortOrder: string;
