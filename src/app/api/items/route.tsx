@@ -7,5 +7,6 @@ export function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
+    dataItems.push(body);
     return NextResponse.json(body);
 }
