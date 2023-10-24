@@ -1,14 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { v4 as uuIdv4 } from 'uuid';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 
 interface ITodo {
     nameTodo: string;
     createTime: string;
-    id: string;
+    id: number;
 }
 
 const TodoApp = () => {
@@ -25,7 +25,7 @@ const TodoApp = () => {
             const newData: ITodo = {
                 nameTodo: task,
                 createTime: dateCreate,
-                id: uuIdv4()
+                id: new Date().getTime()
             };
             setTask('');
             setTodo([...todo, newData]);
@@ -36,7 +36,7 @@ const TodoApp = () => {
         }
     };
 
-    const removeTodo = (index: string) => {
+    const removeTodo = (index: number) => {
         const dataNew = todo.filter((items) => items.id !== index);
         toast.error(`todo by id ${index} deleted`);
         setTodo(dataNew);
