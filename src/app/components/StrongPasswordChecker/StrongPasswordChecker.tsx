@@ -30,7 +30,6 @@ const StrongPasswordChecker = () => {
         if (/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
             strengthRating += 25;
         }
-
         setStrength(strengthRating);
     };
 
