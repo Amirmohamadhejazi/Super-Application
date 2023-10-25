@@ -1,7 +1,7 @@
 export type TTodo = {
     nameTodo: string;
     createTime: string;
-    important: number;
+    important?: number;
     completed: boolean;
     id: number;
 };

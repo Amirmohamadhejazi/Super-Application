@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
 import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
-import { BiCheckCircle } from 'react-icons/bi';
 import { VscCheckAll } from 'react-icons/vsc';
 
 import { TTodo, tabData } from './resources';
@@ -13,8 +12,8 @@ import { NoData } from '..';
 const TodoApp = () => {
     const [todo, setTodo] = useState<TTodo[]>([]);
     const [task, setTask] = useState('');
-    const [tab, setTab] = useState(1);
-    const [selectImportant, setSelectImportant] = useState<number>(1);
+    const [tab, setTab] = useState<number>(1);
+    const [selectImportant, setSelectImportant] = useState<number>();
 
     const TabHandlerData = todo.filter((items) => items.important === tab);
 
@@ -25,16 +24,22 @@ const TodoApp = () => {
             const dateCreate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}
         -${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-            const newData: TTodo = {
-                nameTodo: task,
-                createTime: dateCreate,
-                important: selectImportant ? selectImportant : 1,
-                completed: false,
-                id: new Date().getTime()
-            };
-            setTask('');
-            setTodo([...todo, newData]);
-            toast.success(`todo by id ${newData.id} Created`);
+            let newData: TTodo;
+
+            if (selectImportant) {
+                newData = {
+                    nameTodo: task,
+                    createTime: dateCreate,
+                    important: selectImportant,
+                    completed: false,
+                    id: new Date().getTime()
+                };
+                setTask('');
+                setTodo([...todo, newData]);
+                toast.success(`todo by id ${newData.id} Created`);
+            } else {
+                toast.error(`please select important type!`);
+            }
         } else {
             setTask('');
             toast.error(`please enter todo!`);
@@ -72,7 +77,8 @@ const TodoApp = () => {
                     />
 
                     <select
-                        className="select select-bordered focus:ring-0 focus:outline-none w-full max-w-xs"
+                        required
+                        className="select  select-secondary focus:ring-0 focus:outline-none w-full "
                         defaultValue={selectImportant}
                         onChange={(e) => setSelectImportant(+e.target.value)}
                     >
@@ -104,15 +110,13 @@ const TodoApp = () => {
                 <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white  ">
                     <div className="tabs flex justify-between tabs-boxed bg-gray-200">
                         {tabData.map((items) => {
-                            const checkTabHandler =
-                                todo.filter((itemsTodo) => itemsTodo.important === items.id).length > 0;
                             return (
                                 <div
                                     className={`flex items-center gap-x-2 tab  ${
                                         items.id === tab ? 'text-white bg-[#141E46]' : 'text-black'
-                                    } ${checkTabHandler ? 'cursor-pointer' : 'cursor-default'} `}
+                                    } `}
                                     key={items.id}
-                                    onClick={() => checkTabHandler && setTab(items.id)}
+                                    onClick={() => setTab(items.id)}
                                 >
                                     <div className="text-yellow-400">
                                         {items.id === 1 ? (
