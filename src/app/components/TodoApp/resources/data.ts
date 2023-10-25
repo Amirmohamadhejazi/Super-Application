@@ -11,6 +11,10 @@ const tabData: TTabData[] = [
     {
         tabName: 'No matter',
         id: 3
+    },
+    {
+        tabName: 'completed',
+        id: 0
     }
 ];
 

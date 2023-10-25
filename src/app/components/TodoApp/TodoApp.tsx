@@ -4,14 +4,18 @@ import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
 import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
+import { BiCheckCircle } from 'react-icons/bi';
+import { VscCheckAll } from 'react-icons/vsc';
 
 import { TTodo, tabData } from './resources';
+import { NoData } from '..';
 
 const TodoApp = () => {
     const [todo, setTodo] = useState<TTodo[]>([]);
     const [task, setTask] = useState('');
     const [tab, setTab] = useState(1);
     const [selectImportant, setSelectImportant] = useState<number>(1);
+    console.log(todo);
 
     const addTodo = (data: any) => {
         data.preventDefault();
@@ -24,6 +28,7 @@ const TodoApp = () => {
                 nameTodo: task,
                 createTime: dateCreate,
                 important: selectImportant ? selectImportant : 1,
+                completed: false,
                 id: new Date().getTime()
             };
             setTask('');
@@ -45,6 +50,10 @@ const TodoApp = () => {
             setTodo([]);
             toast.error(`All todos deleted!`);
         }
+    };
+
+    const addToCompleted = (index: number) => {
+        setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, important: 0 } : item)));
     };
 
     return (
@@ -90,67 +99,87 @@ const TodoApp = () => {
                     Delete All
                 </motion.button>
             </form>
-            <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white">
-                <div className="tabs tabs-boxed">
-                    {tabData.map((items) => (
-                        <div
-                            className={`flex items-center gap-x-2 tab  ${
-                                items.id === tab ? 'text-white bg-[#141E46]' : 'text-black'
-                            } `}
-                            key={items.id}
-                            onClick={() => setTab(items.id)}
-                        >
-                            <div className="text-yellow-400">
-                                {items.id === 1 ? (
-                                    <BsStarFill />
-                                ) : items.id === 2 ? (
-                                    <BsStarHalf />
-                                ) : (
-                                    items.id === 3 && <BsStar />
-                                )}
-                            </div>
-                            {items.tabName}
-                        </div>
-                    ))}
-                </div>
-                {todo
-                    .filter((items) => items.important === tab )
-                    .map((todoItems) => (
-                        <div
-                            key={todoItems.id}
-                            className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B] rounded-md gap-x-10 `}
-                        >
+            <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white  ">
+                <div className="tabs flex justify-between tabs-boxed bg-gray-200">
+                    {tabData.map((items) => {
+                        const checkTabHandler = todo.filter((itemsTodo) => itemsTodo.important === items.id).length > 0;
+                        return (
                             <div
-                                className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
-                                title={todoItems.nameTodo}
+                                className={`flex items-center gap-x-2 tab  ${
+                                    items.id === tab ? 'text-white bg-[#141E46]' : 'text-black'
+                                } ${checkTabHandler ? 'cursor-pointer' : 'cursor-default'} `}
+                                key={items.id}
+                                onClick={() => checkTabHandler && setTab(items.id)}
                             >
-                                <div className="text-lg text-yellow-400 ">
-                                    {todoItems.important === 1 ? (
+                                <div className="text-yellow-400">
+                                    {items.id === 1 ? (
                                         <BsStarFill />
-                                    ) : todoItems.important === 2 ? (
+                                    ) : items.id === 2 ? (
                                         <BsStarHalf />
                                     ) : (
-                                        todoItems.important === 3 && <BsStar />
+                                        items.id === 3 && <BsStar />
                                     )}
                                 </div>
-                                <span>{todoItems.nameTodo}</span>
+                                {items.tabName}
                             </div>
-                            <span
-                                className="text-sm text-gray-400 text-ellipsis overflow-hidden"
-                                title={todoItems.createTime}
+                        );
+                    })}
+                </div>
+                {todo.length > 0 ? (
+                    todo
+                        .filter((items) => items.important === tab)
+                        .map((todoItems) => (
+                            <div
+                                key={todoItems.id}
+                                className={`grid grid-cols-3  items-center px-3 py-3 rounded-md gap-x-10 ${
+                                    todoItems.important === 0 ? 'bg-[#3a9182]' : 'bg-[#3C486B] '
+                                }`}
                             >
-                                {todoItems.createTime}
-                            </span>
-                            <div className="flex justify-end">
-                                <button
-                                    className="text-red-300 transition-all duration-300 hover:text-red-600 "
-                                    onClick={() => removeTodo(todoItems.id)}
+                                <div
+                                    className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
+                                    title={todoItems.nameTodo}
                                 >
-                                    <BsFillTrash3Fill className="text-xl" />
-                                </button>
+                                    <div className="text-lg text-yellow-400 ">
+                                        {todoItems.important === 1 ? (
+                                            <BsStarFill />
+                                        ) : todoItems.important === 2 ? (
+                                            <BsStarHalf />
+                                        ) : (
+                                            todoItems.important === 3 && <BsStar />
+                                        )}
+                                    </div>
+                                    <span>{todoItems.nameTodo}</span>
+                                </div>
+                                <span
+                                    className="text-sm text-gray-400 text-ellipsis overflow-hidden"
+                                    title={todoItems.createTime}
+                                >
+                                    {todoItems.createTime}
+                                </span>
+                                <div className="flex justify-end gap-x-2">
+                                    {todoItems.important !== 0 && (
+                                        <button
+                                            className="text-green-500 transition-all duration-300 hover:text-green-700 "
+                                            onClick={() => addToCompleted(todoItems.id)}
+                                        >
+                                            <VscCheckAll className="text-xl  " />
+                                        </button>
+                                    )}
+
+                                    <button
+                                        className="text-red-500 transition-all duration-300 hover:text-red-700 "
+                                        onClick={() => removeTodo(todoItems.id)}
+                                    >
+                                        <BsFillTrash3Fill className="text-xl" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                ) : (
+                    <div className=" rounded-md bg-gray-200">
+                        <NoData />
+                    </div>
+                )}
             </div>
         </div>
     );
