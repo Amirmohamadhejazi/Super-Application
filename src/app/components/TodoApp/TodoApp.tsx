@@ -3,26 +3,35 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
-import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
+import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar, BsBorderAll } from 'react-icons/bs';
 import { VscCheckAll } from 'react-icons/vsc';
+import { HiCheckBadge } from 'react-icons/hi2';
 
 import { TTodo, tabData } from './resources';
 import { NoData } from '..';
 
 const TodoApp = () => {
+    // todoLists State
     const [todo, setTodo] = useState<TTodo[]>([]);
+
+    // State input todoList
     const [task, setTask] = useState('');
-    const [tab, setTab] = useState<number>(1);
+
+    // tab State
+    const [tab, setTab] = useState<number>(0);
+
+    // State select box
     const [selectImportant, setSelectImportant] = useState<number>();
 
-    const TabHandlerData = todo.filter((items) => items.important === tab);
+    const TabHandlerData = todo.filter((items) => (tab === 0 ? items : items.important === tab));
 
+    // Add todoList
     const addTodo = (data: any) => {
         data.preventDefault();
         if (task.trim() !== '') {
             const currentDate = new Date();
             const dateCreate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}
-        -${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+            -${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
             let newData: TTodo;
 
@@ -46,11 +55,14 @@ const TodoApp = () => {
         }
     };
 
+    // Remove todo from todoList by Id
     const removeTodo = (index: number) => {
         const dataNew = todo.filter((items) => items.id !== index);
         toast.error(`todo by id ${index} deleted`);
         setTodo(dataNew);
     };
+
+    // Remove All todos in todoList
     const removeAllTodo = () => {
         if (todo.length > 0) {
             setTodo([]);
@@ -58,12 +70,13 @@ const TodoApp = () => {
         }
     };
 
+    // Edit todo to complete
     const addToCompleted = (index: number) => {
-        setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, important: 0 } : item)));
+        return setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, important: 4 } : item)));
     };
 
     return (
-        <div className={`w-full flex flex-col items-center ${tab !== 0 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
+        <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
             <div className="w-1/2 h-screen flex flex-col ">
                 <h1 className="text-3xl font-semibold text-center mb-5 text-white">To-Do List</h1>
 
@@ -118,16 +131,20 @@ const TodoApp = () => {
                                     key={items.id}
                                     onClick={() => setTab(items.id)}
                                 >
-                                    <div className="text-yellow-400">
-                                        {items.id === 1 ? (
+                                    <div className="text-yellow-400 text-xl">
+                                        {items.id === 0 ? (
+                                            <BsBorderAll />
+                                        ) : items.id === 1 ? (
                                             <BsStarFill />
                                         ) : items.id === 2 ? (
                                             <BsStarHalf />
+                                        ) : items.id === 3 ? (
+                                            <BsStar />
                                         ) : (
-                                            items.id === 3 && <BsStar />
+                                            items.id === 4 && <HiCheckBadge className="text-green-500" />
                                         )}
                                     </div>
-                                    {items.tabName}
+                                    <span className="font-medium">{items.tabName}</span>
                                 </div>
                             );
                         })}
@@ -180,7 +197,7 @@ const TodoApp = () => {
                         ))
                     ) : (
                         <div className=" rounded-md bg-gray-200">
-                            <NoData />
+                            <NoData text={`No data from ${tabData[tab].tabName} filter!`} />
                         </div>
                     )}
                 </div>

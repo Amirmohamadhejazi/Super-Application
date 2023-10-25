@@ -1,6 +1,10 @@
 import { TTabData } from '.';
 const tabData: TTabData[] = [
     {
+        tabName: 'All',
+        id: 0
+    },
+    {
         tabName: 'It is important',
         id: 1
     },
@@ -14,7 +18,7 @@ const tabData: TTabData[] = [
     },
     {
         tabName: 'completed',
-        id: 0
+        id: 4
     }
 ];
 
