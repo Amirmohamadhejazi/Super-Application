@@ -7,7 +7,7 @@ import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs
 import { VscCheckAll } from 'react-icons/vsc';
 import { HiCheckBadge } from 'react-icons/hi2';
 import { AiOutlineAppstore } from 'react-icons/ai';
-import { MdOutlineRestore } from 'react-icons/md';
+import { BiArrowFromRight } from 'react-icons/bi';
 
 import { TTodo, tabData } from './resources';
 import { NoData } from '..';
@@ -62,7 +62,7 @@ const TodoApp = () => {
     // Remove todo from todoList by Id
     const removeTodo = (index: number) => {
         const dataNew = todo.filter((items) => items.id !== index);
-        toast.error(`todo by id ${index} deleted`);
+        toast.error(`todo by id ${index} deleted!`);
         setTodo(dataNew);
     };
 
@@ -82,7 +82,7 @@ const TodoApp = () => {
 
     // Edit todo to complete
     const returnTodo = (index: number) => {
-        toast.warning(`todo by id ${index} completed`);
+        toast.warning(`todo by id ${index} id returned!`);
         return setTodo((prevTodo) =>
             prevTodo.map((item) => (item.id === index ? { ...item, completed: false } : item))
         );
@@ -203,7 +203,7 @@ const TodoApp = () => {
                                             className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
                                             onClick={() => returnTodo(todoItems.id)}
                                         >
-                                            <MdOutlineRestore className="text-2xl" />
+                                            <BiArrowFromRight className="text-2xl" />
                                         </button>
                                     )}
                                     <button
