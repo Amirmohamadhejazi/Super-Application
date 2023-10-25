@@ -5,9 +5,7 @@ type Product = {
     data: object;
 };
 
-function AmirHandler(data: object): void {
-    console.log('asdasd');
-}
+function AmirHandler(data: object): void {}
 AmirHandler({});
 const Test = ({ data }: Product) => {
     return (

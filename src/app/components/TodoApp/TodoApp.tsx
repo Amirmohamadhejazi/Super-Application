@@ -15,7 +15,8 @@ const TodoApp = () => {
     const [task, setTask] = useState('');
     const [tab, setTab] = useState(1);
     const [selectImportant, setSelectImportant] = useState<number>(1);
-    console.log(todo);
+
+    const TabHandlerData = todo.filter((items) => items.important === tab);
 
     const addTodo = (data: any) => {
         data.preventDefault();
@@ -127,54 +128,52 @@ const TodoApp = () => {
                             );
                         })}
                     </div>
-                    {todo.length > 0 ? (
-                        todo
-                            .filter((items) => items.important === tab)
-                            .map((todoItems) => (
+                    {TabHandlerData.length > 0 ? (
+                        TabHandlerData.map((todoItems) => (
+                            <div
+                                key={todoItems.id}
+                                className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B]  rounded-md gap-x-10 `}
+                            >
                                 <div
-                                    key={todoItems.id}
-                                    className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B]  rounded-md gap-x-10 `}
+                                    className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
+                                    title={todoItems.nameTodo}
                                 >
-                                    <div
-                                        className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
-                                        title={todoItems.nameTodo}
-                                    >
-                                        <div className="text-lg text-yellow-400 ">
-                                            {todoItems.important === 1 ? (
-                                                <BsStarFill />
-                                            ) : todoItems.important === 2 ? (
-                                                <BsStarHalf />
-                                            ) : (
-                                                todoItems.important === 3 && <BsStar />
-                                            )}
-                                        </div>
-                                        <span>{todoItems.nameTodo}</span>
-                                    </div>
-                                    <span
-                                        className="text-sm text-gray-400 text-ellipsis overflow-hidden"
-                                        title={todoItems.createTime}
-                                    >
-                                        {todoItems.createTime}
-                                    </span>
-                                    <div className="flex justify-end gap-x-2">
-                                        {todoItems.important !== 0 && (
-                                            <button
-                                                className="text-green-500 transition-all duration-300 hover:text-green-700 "
-                                                onClick={() => addToCompleted(todoItems.id)}
-                                            >
-                                                <VscCheckAll className="text-xl  " />
-                                            </button>
+                                    <div className="text-lg text-yellow-400 ">
+                                        {todoItems.important === 1 ? (
+                                            <BsStarFill />
+                                        ) : todoItems.important === 2 ? (
+                                            <BsStarHalf />
+                                        ) : (
+                                            todoItems.important === 3 && <BsStar />
                                         )}
-
-                                        <button
-                                            className="text-red-500 transition-all duration-300 hover:text-red-700 "
-                                            onClick={() => removeTodo(todoItems.id)}
-                                        >
-                                            <BsFillTrash3Fill className="text-xl" />
-                                        </button>
                                     </div>
+                                    <span>{todoItems.nameTodo}</span>
                                 </div>
-                            ))
+                                <span
+                                    className="text-sm text-gray-400 text-ellipsis overflow-hidden"
+                                    title={todoItems.createTime}
+                                >
+                                    {todoItems.createTime}
+                                </span>
+                                <div className="flex justify-end gap-x-2">
+                                    {todoItems.important !== 0 && (
+                                        <button
+                                            className="text-green-500 transition-all duration-300 hover:text-green-700 "
+                                            onClick={() => addToCompleted(todoItems.id)}
+                                        >
+                                            <VscCheckAll className="text-xl  " />
+                                        </button>
+                                    )}
+
+                                    <button
+                                        className="text-red-500 transition-all duration-300 hover:text-red-700 "
+                                        onClick={() => removeTodo(todoItems.id)}
+                                    >
+                                        <BsFillTrash3Fill className="text-xl" />
+                                    </button>
+                                </div>
+                            </div>
+                        ))
                     ) : (
                         <div className=" rounded-md bg-gray-200">
                             <NoData />
