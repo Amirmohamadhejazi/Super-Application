@@ -17,14 +17,6 @@ const WebSocketTest = () => {
     };
 
     ws.onmessage = function (event) {
-        console.log('event');
-        // console.log(event);
-        // if (typeof event.data === 'string') {
-        //     console.log(event.data);
-        // } else {
-        //     console.log(event.data);
-        // }
-        // console.log(event);
         setMessage([...message, event.data]);
     };
     return (

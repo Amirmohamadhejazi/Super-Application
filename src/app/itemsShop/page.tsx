@@ -15,10 +15,8 @@ const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
     const dataItems: { data: IItemShop[] } = await res.json();
     const renderItemsComponent = () => {
         if (res.status === 200) {
-            console.log('aa');
             return <ItemsComponent sortOrder={sortOrder} data={dataItems.data} />;
         } else {
-            console.log('bb');
             return <p>loading</p>;
         }
     };

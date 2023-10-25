@@ -10,7 +10,6 @@ interface Props {
 }
 const ItemsComponent = ({ sortOrder, data }: Props) => {
     const dataItems = data;
-    console.log(dataItems);
 
     const SortedItems = sort(dataItems).asc(
         sortOrder === 'name'
