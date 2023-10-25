@@ -9,7 +9,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={`${inter.className}  select-none  `}>
-                <div className=" container mx-auto">{children}</div>
+                <div className=" mx-auto">{children}</div>
                 <ToastContainer />
             </body>
         </html>

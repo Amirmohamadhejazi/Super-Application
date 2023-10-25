@@ -4,7 +4,7 @@ import { TodoApp } from './components';
 
 export default function Home() {
     return (
-        <div className=" flex flex-col items-center ">
+        <div className="w-full">
             {/* <Link href="/itemsShop?sortOrder=All">item Shop</Link> */}
             <TodoApp />
         </div>
