@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
-import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar, BsBorderAll } from 'react-icons/bs';
+import { BsFillTrash3Fill, BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import { VscCheckAll } from 'react-icons/vsc';
 import { HiCheckBadge } from 'react-icons/hi2';
+import { AiOutlineAppstore } from 'react-icons/ai';
+import { MdOutlineRestore } from 'react-icons/md';
 
 import { TTodo, tabData } from './resources';
 import { NoData } from '..';
@@ -23,7 +25,9 @@ const TodoApp = () => {
     // State select box
     const [selectImportant, setSelectImportant] = useState<number>();
 
-    const TabHandlerData = todo.filter((items) => (tab === 0 ? items : items.important === tab));
+    const TabHandlerData = todo.filter((items) =>
+        tab === 0 ? items : tab === 4 ? items.completed : items.important === tab && items.completed === false
+    );
 
     // Add todoList
     const addTodo = (data: any) => {
@@ -72,7 +76,16 @@ const TodoApp = () => {
 
     // Edit todo to complete
     const addToCompleted = (index: number) => {
-        return setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, important: 4 } : item)));
+        toast.success(`todo by id ${index} completed`);
+        return setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, completed: true } : item)));
+    };
+
+    // Edit todo to complete
+    const returnTodo = (index: number) => {
+        toast.warning(`todo by id ${index} completed`);
+        return setTodo((prevTodo) =>
+            prevTodo.map((item) => (item.id === index ? { ...item, completed: false } : item))
+        );
     };
 
     return (
@@ -133,7 +146,7 @@ const TodoApp = () => {
                                 >
                                     <div className="text-yellow-400 text-xl">
                                         {items.id === 0 ? (
-                                            <BsBorderAll />
+                                            <AiOutlineAppstore />
                                         ) : items.id === 1 ? (
                                             <BsStarFill />
                                         ) : items.id === 2 ? (
@@ -177,7 +190,7 @@ const TodoApp = () => {
                                     {todoItems.createTime}
                                 </span>
                                 <div className="flex justify-end gap-x-2">
-                                    {todoItems.important !== 0 && (
+                                    {todoItems.completed === false && (
                                         <button
                                             className="text-green-500 transition-all duration-300 hover:text-green-700 "
                                             onClick={() => addToCompleted(todoItems.id)}
@@ -185,7 +198,14 @@ const TodoApp = () => {
                                             <VscCheckAll className="text-xl  " />
                                         </button>
                                     )}
-
+                                    {todoItems.completed === true && (
+                                        <button
+                                            className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
+                                            onClick={() => returnTodo(todoItems.id)}
+                                        >
+                                            <MdOutlineRestore className="text-2xl" />
+                                        </button>
+                                    )}
                                     <button
                                         className="text-red-500 transition-all duration-300 hover:text-red-700 "
                                         onClick={() => removeTodo(todoItems.id)}
