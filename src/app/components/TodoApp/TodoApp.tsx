@@ -15,6 +15,9 @@ import { NoData } from '..';
 const TodoApp = () => {
     // todoLists State
     const [todo, setTodo] = useState<TTodo[]>([]);
+    const [todosDeleted, setTodosDeleted] = useState<TTodo[]>([]);
+
+    console.log(todosDeleted);
 
     // State input todoList
     const [task, setTask] = useState('');
@@ -25,9 +28,16 @@ const TodoApp = () => {
     // State select box
     const [selectImportant, setSelectImportant] = useState<number>();
 
-    const TabHandlerData = todo.filter((items) =>
-        tab === 0 ? items : tab === 4 ? items.completed : items.important === tab && items.completed === false
-    );
+    const TabHandlerData =
+        tab === 5
+            ? todosDeleted
+            : todo.filter((items) => {
+                  return tab === 0
+                      ? items
+                      : tab === 4
+                      ? items.completed
+                      : items.important === tab && items.completed === false;
+              });
 
     // Add todoList
     const addTodo = (data: any) => {
@@ -45,6 +55,7 @@ const TodoApp = () => {
                     createTime: dateCreate,
                     important: selectImportant,
                     completed: false,
+                    Returnable: true,
                     id: new Date().getTime()
                 };
                 setTask('');
@@ -62,9 +73,20 @@ const TodoApp = () => {
     // Remove todo from todoList by Id
     const removeTodo = (index: number) => {
         const dataNew = todo.filter((items) => items.id !== index);
+        const dataDeleted = todo.filter((items) => items.id === index)[0];
+
         toast.error(`todo by id ${index} deleted!`);
         setTodo(dataNew);
+        setTodosDeleted([
+            ...todosDeleted,
+            {
+                ...dataDeleted,
+                Returnable: false
+            }
+        ]);
     };
+
+    console.log(todosDeleted);
 
     // Remove All todos in todoList
     const removeAllTodo = () => {
@@ -134,11 +156,11 @@ const TodoApp = () => {
                     </motion.button>
                 </form>
                 <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white  ">
-                    <div className="tabs flex justify-between tabs-boxed bg-gray-200">
+                    <div className="tabs flex  justify-between tabs-boxed bg-gray-200">
                         {tabData.map((items) => {
                             return (
                                 <div
-                                    className={`flex items-center gap-x-2 tab  ${
+                                    className={`flex items-center gap-x-1 tab  ${
                                         items.id === tab ? 'text-white bg-[#141E46]' : 'text-black'
                                     } `}
                                     key={items.id}
@@ -153,8 +175,12 @@ const TodoApp = () => {
                                             <BsStarHalf />
                                         ) : items.id === 3 ? (
                                             <BsStar />
+                                        ) : items.id === 4 ? (
+                                            <HiCheckBadge className="text-green-500" />
                                         ) : (
-                                            items.id === 4 && <HiCheckBadge className="text-green-500" />
+                                            items.id === 5 && (
+                                                <BsFillTrash3Fill className="text-xl text-red-500 transition-all duration-300 hover:text-red-700 " />
+                                            )
                                         )}
                                     </div>
                                     <span className="font-medium">{items.tabName}</span>
@@ -190,7 +216,7 @@ const TodoApp = () => {
                                     {todoItems.createTime}
                                 </span>
                                 <div className="flex justify-end gap-x-2">
-                                    {todoItems.completed === false && (
+                                    {todoItems.completed === false && todoItems.Returnable && (
                                         <button
                                             className="text-green-500 transition-all duration-300 hover:text-green-700 "
                                             onClick={() => addToCompleted(todoItems.id)}
@@ -198,7 +224,7 @@ const TodoApp = () => {
                                             <VscCheckAll className="text-xl  " />
                                         </button>
                                     )}
-                                    {todoItems.completed === true && (
+                                    {todoItems.completed === true && todoItems.Returnable && (
                                         <button
                                             className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
                                             onClick={() => returnTodo(todoItems.id)}
@@ -206,12 +232,14 @@ const TodoApp = () => {
                                             <BiArrowFromRight className="text-2xl" />
                                         </button>
                                     )}
-                                    <button
-                                        className="text-red-500 transition-all duration-300 hover:text-red-700 "
-                                        onClick={() => removeTodo(todoItems.id)}
-                                    >
-                                        <BsFillTrash3Fill className="text-xl" />
-                                    </button>
+                                    {todoItems.Returnable && (
+                                        <button
+                                            className="text-red-500 transition-all duration-300 hover:text-red-700 "
+                                            onClick={() => removeTodo(todoItems.id)}
+                                        >
+                                            <BsFillTrash3Fill className="text-xl" />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))

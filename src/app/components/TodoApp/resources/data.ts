@@ -19,6 +19,10 @@ const tabData: TTabData[] = [
     {
         tabName: 'completed',
         id: 4
+    },
+    {
+        tabName: 'deleted',
+        id: 5
     }
 ];
 
