@@ -232,14 +232,14 @@ const TodoApp = () => {
                                             <BiArrowFromRight className="text-2xl" />
                                         </button>
                                     )}
-                                    {todoItems.Returnable && (
+                                    {todoItems.Returnable ? (
                                         <button
                                             className="text-red-500 transition-all duration-300 hover:text-red-700 "
                                             onClick={() => removeTodo(todoItems.id)}
                                         >
                                             <BsFillTrash3Fill className="text-xl" />
                                         </button>
-                                    )}
+                                    ) : <span className='text-xs text-gray-300 font-bold'>Read Only</span>}
                                 </div>
                             </div>
                         ))
