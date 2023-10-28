@@ -14,10 +14,11 @@ import { NoData } from '..';
 
 const TodoApp = () => {
     // todoLists State
-    let DataTodoListLocal: TTodo[] = JSON.parse(localStorage.getItem('DataTodoListLocal'));
-    const [todo, setTodo] = useState<TTodo[]>(DataTodoListLocal ? DataTodoListLocal : []);
-    const [filteredData, setFilteredData] = useState<TTodo[]>([]);
+    const storedData = localStorage.getItem('DataTodoListLocal');
+    const DataTodoListLocal: TTodo[] = storedData ? JSON.parse(storedData) : [];
 
+    const [todo, setTodo] = useState<TTodo[]>(DataTodoListLocal);
+    const [filteredData, setFilteredData] = useState<TTodo[]>([]);
     // State input todoList
     const [task, setTask] = useState('');
 
@@ -25,7 +26,7 @@ const TodoApp = () => {
     const [tab, setTab] = useState<number>(0);
 
     // State select box
-    const [selectImportant, setSelectImportant] = useState<number>();
+    const [selectImportant, setSelectImportant] = useState<number>(1);
 
     // Add todoList
     const addTodo = (data: any) => {
