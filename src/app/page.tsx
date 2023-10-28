@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { TodoApp } from './components';
 
 export default function Home() {

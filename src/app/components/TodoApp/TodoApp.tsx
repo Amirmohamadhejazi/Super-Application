@@ -203,7 +203,7 @@ const TodoApp = () => {
                                             )
                                         )}
                                     </div>
-                                    <span className="font-medium">{items.tabName} </span>
+                                    <span className="font-medium">{items.tabName}</span>
                                 </div>
                             );
                         })}
