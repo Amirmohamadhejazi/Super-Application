@@ -14,7 +14,8 @@ import { NoData } from '..';
 
 const TodoApp = () => {
     // todoLists State
-    const [todo, setTodo] = useState<TTodo[]>([]);
+    let DataTodoListLocal: TTodo[] = JSON.parse(localStorage.getItem('DataTodoListLocal'));
+    const [todo, setTodo] = useState<TTodo[]>(DataTodoListLocal ? DataTodoListLocal : []);
     const [filteredData, setFilteredData] = useState<TTodo[]>([]);
 
     // State input todoList
@@ -47,6 +48,7 @@ const TodoApp = () => {
                 };
                 setTask('');
                 setTodo([...todo, newData]);
+                localStorage.setItem('DataTodoListLocal', JSON.stringify([...todo, newData]));
                 toast.success(`todo by id ${newData.id} Created`);
             } else {
                 toast.error(`please select important type!`);
@@ -59,7 +61,9 @@ const TodoApp = () => {
 
     // Remove todo from todoList by Id
     const removeTodo = (id: number) => {
-        setTodo((prevTodo) => prevTodo.map((item) => (item.id === id ? { ...item, deleted: true } : item)));
+        const newData = todo.map((item) => (item.id === id ? { ...item, deleted: true } : item));
+        localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
+        setTodo(newData);
         toast.error(`todo by id ${id} deleted!`);
     };
 
@@ -68,23 +72,27 @@ const TodoApp = () => {
     // Remove All todos in todoList
     const removeAllTodo = () => {
         if (todo.length > 0) {
+            const newData = todo.map((item) => ({ ...item, deleted: true }));
+            setTodo(newData);
+            localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
             toast.error(`All todos deleted!`);
-            setTodo((prevTodo) => prevTodo.map((item) => ({ ...item, deleted: true })));
         }
     };
 
     // Edit todo to complete
     const addToCompleted = (index: number) => {
         toast.success(`todo by id ${index} completed`);
-        return setTodo((prevTodo) => prevTodo.map((item) => (item.id === index ? { ...item, completed: true } : item)));
+        const newData = todo.map((item) => (item.id === index ? { ...item, completed: true } : item));
+        setTodo(newData);
+        localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
     };
 
     // Edit todo to complete
     const returnTodo = (index: number) => {
         toast.warning(`todo by id ${index} id returned!`);
-        return setTodo((prevTodo) =>
-            prevTodo.map((item) => (item.id === index ? { ...item, completed: false } : item))
-        );
+        const newData = todo.map((item) => (item.id === index ? { ...item, completed: false } : item));
+        localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
+        setTodo(newData);
     };
 
     useEffect(() => {
@@ -117,9 +125,7 @@ const TodoApp = () => {
                 break;
         }
     }, [tab, todo]);
-    useEffect(() => {
-        console.log(todo);
-    }, [todo]);
+
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
             <div className="w-1/2 h-screen flex flex-col ">
