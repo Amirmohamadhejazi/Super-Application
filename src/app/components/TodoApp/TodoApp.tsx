@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
@@ -15,9 +15,7 @@ import { NoData } from '..';
 const TodoApp = () => {
     // todoLists State
     const [todo, setTodo] = useState<TTodo[]>([]);
-    const [todosDeleted, setTodosDeleted] = useState<TTodo[]>([]);
-
-    console.log(todosDeleted);
+    const [filteredData, setFilteredData] = useState<TTodo[]>([]);
 
     // State input todoList
     const [task, setTask] = useState('');
@@ -27,17 +25,6 @@ const TodoApp = () => {
 
     // State select box
     const [selectImportant, setSelectImportant] = useState<number>();
-
-    const TabHandlerData =
-        tab === 5
-            ? todosDeleted
-            : todo.filter((items) => {
-                  return tab === 0
-                      ? items
-                      : tab === 4
-                      ? items.completed
-                      : items.important === tab && items.completed === false;
-              });
 
     // Add todoList
     const addTodo = (data: any) => {
@@ -55,7 +42,7 @@ const TodoApp = () => {
                     createTime: dateCreate,
                     important: selectImportant,
                     completed: false,
-                    Returnable: true,
+                    deleted: false,
                     id: new Date().getTime()
                 };
                 setTask('');
@@ -71,28 +58,18 @@ const TodoApp = () => {
     };
 
     // Remove todo from todoList by Id
-    const removeTodo = (index: number) => {
-        const dataNew = todo.filter((items) => items.id !== index);
-        const dataDeleted = todo.filter((items) => items.id === index)[0];
-
-        toast.error(`todo by id ${index} deleted!`);
-        setTodo(dataNew);
-        setTodosDeleted([
-            ...todosDeleted,
-            {
-                ...dataDeleted,
-                Returnable: false
-            }
-        ]);
+    const removeTodo = (id: number) => {
+        setTodo((prevTodo) => prevTodo.map((item) => (item.id === id ? { ...item, deleted: true } : item)));
+        toast.error(`todo by id ${id} deleted!`);
     };
 
-    console.log(todosDeleted);
+    // console.log(todosDeleted);
 
     // Remove All todos in todoList
     const removeAllTodo = () => {
         if (todo.length > 0) {
-            setTodo([]);
             toast.error(`All todos deleted!`);
+            setTodo((prevTodo) => prevTodo.map((item) => ({ ...item, deleted: true })));
         }
     };
 
@@ -110,6 +87,39 @@ const TodoApp = () => {
         );
     };
 
+    useEffect(() => {
+        switch (tab) {
+            case 0:
+                setFilteredData(todo.filter((items) => !items.deleted));
+                break;
+            case 1:
+                setFilteredData(todo.filter((items) => items.important === 1 && !items.deleted && !items.completed));
+
+                break;
+            case 2:
+                setFilteredData(todo.filter((items) => items.important === 2 && !items.deleted && !items.completed));
+
+                break;
+            case 3:
+                setFilteredData(todo.filter((items) => items.important === 3 && !items.deleted && !items.completed));
+
+                break;
+            case 4:
+                setFilteredData(todo.filter((items) => items.completed && !items.deleted));
+
+                break;
+            case 5:
+                setFilteredData(todo.filter((items) => items.deleted));
+
+                break;
+
+            default:
+                break;
+        }
+    }, [tab, todo]);
+    useEffect(() => {
+        console.log(todo);
+    }, [todo]);
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
             <div className="w-1/2 h-screen flex flex-col ">
@@ -188,8 +198,8 @@ const TodoApp = () => {
                             );
                         })}
                     </div>
-                    {TabHandlerData.length > 0 ? (
-                        TabHandlerData.map((todoItems) => (
+                    {filteredData.length > 0 ? (
+                        filteredData.map((todoItems) => (
                             <div
                                 key={todoItems.id}
                                 className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B]  rounded-md gap-x-10 `}
@@ -215,31 +225,34 @@ const TodoApp = () => {
                                 >
                                     {todoItems.createTime}
                                 </span>
-                                <div className="flex justify-end gap-x-2">
-                                    {todoItems.completed === false && todoItems.Returnable && (
-                                        <button
-                                            className="text-green-500 transition-all duration-300 hover:text-green-700 "
-                                            onClick={() => addToCompleted(todoItems.id)}
-                                        >
-                                            <VscCheckAll className="text-xl  " />
-                                        </button>
-                                    )}
-                                    {todoItems.completed === true && todoItems.Returnable && (
-                                        <button
-                                            className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
-                                            onClick={() => returnTodo(todoItems.id)}
-                                        >
-                                            <BiArrowFromRight className="text-2xl" />
-                                        </button>
-                                    )}
-                                    {todoItems.Returnable ? (
+                                <div className="flex justify-end items-center gap-x-2">
+                                    {!todoItems.deleted &&
+                                        (todoItems.completed ? (
+                                            <button
+                                                className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
+                                                onClick={() => returnTodo(todoItems.id)}
+                                            >
+                                                <BiArrowFromRight className="text-2xl" />
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="text-green-500 transition-all duration-300 hover:text-green-700 "
+                                                onClick={() => addToCompleted(todoItems.id)}
+                                            >
+                                                <VscCheckAll className="text-xl  " />
+                                            </button>
+                                        ))}
+
+                                    {todoItems.deleted ? (
+                                        <span className="text-xs text-gray-300 font-bold">Read Only</span>
+                                    ) : (
                                         <button
                                             className="text-red-500 transition-all duration-300 hover:text-red-700 "
                                             onClick={() => removeTodo(todoItems.id)}
                                         >
                                             <BsFillTrash3Fill className="text-xl" />
                                         </button>
-                                    ) : <span className='text-xs text-gray-300 font-bold'>Read Only</span>}
+                                    )}
                                 </div>
                             </div>
                         ))

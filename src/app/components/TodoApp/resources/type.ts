@@ -3,6 +3,7 @@ export type TTodo = {
     createTime: string;
     important?: number;
     completed: boolean;
+    deleted: boolean;
     Returnable?: boolean;
     id: number;
 };
