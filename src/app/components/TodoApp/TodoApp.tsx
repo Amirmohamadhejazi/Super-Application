@@ -71,7 +71,7 @@ const TodoApp = () => {
 
     // Remove All todos in todoList
     const removeAllTodo = () => {
-        if (todo.length > 0) {
+        if (todo.filter((items) => !items.deleted).length > 0) {
             const newData = todo.map((item) => ({ ...item, deleted: true }));
             setTodo(newData);
             localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
@@ -120,15 +120,12 @@ const TodoApp = () => {
                 setFilteredData(todo.filter((items) => items.deleted));
 
                 break;
-
-            default:
-                break;
         }
     }, [tab, todo]);
 
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
-            <div className="w-1/2 h-screen flex flex-col ">
+            <div className="w-1/2 h-screen flex flex-col  py-3">
                 <h1 className="text-3xl font-semibold text-center mb-5 text-white">To-Do List</h1>
 
                 <form className="flex space-x-2 whitespace-nowrap" onSubmit={(event) => addTodo(event)}>
@@ -199,7 +196,7 @@ const TodoApp = () => {
                                             )
                                         )}
                                     </div>
-                                    <span className="font-medium">{items.tabName}</span>
+                                    <span className="font-medium">{items.tabName} </span>
                                 </div>
                             );
                         })}
