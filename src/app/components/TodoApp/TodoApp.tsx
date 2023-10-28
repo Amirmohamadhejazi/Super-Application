@@ -14,12 +14,18 @@ import { NoData } from '..';
 
 const TodoApp = () => {
     // todoLists State
-    const storedData = localStorage.getItem('DataTodoListLocal');
-    const DataTodoListLocal: TTodo[] = storedData ? JSON.parse(storedData) : [];
+    const [todo, setTodo] = useState<TTodo[]>([]); // Initialize with an empty array
 
-    const [todo, setTodo] = useState<TTodo[]>(DataTodoListLocal);
+    useEffect(() => {
+        // This code will run on the client side.
+        const storedData = localStorage.getItem('DataTodoListLocal');
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            setTodo(parsedData);
+        }
+    }, []); // Empty dependency array ensures this effect runs only once
+
     const [filteredData, setFilteredData] = useState<TTodo[]>([]);
-    // State input todoList
     const [task, setTask] = useState('');
 
     // tab State
