@@ -132,10 +132,13 @@ const TodoApp = () => {
 
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
-            <div className="w-1/2 h-screen flex flex-col  py-3">
+            <div className="w-full px-3 sm:px-0 sm:w-4/5 lg:w-1/2 h-screen flex flex-col  py-3">
                 <h1 className="text-3xl font-semibold text-center mb-5 text-white">To-Do List</h1>
 
-                <form className="flex space-x-2 whitespace-nowrap" onSubmit={(event) => addTodo(event)}>
+                <form
+                    className="flex flex-col  sm:flex-row gap-2 whitespace-nowrap"
+                    onSubmit={(event) => addTodo(event)}
+                >
                     <input
                         type="text"
                         placeholder="Enter a task..."
