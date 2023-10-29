@@ -73,6 +73,13 @@ const TodoApp = () => {
         setTodo(newData);
         toast.error(`todo by id ${id} deleted!`);
     };
+    // Remove todo from locale by Id
+    const removeTodoLocale = (id: number) => {
+        const newData = todo.filter((items) => items.id !== id);
+        localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
+        setTodo(newData);
+        toast.error(`todo by id ${id} deleted!`);
+    };
 
     // console.log(todosDeleted);
 
@@ -176,7 +183,7 @@ const TodoApp = () => {
                     </motion.button>
                 </form>
                 <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white  ">
-                    <div className="tabs flex  justify-between tabs-boxed bg-gray-200">
+                    <div className="tabs flex  justify-between items-center tabs-boxed bg-gray-200">
                         {tabData.map((items) => {
                             return (
                                 <div
@@ -203,7 +210,14 @@ const TodoApp = () => {
                                             )
                                         )}
                                     </div>
-                                    <span className="font-medium">{items.tabName}</span>
+                                    <div className="flex gap-x-2 items-center">
+                                        <span className="font-medium">{items.tabName}</span>
+                                        {items.id === 0 && todo.length !== 0 && (
+                                            <div className="bg-[#4b577c] text-xs px-2 py-1 rounded text-white">
+                                                {todo.length}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
@@ -252,17 +266,16 @@ const TodoApp = () => {
                                                 <VscCheckAll className="text-xl  " />
                                             </button>
                                         ))}
-
-                                    {todoItems.deleted ? (
-                                        <span className="text-xs text-gray-300 font-bold">Read Only</span>
-                                    ) : (
-                                        <button
-                                            className="text-red-500 transition-all duration-300 hover:text-red-700 "
-                                            onClick={() => removeTodo(todoItems.id)}
-                                        >
-                                            <BsFillTrash3Fill className="text-xl" />
-                                        </button>
-                                    )}
+                                    <button
+                                        className="text-red-500 transition-all duration-300 hover:text-red-700 "
+                                        onClick={() =>
+                                            todoItems.deleted
+                                                ? removeTodoLocale(todoItems.id)
+                                                : removeTodo(todoItems.id)
+                                        }
+                                    >
+                                        <BsFillTrash3Fill className="text-xl" />
+                                    </button>
                                 </div>
                             </div>
                         ))
