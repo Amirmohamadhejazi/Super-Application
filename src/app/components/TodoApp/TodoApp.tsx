@@ -214,7 +214,7 @@ const TodoApp = () => {
                                         <span className="font-medium">{items.tabName}</span>
                                         {items.id === 0 && todo.length !== 0 && (
                                             <div className="bg-[#4b577c] text-xs px-2 py-1 rounded text-white">
-                                                {todo.length}
+                                                {todo.filter((items) => !items.deleted).length}
                                             </div>
                                         )}
                                     </div>
