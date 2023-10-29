@@ -153,9 +153,6 @@ const TodoApp = () => {
                         defaultValue={selectImportant}
                         onChange={(e) => setSelectImportant(+e.target.value)}
                     >
-                        <option disabled selected>
-                            How important is it?
-                        </option>
                         <option value={1}>It is important</option>
                         <option value={2}>Its importance is moderate</option>
                         <option value={3}>No matter</option>
