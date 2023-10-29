@@ -15,6 +15,7 @@ import { NoData } from '..';
 const TodoApp = () => {
     // todoLists State
     const [todo, setTodo] = useState<TTodo[]>([]); // Initialize with an empty array
+    const [statusDataTodo, setStatusDataTodo] = useState<any[]>([]); // Initialize with an empty array
 
     useEffect(() => {
         // This code will run on the client side.
@@ -73,6 +74,13 @@ const TodoApp = () => {
         setTodo(newData);
         toast.error(`todo by id ${id} deleted!`);
     };
+    // Remove todo from todoList by Id
+    const removeAllTodoDeleted = () => {
+        const newData = todo.filter((items) => items.deleted === false);
+        localStorage.setItem('DataTodoListLocal', JSON.stringify(newData));
+        setTodo(newData);
+        toast.error(`All todo delete deleted!`);
+    };
     // Remove todo from locale by Id
     const removeTodoLocale = (id: number) => {
         const newData = todo.filter((items) => items.id !== id);
@@ -110,36 +118,58 @@ const TodoApp = () => {
     };
 
     useEffect(() => {
+        const newData = new Array(
+            // All
+            todo.filter((items) => !items.deleted),
+            // important
+            todo.filter((items) => items.important === 1 && !items.deleted && !items.completed),
+
+            // important 50/50
+            todo.filter((items) => items.important === 2 && !items.deleted && !items.completed),
+
+            // important no matter
+            todo.filter((items) => items.important === 3 && !items.deleted && !items.completed),
+
+            // completed
+            todo.filter((items) => items.completed && !items.deleted),
+
+            // deleted
+            todo.filter((items) => items.deleted)
+        );
+        setStatusDataTodo(newData);
+
         switch (tab) {
             case 0:
-                setFilteredData(todo.filter((items) => !items.deleted));
+                setFilteredData(newData[0]);
                 break;
             case 1:
-                setFilteredData(todo.filter((items) => items.important === 1 && !items.deleted && !items.completed));
+                setFilteredData(newData[1]);
 
                 break;
             case 2:
-                setFilteredData(todo.filter((items) => items.important === 2 && !items.deleted && !items.completed));
+                setFilteredData(newData[2]);
 
                 break;
             case 3:
-                setFilteredData(todo.filter((items) => items.important === 3 && !items.deleted && !items.completed));
+                setFilteredData(newData[3]);
 
                 break;
             case 4:
-                setFilteredData(todo.filter((items) => items.completed && !items.deleted));
+                setFilteredData(newData[4]);
 
                 break;
             case 5:
-                setFilteredData(todo.filter((items) => items.deleted));
+                setFilteredData(newData[5]);
 
                 break;
         }
     }, [tab, todo]);
 
+    console.log(statusDataTodo);
+
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>
-            <div className="w-full px-3 sm:px-0 sm:w-4/5 lg:w-1/2 h-screen flex flex-col  py-3">
+            <div className="w-full px-3 sm:px-0 sm:w-4/5 lg:w-container h-screen flex flex-col  py-3">
                 <h1 className="text-3xl font-semibold text-center mb-5 text-white">To-Do List</h1>
 
                 <form
@@ -183,102 +213,116 @@ const TodoApp = () => {
                     </motion.button>
                 </form>
                 <div className="mt-5 flex flex-grow  flex-col gap-y-4  overflow-y-auto text-white  ">
-                    <div className="tabs flex  justify-between items-center tabs-boxed bg-gray-200">
-                        {tabData.map((items) => {
-                            return (
-                                <div
-                                    className={`flex items-center gap-x-1 tab  ${
-                                        items.id === tab ? 'text-white bg-[#141E46]' : 'text-black'
-                                    } `}
-                                    key={items.id}
-                                    onClick={() => setTab(items.id)}
-                                >
-                                    <div className="text-yellow-400 text-xl">
-                                        {items.id === 0 ? (
-                                            <AiOutlineAppstore />
-                                        ) : items.id === 1 ? (
-                                            <BsStarFill />
-                                        ) : items.id === 2 ? (
-                                            <BsStarHalf />
-                                        ) : items.id === 3 ? (
-                                            <BsStar />
-                                        ) : items.id === 4 ? (
-                                            <HiCheckBadge className="text-green-500" />
-                                        ) : (
-                                            items.id === 5 && (
-                                                <BsFillTrash3Fill className="text-xl text-red-500 transition-all duration-300 hover:text-red-700 " />
-                                            )
-                                        )}
-                                    </div>
-                                    <div className="flex gap-x-2 items-center">
-                                        <span className="font-medium">{items.tabName}</span>
-                                        {items.id === 0 && todo.length !== 0 && (
-                                            <div className="bg-[#4b577c] text-xs px-2 py-1 rounded text-white">
-                                                {todo.filter((items) => !items.deleted).length}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {filteredData.length > 0 ? (
-                        filteredData.map((todoItems) => (
+                    <div className="grid xs:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-2 p-3 bg-white rounded">
+                        {tabData.map((items) => (
                             <div
-                                key={todoItems.id}
-                                className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B]  rounded-md gap-x-10 `}
+                                className={`flex items-center  cursor-pointer ${
+                                    items.id === tab
+                                        ? 'text-white bg-[#141E46]'
+                                        : 'text-black hover:bg-[#141E46] hover:text-white'
+                                }  gap-2 px-3 py-2 rounded`}
+                                key={items.id}
+                                onClick={() => setTab(items.id)}
                             >
-                                <div
-                                    className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
-                                    title={todoItems.nameTodo}
-                                >
-                                    <div className="text-lg text-yellow-400 ">
-                                        {todoItems.important === 1 ? (
-                                            <BsStarFill />
-                                        ) : todoItems.important === 2 ? (
-                                            <BsStarHalf />
-                                        ) : (
-                                            todoItems.important === 3 && <BsStar />
-                                        )}
-                                    </div>
-                                    <span>{todoItems.nameTodo}</span>
+                                <div className="text-yellow-400 text-xl">
+                                    {items.id === 0 ? (
+                                        <AiOutlineAppstore />
+                                    ) : items.id === 1 ? (
+                                        <BsStarFill />
+                                    ) : items.id === 2 ? (
+                                        <BsStarHalf />
+                                    ) : items.id === 3 ? (
+                                        <BsStar />
+                                    ) : items.id === 4 ? (
+                                        <HiCheckBadge className="text-green-500" />
+                                    ) : (
+                                        items.id === 5 && (
+                                            <BsFillTrash3Fill className="text-xl text-red-500 transition-all duration-300 hover:text-red-700 " />
+                                        )
+                                    )}
                                 </div>
-                                <span
-                                    className="text-sm text-gray-400 text-ellipsis overflow-hidden"
-                                    title={todoItems.createTime}
-                                >
-                                    {todoItems.createTime}
-                                </span>
-                                <div className="flex justify-end items-center gap-x-2">
-                                    {!todoItems.deleted &&
-                                        (todoItems.completed ? (
-                                            <button
-                                                className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
-                                                onClick={() => returnTodo(todoItems.id)}
-                                            >
-                                                <BiArrowFromRight className="text-2xl" />
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className="text-green-500 transition-all duration-300 hover:text-green-700 "
-                                                onClick={() => addToCompleted(todoItems.id)}
-                                            >
-                                                <VscCheckAll className="text-xl  " />
-                                            </button>
-                                        ))}
-                                    <button
-                                        className="text-red-500 transition-all duration-300 hover:text-red-700 "
-                                        onClick={() =>
-                                            todoItems.deleted
-                                                ? removeTodoLocale(todoItems.id)
-                                                : removeTodo(todoItems.id)
-                                        }
-                                    >
-                                        <BsFillTrash3Fill className="text-xl" />
-                                    </button>
+                                <div className="w-full flex gap-x-2 items-center justify-between text-xs">
+                                    <span className="font-medium whitespace-nowrap">{items.tabName}</span>
+                                    {statusDataTodo && (
+                                        <div className="bg-[#4b577c] px-2 py-1 rounded text-white">
+                                            {statusDataTodo[items.id] ? statusDataTodo[items.id].length : 0}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        ))
+                        ))}
+                    </div>
+                    {tab === 5 && (
+                        <div className="flex justify-end ">
+                            <button
+                                className="bg-gray-500 text-white px-4 focus:ring-0 focus:outline-none py-2 rounded hover:bg-gray-600 transition-all duration-200"
+                                onClick={() => removeAllTodoDeleted()}
+                                type="button"
+                            >
+                                Delete All Deleted
+                            </button>
+                        </div>
+                    )}
+
+                    {filteredData.length > 0 ? (
+                        filteredData
+                            .sort((a, b) => b.id - a.id)
+                            .map((todoItems) => (
+                                <div
+                                    key={todoItems.id}
+                                    className={`grid grid-cols-3  items-center px-3 py-3 bg-[#3C486B]  rounded-md gap-x-10 `}
+                                >
+                                    <div
+                                        className="flex items-center gap-x-1 text-lg text-ellipsis overflow-hidden"
+                                        title={todoItems.nameTodo}
+                                    >
+                                        <div className="text-lg text-yellow-400 ">
+                                            {todoItems.important === 1 ? (
+                                                <BsStarFill />
+                                            ) : todoItems.important === 2 ? (
+                                                <BsStarHalf />
+                                            ) : (
+                                                todoItems.important === 3 && <BsStar />
+                                            )}
+                                        </div>
+                                        <span>{todoItems.nameTodo}</span>
+                                    </div>
+                                    <span
+                                        className="text-sm text-gray-400 text-ellipsis overflow-hidden"
+                                        title={todoItems.createTime}
+                                    >
+                                        {todoItems.createTime}
+                                    </span>
+                                    <div className="flex justify-end items-center gap-x-2">
+                                        {!todoItems.deleted &&
+                                            (todoItems.completed ? (
+                                                <button
+                                                    className="text-yellow-500 transition-all duration-300 hover:text-yellow-500 "
+                                                    onClick={() => returnTodo(todoItems.id)}
+                                                >
+                                                    <BiArrowFromRight className="text-2xl" />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="text-green-500 transition-all duration-300 hover:text-green-700 "
+                                                    onClick={() => addToCompleted(todoItems.id)}
+                                                >
+                                                    <VscCheckAll className="text-xl  " />
+                                                </button>
+                                            ))}
+                                        <button
+                                            className="text-red-500 transition-all duration-300 hover:text-red-700 "
+                                            onClick={() =>
+                                                todoItems.deleted
+                                                    ? removeTodoLocale(todoItems.id)
+                                                    : removeTodo(todoItems.id)
+                                            }
+                                        >
+                                            <BsFillTrash3Fill className="text-xl" />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
                     ) : (
                         <div className=" rounded-md bg-gray-200">
                             <NoData text={`No data from ${tabData[tab].tabName} filter!`} />
