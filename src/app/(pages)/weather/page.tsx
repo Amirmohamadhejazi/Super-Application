@@ -15,7 +15,7 @@ import { WiHumidity } from 'react-icons/wi';
 import { LiaCloudSunSolid } from 'react-icons/lia';
 const Weather = () => {
     const [location, setLocation] = useState<string>('36.5633,53.0601');
-    const [temperatureType, setTemperatureType] = useState('f');
+    const [temperatureType, setTemperatureType] = useState('c');
     const dataSelect = citiesData.map((items: TCitiesData) => {
         return {
             value: `${items.lat},${items.lng}`,
@@ -115,7 +115,7 @@ const Weather = () => {
                             </div>
                             <div className="flex gap-x-5 items-center  justify-between">
                                 <WiHumidity className="text-4xl text-gray-700" />
-                                <span className="text-xl font-normal">{data?.current?.humidity}</span>
+                                <span className="text-xl font-normal">{data?.current?.humidity}%</span>
                             </div>
                         </div>
                     </div>
