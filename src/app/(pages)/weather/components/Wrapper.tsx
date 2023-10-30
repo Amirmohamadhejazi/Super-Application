@@ -15,13 +15,14 @@ const Wrapper = ({
     return (
         <div className="container flex flex-col gap-y-2 items-center pt-5 mx-auto">
             <div className="w-full flex ">
-                <div className="flex gap-x-3 justify-center items-center w-full">
+                <div className="flex flex-col  sm:flex-row gap-4 sm:gap-3 justify-center items-center w-full">
                     <span>Right Now in</span>
                     <div className=" flex items-center ">
                         <Select
                             className="border-0"
                             placeholder="Pick value"
                             data={dataSelect}
+                            defaultValue={'36.5633,53.0601'}
                             clearable
                             onChange={(e: any) => setLocation(e)}
                             searchable
