@@ -4,4 +4,6 @@ import TodoApp from './TodoApp/TodoApp';
 import WebSocketTest from './WebSocket/WebSocket';
 import StrongPasswordChecker from './StrongPasswordChecker/StrongPasswordChecker';
 import NoData from './NoData/NoData';
-export { Cart, Test, TodoApp, WebSocketTest, StrongPasswordChecker, NoData };
+import Loading from './Loading/Loading';
+import Error from './Error/Error';
+export { Cart, Test, TodoApp, WebSocketTest, StrongPasswordChecker, NoData, Loading, Error };

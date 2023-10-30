@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { iphone15 } from '../../../../public/picture';
+import { iphone15 } from '../../../../../public/picture';
 import { sort } from 'fast-sort';
 import { IItemShop } from '@/app/types/type';
 

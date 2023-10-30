@@ -1,6 +1,6 @@
 'use client';
 
-import { TodoApp } from '../components';
+import { TodoApp } from '../../components';
 
 export default function TodoAppMain() {
     return (

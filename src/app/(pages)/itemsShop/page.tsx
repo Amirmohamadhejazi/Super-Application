@@ -1,14 +1,14 @@
 import React from 'react';
 import ItemsComponent from './ItemsComponent/ItemsComponent';
 import Link from 'next/link';
-import { IItemShop } from '../types/type';
-interface Props {
+import { IItemShop } from '@/app/types/type';
+type Props = {
     searchParams: { sortOrder: string };
-}
-interface ISortData {
+};
+type ISortData = {
     name?: string;
     id?: number;
-}
+};
 
 const itemsShop = async ({ searchParams: { sortOrder } }: Props) => {
     const res = await fetch('http://localhost:3000/api/items', { cache: 'no-store' });
