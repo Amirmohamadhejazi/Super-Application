@@ -24,33 +24,12 @@ https: axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
+ 
 if (window.location.pathname === '/discord') {
     axios.defaults.baseURL = 'https://discord.com/api/v9/';
 
     axios.interceptors.request.use((config: any) => {
-        config.headers.Authorization = `NjA5NTE4ODg3ODUxMTMwOTYw.GyosKs.GAfw1udUA6CW1tRzBI4LXf3MO0UQrKrx3IcQfE`;
-        // config.headers.Authorization = `Bot MTE2ODc5NTI4ODMyNTA2NjgyMw.G0UeFF.KbDIlrBErqw5P4SGy3d3JcJnlfKeXjFtAalhik`;
-
-        // config.headers['Accept-Encoding'] = 'gzip, deflate, br';
-        // config.headers['Accept-Language'] = 'en-US,en;q=0.9';
-        // config.headers['Sec-Fetch-Dest'] = 'empty';
-        // config.headers['Sec-Fetch-Mode'] = 'cors';
-        // config.headers['Sec-Fetch-Site'] = 'same-origin';
-        // config.headers['User-Agent'] =
-        //     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.188 Safari/537.36';
-        // config.headers['X-Debug-Options'] = 'bugReporterEnabled';
-        // config.headers['X-Discord-Locale'] = 'en-US';
-        // config.headers['X-Discord-Timezone'] = 'Asia/Tehran';
-
-        return config;
-    });
-}
-if (window.location.pathname === '/discord') {
-    axios.defaults.baseURL = 'https://discord.com/api/v9/';
-
-    axios.interceptors.request.use((config: any) => {
-        config.headers.Authorization = `NjA5NTE4ODg3ODUxMTMwOTYw.GyosKs.GAfw1udUA6CW1tRzBI4LXf3MO0UQrKrx3IcQfE`;
+        config.headers.Authorization = ``;
         // config.headers.Authorization = `Bot MTE2ODc5NTI4ODMyNTA2NjgyMw.G0UeFF.KbDIlrBErqw5P4SGy3d3JcJnlfKeXjFtAalhik`;
 
         // config.headers['Accept-Encoding'] = 'gzip, deflate, br';
