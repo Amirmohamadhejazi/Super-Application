@@ -24,14 +24,12 @@ https: axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
- 
+
 if (window.location.pathname === '/discord') {
     axios.defaults.baseURL = 'https://discord.com/api/v9/';
 
     axios.interceptors.request.use((config: any) => {
         config.headers.Authorization = ``;
-        // config.headers.Authorization = `Bot MTE2ODc5NTI4ODMyNTA2NjgyMw.G0UeFF.KbDIlrBErqw5P4SGy3d3JcJnlfKeXjFtAalhik`;
-
         // config.headers['Accept-Encoding'] = 'gzip, deflate, br';
         // config.headers['Accept-Language'] = 'en-US,en;q=0.9';
         // config.headers['Sec-Fetch-Dest'] = 'empty';
