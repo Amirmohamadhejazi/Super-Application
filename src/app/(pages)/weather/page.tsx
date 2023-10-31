@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { citiesData } from '@/app/data/citiesIran';
 import { TCitiesData } from '@/app/types/type';
 import { useQuery } from '@tanstack/react-query';
-import { weatherApi } from '@/core/api';
+import { weatherApi } from '@/core/service/api';
 import { motion } from 'framer-motion';
 
 import { Error, Loading } from '@/app/components';
