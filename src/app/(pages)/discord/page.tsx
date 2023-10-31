@@ -28,7 +28,7 @@ const Discord = () => {
     const searchSubmit = (e: any) => {
         e.preventDefault();
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
-        if (dataInput.trim().length === 18) {
+        if (dataInput.trim().length !== 0) {
             setInputSearch(dataInput);
         }
     };
@@ -59,24 +59,44 @@ const Discord = () => {
         }
 
         const convertData = calculator(data);
+        console.log(convertData);
 
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
                 {/* {convertData.user.username} */}
                 <div className="flex flex-col items-start">
                     <div className="bg-gray-200 p-1 w-[330px] rounded-lg">
-                        <div className="bg-gray-400 p-2  h-[100px] rounded-t-md relative">
+                        <div
+                            className="bg-gray-400 p-2  h-[100px] rounded-t-md relative bg-no-repeat bg-cover"
+                            style={{
+                                backgroundImage: `url('https://cdn.discordapp.com/banners/${convertData.user.id}/${convertData.user.banner}.png')`
+                                // background: convertData.user.banner_color
+                            }}
+                        >
                             <div className="w-16 h-1w-16 absolute left-3 -bottom-10 overflow-hidden rounded-full bg-black">
                                 <img
-                                    src={`https://cdn.discordapp.com/avatars/${convertData.user.id}/${convertData.user.avatar}.gif`}
+                                    src={`https://cdn.discordapp.com/avatars/${convertData.user.id}/${convertData.user.avatar}.png`}
                                     className="w-full h-full object-cover"
                                     alt=""
                                 />
                             </div>
                         </div>
 
-                        <div className="w-full flex flex-col py-5 px-3 text-white mt-12">
-                            <div className="flex flex-col bg-gray-700 rounded-md p-3">
+                        <div className="w-full flex flex-col gap-y-4 py-5 px-3 text-white ">
+                            <div className="flex justify-end">
+                                <div className=" max-w-[200px] flex gap-1 justify-end flex-wrap bg-gray-300 rounded-md">
+                                    {convertData.badges.map((items) => (
+                                        <div className="w-5 h-5  cursor-pointer " title={items.description} key={items.id}>
+                                            <img
+                                                src={`https://cdn.discordapp.com/badge-icons/${items.icon}.png`}
+                                                className="w-full h-full object-cover"
+                                                alt=""
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="flex flex-col bg-gray-500 rounded-md p-3">
                                 <div className="flex flex-col gap-y-1">
                                     <span className="font-medium text-lg">{convertData.user.global_name}</span>
                                     <span className="font-light text-sm">{convertData.user.username}</span>

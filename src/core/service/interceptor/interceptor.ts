@@ -46,14 +46,14 @@ https: axios.interceptors.response.use(
 // }
 
 // if (window.location.pathname === '/weather') {
-axios.defaults.baseURL = 'https://weatherapi-com.p.rapidapi.com/';
+// axios.defaults.baseURL = 'https://weatherapi-com.p.rapidapi.com/';
 
-axios.interceptors.request.use((config: any) => {
-    config.headers['X-RapidAPI-Key'] = '62bacccf5fmsh40048f12c6fbc99p1e9e29jsn63a283b704c6';
-    config.headers['X-RapidAPI-Host'] = 'weatherapi-com.p.rapidapi.com/';
+// axios.interceptors.request.use((config: any) => {
+//     config.headers['X-RapidAPI-Key'] = '62bacccf5fmsh40048f12c6fbc99p1e9e29jsn63a283b704c6';
+//     config.headers['X-RapidAPI-Host'] = 'weatherapi-com.p.rapidapi.com/';
 
-    return config;
-});
+//     return config;
+// });
 // }
 // will send token to headers request ( in x-auth-token body )
 
