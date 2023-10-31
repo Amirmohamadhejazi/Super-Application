@@ -10,11 +10,8 @@ export default function Home() {
             <Link href="/weather" className="hover:text-lg  transition-all duration-700">
                 Weather
             </Link>
-            <Link
-                href="/itemsShop?sortOrder=name"
-                className="hover:text-lg  bg-gray-300  p-1 rounded-md transition-all duration-700"
-            >
-                ShopItems <span className="bg-gray-200 p-1 rounded-md">(Maybe there is a problem)</span>
+            <Link href="/itemsShop?sortOrder=name" className="hover:text-lg   rounded-md transition-all duration-700">
+                ShopItems <span>(Maybe have a problem)</span>
             </Link>
         </div>
     );
