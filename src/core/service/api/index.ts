@@ -1,3 +1,3 @@
 import weatherApi from './weather/weather.api';
-
-export { weatherApi };
+import discordApi from './discord/discord.api';
+export { weatherApi, discordApi };

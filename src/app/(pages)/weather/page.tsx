@@ -53,42 +53,6 @@ const Weather = () => {
             )[0];
             dataApi = data;
         }
-        console.log(dataApi);
-        console.log(data);
-        // const test = [
-        //     {
-        //         location: {
-        //             name: 'Tehran',
-        //             region: 'Tehran',
-        //             localtime: '2023-10-30 13:54'
-        //         },
-        //         current: {
-        //             last_updated: '2023-10-30 13:45',
-        //             temp_c: 26,
-        //             is_day: 1,
-        //             // 0 false 1 true
-        //             condition: {
-        //                 text: 'Partly cloudy',
-        //                 icon: '//cdn.weatherapi.com/weather/64x64/day/116.png'
-        //             },
-        //             wind_kph: 11.2,
-        //             // باد کیلومتر در ساعت
-        //             wind_degree: 190,
-        //             // درجه باد
-        //             wind_dir: 'S',
-        //             // جهت باد
-        //             humidity: 15,
-        //             // رطوبت
-        //             cloud: 75,
-        //             // ابر
-        //             gust_kph: 7.9
-        //             // تند باد کیلومتر در ساعت
-        //         }
-        //     }
-        // ];
-        // dataSelect: TCitiesData[];
-        //     setLocation: any;
-
         return (
             <Wrapper dataSelect={dataSelect} setLocation={setLocation} data={data}>
                 <div className=" w-full sm:w-auto flex flex-col gap-y-16 px-16 sm:px-0 ">
