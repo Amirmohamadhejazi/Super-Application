@@ -11,24 +11,16 @@ const Wrapper = ({
     children: React.ReactNode;
     searchSubmit: any;
     formRef: any;
-}) => {
-    const [focused, setFocused] = useState<boolean>(false);
+}) => { 
     return (
-        <div className="min-h-screen flex flex-col w-full container items-center mx-auto py-5  ">
-            <span className="text-2xl font-medium">Discord Status ... .. .</span>
+        <div className="h-[200vh] lg:h-screen flex flex-col w-full container items-center mx-auto py-5  ">
+            <span className="text-2xl font-medium">Github Status ... .. .</span>
             <form ref={formRef} onSubmit={searchSubmit}>
                 <TextInput
-                    type="number"
+                    type="text"
                     className="my-8"
-                    placeholder="Enter Id User Discord"
-                    size="lg"
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    inputContainer={(children) => (
-                        <Tooltip label="Please Enter Valid User Id" position="bottom-start" opened={focused}>
-                            {children}
-                        </Tooltip>
-                    )}
+                    placeholder="Enter User Name Github"
+                    size="lg" 
                     name="search"
                     withErrorStyles={false}
                     rightSection={
@@ -40,8 +32,7 @@ const Wrapper = ({
                     }
                 />
             </form>
-
-            <div className="bg-slate-100 w-full rounded-md p-5">{children}</div>
+            <div className="w-full flex flex-grow shadow-md p-5 bg-slate-100 relative overflow-auto rounded-md">{children}</div> 
         </div>
     );
 };

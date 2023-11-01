@@ -85,8 +85,12 @@ const Discord = () => {
                         <div className="w-full flex flex-col gap-y-4 py-5 px-3 text-white ">
                             <div className="flex justify-end">
                                 <div className=" max-w-[200px] flex gap-1 justify-end flex-wrap bg-gray-300 rounded-md">
-                                    {convertData.badges.map((items) => (
-                                        <div className="w-5 h-5  cursor-pointer " title={items.description} key={items.id}>
+                                    {convertData.badges.map((items: any) => (
+                                        <div
+                                            className="w-5 h-5  cursor-pointer "
+                                            title={items.description}
+                                            key={items.id}
+                                        >
                                             <img
                                                 src={`https://cdn.discordapp.com/badge-icons/${items.icon}.png`}
                                                 className="w-full h-full object-cover"
