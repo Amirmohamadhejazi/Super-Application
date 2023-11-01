@@ -21,3 +21,23 @@ export const githubApiGetUserRepos = async ({
         return error.response?.data;
     }
 };
+export const githubApiGetUserFollowersAndFollowing = async ({
+    inputSearch,
+    type,
+    pageDataFollowersAndFollowing
+}: {
+    inputSearch: string;
+    type: string;
+    pageDataFollowersAndFollowing: number;
+}) => {
+    console.log(inputSearch, type);
+
+    try {
+        return Http.get(`/users/${inputSearch}/${type}?page=${pageDataFollowersAndFollowing}`).then((res) => res.data);
+    } catch (error: any) {
+        return error.response?.data;
+    }
+};
+
+//   "followers_url": "https://api.github.com/users/includeamin/followers",
+//   "following_url": "https://api.github.com/users/includeamin/following",

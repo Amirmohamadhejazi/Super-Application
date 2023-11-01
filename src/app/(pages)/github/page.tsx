@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import Wrapper from './components/Wrapper';
 import { Error, Loading, NoData } from '@/app/components';
 import { toast } from 'react-toastify';
-import { githubApiGetUser, githubApiGetUserRepos } from '@/core/service/api';
+import { githubApiGetUser, githubApiGetUserFollowersAndFollowing, githubApiGetUserRepos } from '@/core/service/api';
 import Link from 'next/link';
-import { RiTwitterXLine } from 'react-icons/ri';
+import { RiContactsFill, RiTwitterXLine } from 'react-icons/ri';
 import { BsLink45Deg } from 'react-icons/bs';
 import { IoLocationOutline } from 'react-icons/io5';
 import { TbBuildingCommunity } from 'react-icons/tb';
@@ -14,20 +14,24 @@ import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
 import { AiOutlineEye } from 'react-icons/ai';
 import { motion } from 'framer-motion';
-import { Button, CopyButton, Pagination } from '@mantine/core';
-
+import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 const Github = () => {
     const formRef = useRef<any>(null);
+    const [openModal, setOpenModal] = useState({ open: false, type: '' });
 
     const [inputSearch, setInputSearch] = useState<string>('');
     const [pageDataRepos, setPageDataRepos] = useState<number>(1);
+    const [pageDataFollowFollowing, setPageDataFollowFollowing] = useState<number>(1);
 
+    // search first
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: ['searchUserQuery', { inputSearch }],
 
         queryFn: () => inputSearch && githubApiGetUser(inputSearch)
     });
 
+    // search Repository User
     const {
         isLoading: isLoadingReposUser,
         isError: isErrorReposUser,
@@ -42,6 +46,25 @@ const Github = () => {
             githubApiGetUserRepos({
                 inputSearch: inputSearch,
                 pageDataRepos: pageDataRepos
+            })
+    });
+
+    // get user Followers and Following
+    const {
+        isLoading: isLoadingFollowersAndFollowing,
+        isError: isErrorFollowersAndFollowing,
+        error: errorFollowersAndFollowing,
+        isSuccess: isSuccessFollowersAndFollowing,
+        data: dataFollowersAndFollowing
+    } = useQuery({
+        queryKey: ['getFollowerAndFollowing', [inputSearch, openModal, pageDataFollowFollowing]],
+
+        queryFn: () =>
+            openModal.type !== '' &&
+            githubApiGetUserFollowersAndFollowing({
+                inputSearch: inputSearch,
+                type: openModal.type,
+                pageDataFollowersAndFollowing: pageDataFollowFollowing
             })
     });
 
@@ -166,9 +189,6 @@ const Github = () => {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <Link href={itemsRepo.url} className=" truncate" title={itemsRepo.name}>
-                                            <span className="text-sm font-medium ">{itemsRepo.name} </span>
-                                        </Link> */}
                                         <a
                                             href={itemsRepo.url}
                                             target="_blank"
@@ -210,6 +230,98 @@ const Github = () => {
             }
         };
 
+        const followersAndFollowingHandler = () => {
+            if (isLoadingFollowersAndFollowing) {
+                return (
+                    <div className="w-full flex items-center justify-center">
+                        <Loading />
+                    </div>
+                );
+            }
+            if (isErrorFollowersAndFollowing) {
+                toast.error(errorFollowersAndFollowing?.message);
+                return (
+                    <div className="w-full flex items-center justify-center">
+                        <Error />
+                    </div>
+                );
+            }
+
+            if (isSuccessFollowersAndFollowing) {
+                if (!dataFollowersAndFollowing) {
+                    return (
+                        <div className="w-full flex items-center justify-center">
+                            <NoData text="User Not Found!" />
+                        </div>
+                    );
+                }
+                const pageFollowers = data.followers;
+                const pageFollowing = data.following;
+
+                const page = Math.ceil(openModal.type === 'followers' ? pageFollowers / 30 : pageFollowing / 30);
+
+                return (
+                    <div className="flex flex-col gap-y-2">
+                        {page > 1 && (
+                            <div className="flex justify-center">
+                                <Pagination
+                                    total={page}
+                                    value={pageDataFollowFollowing}
+                                    onChange={(numPage) => setPageDataFollowFollowing(numPage)}
+                                    color="orange"
+                                    size="sm"
+                                />
+                            </div>
+                        )}
+                        {dataFollowersAndFollowing?.map((itemsFallowAndFollowing: any) => (
+                            <div
+                                className="bg-gray-300 p-2 rounded-md flex items-center justify-between"
+                                key={itemsFallowAndFollowing.id}
+                            >
+                                <div className="flex items-center gap-2">
+                                    <div className="w-10 h-10 bg-blue-950 shadow-2xl rounded-full p-1">
+                                        <div className="h-full w-full rounded-full overflow-hidden">
+                                            <img
+                                                src={itemsFallowAndFollowing.avatar_url}
+                                                className="w-full h-full object-cover"
+                                                alt=""
+                                            />
+                                        </div>
+                                    </div>
+                                    <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
+                                </div>
+                               
+                                {/* <div className="flex gap-x-2 items-center">
+                                    <RiContactsFill />
+                                    <div className="flex gap-x-2 text-sm items-center">
+                                        <div
+                                            onClick={() => {
+                                                setInputSearch(itemsFallowAndFollowing.login);
+                                                setOpenModal({ ...openModal, type: 'followers' });
+                                            }}
+                                            className="cursor-pointer"
+                                        >
+                                            <span className="font-medium">followers</span> .
+                                        </div>
+                                        <div
+                                            onClick={() => {
+                                                setInputSearch(itemsFallowAndFollowing.login);
+                                                setOpenModal({ ...openModal, type: 'following' });
+                                            }}
+                                            className="cursor-pointer"
+                                        >
+                                            <span className="font-medium">following</span>
+                                        </div>
+                                    </div>
+                                </div> */}
+                                
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+        };
+
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
                 <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 ">
@@ -224,6 +336,7 @@ const Github = () => {
                                 <span className="text-lg font-semibold">{data.name}</span>
                                 <span className="text-sm font-light">{data.login}</span>
                             </div>
+
                             <a href={data.html_url} target="_blank" className=" truncate" title={data.html_url}>
                                 <div className="bg-gray-300 p-2 rounded-md text-center text-lg font-semibold">
                                     Go to Github
@@ -232,12 +345,25 @@ const Github = () => {
                             <div className="flex flex-col">
                                 <span>{data.bio}</span>
                                 <div className="flex gap-x-2 text-sm">
-                                    <span>
-                                        {data.followers} <span className="font-medium">followers</span> .
-                                    </span>
-                                    <span>
-                                        {data.following} <span className="font-medium">following</span>
-                                    </span>
+                                    <div className="flex gap-x-1">
+                                        <span>{data.followers}</span>
+                                        <span
+                                            className="font-medium cursor-pointer"
+                                            onClick={() => setOpenModal({ open: true, type: 'followers' })}
+                                        >
+                                            followers
+                                        </span>
+                                        <span>.</span>
+                                    </div>
+                                    <div className="flex gap-x-1">
+                                        <span>{data.following}</span>
+                                        <span
+                                            className="font-medium cursor-pointer"
+                                            onClick={() => setOpenModal({ open: true, type: 'following' })}
+                                        >
+                                            following
+                                        </span>
+                                    </div>
                                 </div>
                                 <span className="text-sm">
                                     Creation date: {format(new Date(data.created_at), 'yyyy-MM-dd')}
@@ -262,6 +388,18 @@ const Github = () => {
                         {repoHandler()}
                     </div>
                 </div>
+                <Modal
+                    opened={openModal.open}
+                    onClose={() => setOpenModal({ open: false, type: '' })}
+                    title={
+                        <span className="font-semibold">
+                            {openModal.type} (<span className="text-sm  ">{data[openModal.type]}</span>)
+                        </span>
+                    }
+                    centered
+                >
+                    <div className="  p-2 bg-slate-100 rounded-md">{followersAndFollowingHandler()}</div>
+                </Modal>
             </Wrapper>
         );
     }
