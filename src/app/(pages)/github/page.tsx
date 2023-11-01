@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
 import { AiOutlineEye } from 'react-icons/ai';
 import { motion } from 'framer-motion';
-import { Pagination } from '@mantine/core';
+import { Button, CopyButton, Pagination } from '@mantine/core';
 
 const Github = () => {
     const formRef = useRef<any>(null);
@@ -166,9 +166,17 @@ const Github = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <Link href={itemsRepo.url} className=" truncate" title={itemsRepo.name}>
+                                        {/* <Link href={itemsRepo.url} className=" truncate" title={itemsRepo.name}>
                                             <span className="text-sm font-medium ">{itemsRepo.name} </span>
-                                        </Link>
+                                        </Link> */}
+                                        <a
+                                            href={itemsRepo.url}
+                                            target="_blank"
+                                            className=" truncate"
+                                            title={itemsRepo.name}
+                                        >
+                                            <span className="text-sm font-medium ">{itemsRepo.name} </span>
+                                        </a>
                                     </div>
                                     <div className="flex items-center justify-end gap-2 mt-2">
                                         {itemsRepo.language && (
@@ -182,13 +190,18 @@ const Github = () => {
                                             <span className="text-sm">{itemsRepo.watchers_count}</span>
                                         </div>
                                     </div>
-                                    <button
-                                        className={`bg-gray-500 text-white text-sm px-2 focus:ring-0 focus:outline-none  rounded hover:bg-gray-600 transition-all duration-200`}
-                                        onClick={() => console.log('asd')}
-                                        type="button"
-                                    >
-                                        copy link clone
-                                    </button>
+                                    <CopyButton value={itemsRepo.clone_url}>
+                                        {({ copied, copy }) => (
+                                            <Button
+                                                className={`${
+                                                    copied ? 'bg-gray-600' : 'bg-gray-500'
+                                                } text-white text-sm px-2 focus:ring-0 focus:outline-none  rounded hover:bg-gray-600 transition-all duration-200`}
+                                                onClick={copy}
+                                            >
+                                                {copied ? 'Copied url' : 'Copy url'}
+                                            </Button>
+                                        )}
+                                    </CopyButton>
                                 </motion.div>
                             ))}
                         </div>
@@ -211,11 +224,11 @@ const Github = () => {
                                 <span className="text-lg font-semibold">{data.name}</span>
                                 <span className="text-sm font-light">{data.login}</span>
                             </div>
-                            <Link href={data.html_url}>
+                            <a href={data.html_url} target="_blank" className=" truncate" title={data.html_url}>
                                 <div className="bg-gray-300 p-2 rounded-md text-center text-lg font-semibold">
                                     Go to Github
                                 </div>
-                            </Link>
+                            </a>
                             <div className="flex flex-col">
                                 <span>{data.bio}</span>
                                 <div className="flex gap-x-2 text-sm">
