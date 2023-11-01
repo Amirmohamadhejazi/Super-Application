@@ -44,7 +44,7 @@ const Github = () => {
                 pageDataRepos: pageDataRepos
             })
     });
- 
+
     const searchSubmit = (e: any) => {
         e.preventDefault();
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
@@ -166,8 +166,8 @@ const Github = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <Link href={itemsRepo.url}>
-                                            <span className="text-sm font-medium truncate ">{itemsRepo.name} </span>
+                                        <Link href={itemsRepo.url} className=" truncate" title={itemsRepo.name}>
+                                            <span className="text-sm font-medium ">{itemsRepo.name} </span>
                                         </Link>
                                     </div>
                                     <div className="flex items-center justify-end gap-2 mt-2">

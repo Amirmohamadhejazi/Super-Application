@@ -7,6 +7,9 @@ export default function Home() {
             {/* <Link href="/discord" className="hover:text-lg  transition-all duration-400">
                 Discord
             </Link> */}
+            <Link href="/github" className="hover:text-lg  transition-all duration-400">
+                GithubStatus
+            </Link>
             <Link href="/todoApp" className="hover:text-lg  transition-all duration-400">
                 TodoApp
             </Link>
@@ -14,7 +17,7 @@ export default function Home() {
                 Weather
             </Link>
             <Link href="/itemsShop?sortOrder=name" className="hover:text-lg   rounded-md transition-all duration-700">
-                ShopItems 
+                ShopItems
             </Link>
         </div>
     );
