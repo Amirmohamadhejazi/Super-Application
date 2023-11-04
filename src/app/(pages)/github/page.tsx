@@ -16,7 +16,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { TbBuildingCommunity } from 'react-icons/tb';
 import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
-import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
 import Link from 'next/link';
@@ -36,9 +36,9 @@ const Github = () => {
     });
     // search org first
     const {
-        isLoading: isLoadingOrgan,
-        isError: isErrorOrgan,
-        error: errorOrgan,
+        // isLoading: isLoadingOrgan,
+        // isError: isErrorOrgan,
+        // error: errorOrgan,
         isSuccess: isSuccessOrgan,
         data: dataOrgan
     } = useQuery({
@@ -196,7 +196,7 @@ const Github = () => {
                 const page = Math.ceil(data?.public_repos / 30);
 
                 return (
-                    <div className="flex flex-col gap-y-5">
+                    <div className="flex flex-col gap-y-5 m-1">
                         <div className="flex gap-2 justify-between flex-wrap">
                             <span className="text-lg font-semibold">
                                 Repositories: (<span className="text-sm">{data?.public_repos}</span>)
@@ -213,12 +213,12 @@ const Github = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {convertRepData.map((itemsRepo) => (
                                 <motion.div
                                     whileHover={{ scale: 1.009 }}
                                     whileTap={{ scale: 0.99 }}
-                                    className="p-1 bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
+                                    className="flex flex-col p-1 bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
                                     key={itemsRepo.id}
                                 >
                                     <div className="flex items-center gap-x-2">
@@ -252,18 +252,39 @@ const Github = () => {
                                             <span className="text-sm">{itemsRepo.watchers_count}</span>
                                         </div>
                                     </div>
-                                    <CopyButton value={itemsRepo.clone_url}>
-                                        {({ copied, copy }) => (
-                                            <Button
-                                                className={`${
-                                                    copied ? 'bg-gray-600' : 'bg-gray-500'
-                                                } text-white text-sm px-2 focus:ring-0 focus:outline-none  rounded hover:bg-gray-600 transition-all duration-200`}
-                                                onClick={copy}
-                                            >
-                                                {copied ? 'Copied url' : 'Copy url'}
-                                            </Button>
-                                        )}
-                                    </CopyButton>
+                                    {/* <span>tags {itemsRepo.topics.length}</span>
+                                    <div className="flex items-center flex-wrap gap-2">
+                                        {itemsRepo.topics.map((itemsTopic, index) => (
+                                            <div className="text-xs text-white bg-blue-800 px-4 py-1 rounded-md" key={index}>
+                                                <span>{itemsTopic}</span>
+                                            </div>
+                                        ))}
+                                    </div> */}
+                                    <div className="flex items-center justify-between mt-2">
+                                        <span className="text-xs font-semibold">
+                                            Created:{' '}
+                                            <span className=" ">
+                                                {format(new Date(itemsRepo.created_at), 'yyyy-MM-dd | hh:mm aaa ')}
+                                            </span>
+                                        </span>
+                                        <div
+                                            className="flex"
+                                            onClick={() => toast.success(`link repository ${itemsRepo.name} copied!`)}
+                                        >
+                                            <CopyButton value={itemsRepo.clone_url}>
+                                                {({ copied, copy }) => (
+                                                    <Button
+                                                        className={`${
+                                                            copied ? 'bg-gray-600' : 'bg-gray-500'
+                                                        } text-white text-sm px-2 focus:ring-0 focus:outline-none  rounded hover:bg-gray-600 transition-all duration-200`}
+                                                        onClick={copy}
+                                                    >
+                                                        {copied ? 'Copied' : 'Copy url'}
+                                                    </Button>
+                                                )}
+                                            </CopyButton>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
@@ -383,15 +404,16 @@ const Github = () => {
                                     Go to Github
                                 </div>
                             </a>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col gap-1">
                                 <span>{data.bio}</span>
-                                <div className="flex gap-x-2 text-sm">
+                                <div className="flex gap-x-1 font-semibold">
+                                    <AiOutlineUser className="text-xl" />
                                     <div
                                         className="flex  cursor-pointer gap-x-1"
                                         onClick={() => setOpenModal({ open: true, type: 'followers' })}
                                     >
                                         <span>{data.followers}</span>
-                                        <span className="font-medium">followers</span>
+                                        <span className="">followers</span>
                                     </div>
                                     <span>.</span>
                                     <div
@@ -399,7 +421,7 @@ const Github = () => {
                                         onClick={() => setOpenModal({ open: true, type: 'following' })}
                                     >
                                         <span>{data.following}</span>
-                                        <span className="font-medium">following</span>
+                                        <span className="">following</span>
                                     </div>
                                 </div>
                                 <span className="text-sm">

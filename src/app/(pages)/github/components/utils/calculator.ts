@@ -5,11 +5,13 @@ type TDataSocial = {
     clone_url: string;
     language: string;
     watchers_count: number;
+    created_at: string;
+    topics: string[];
     id: number;
 };
 const calculator = (data: any = []) => {
+    console.log(data);
 
-    
     const convertRepData: TDataSocial[] = data?.map((itemsRep: any) => {
         return {
             avatarOwner: itemsRep?.owner?.avatar_url,
@@ -18,6 +20,8 @@ const calculator = (data: any = []) => {
             clone_url: itemsRep?.clone_url,
             language: itemsRep?.language,
             watchers_count: itemsRep?.watchers_count,
+            created_at: itemsRep?.created_at,
+            topics: itemsRep.topics,
             id: itemsRep?.id
         };
     });
