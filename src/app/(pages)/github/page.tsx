@@ -153,10 +153,10 @@ const Github = () => {
                     <div className="flex flex-col mb-3">
                         <hr className="my-2" />
                         <span className="font-semibold text-sm mb-3">Organizations</span>
-                        <div className="flex gap-x-2">
+                        <div className="flex gap-2 flex-wrap">
                             {dataOrgan.map((itemsOrgans: any) => (
                                 <div
-                                    className="w-12 h-12 bg-gray-200 rounded-md p-1"
+                                    className="w-11 h-11 bg-gray-200 rounded-md p-1"
                                     key={itemsOrgans.id}
                                     title={itemsOrgans.login}
                                 >
