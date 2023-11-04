@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { TextInput, Tooltip } from '@mantine/core';
+import React from 'react';
+import { TextInput } from '@mantine/core';
 import { IoSearch } from 'react-icons/io5';
 import { VscGithub } from 'react-icons/vsc';
 

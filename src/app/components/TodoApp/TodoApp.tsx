@@ -88,8 +88,7 @@ const TodoApp = () => {
         setTodo(newData);
         toast.error(`todo by id ${id} deleted!`);
     };
-
-    // console.log(todosDeleted);
+ 
 
     // Remove All todos in todoList
     const removeAllTodo = () => {
@@ -164,8 +163,7 @@ const TodoApp = () => {
                 break;
         }
     }, [tab, todo]);
-
-    console.log(statusDataTodo);
+ 
 
     return (
         <div className={`w-full flex flex-col items-center ${tab !== 4 ? 'bg-[#C1D8C3]' : 'bg-[#6A9C89]'}`}>

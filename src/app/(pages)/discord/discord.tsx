@@ -58,8 +58,7 @@ const Discord = () => {
             );
         }
 
-        const convertData = calculator(data);
-        console.log(convertData);
+        const convertData = calculator(data); 
 
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
