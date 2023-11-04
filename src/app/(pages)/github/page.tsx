@@ -4,9 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import Wrapper from './components/Wrapper';
 import { Error, Loading, NoData } from '@/app/components';
 import { toast } from 'react-toastify';
-import { githubApiGetUser, githubApiGetUserFollowersAndFollowing, githubApiGetUserRepos } from '@/core/service/api';
-import Link from 'next/link';
-import { RiContactsFill, RiTwitterXLine } from 'react-icons/ri';
+import {
+    githubApiGetUser,
+    githubApiGetUserFollowersAndFollowing,
+    githubApiGetUserOrgan,
+    githubApiGetUserRepos
+} from '@/core/service/api';
+import { RiTwitterXLine } from 'react-icons/ri';
 import { BsLink45Deg } from 'react-icons/bs';
 import { IoLocationOutline } from 'react-icons/io5';
 import { TbBuildingCommunity } from 'react-icons/tb';
@@ -15,7 +19,7 @@ import calculator from './components/utils/calculator';
 import { AiOutlineEye } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import Link from 'next/link';
 const Github = () => {
     const formRef = useRef<any>(null);
     const [openModal, setOpenModal] = useState({ open: false, type: '' });
@@ -29,6 +33,18 @@ const Github = () => {
         queryKey: ['searchUserQuery', { inputSearch }],
 
         queryFn: () => inputSearch && githubApiGetUser(inputSearch)
+    });
+    // search org first
+    const {
+        isLoading: isLoadingOrgan,
+        isError: isErrorOrgan,
+        error: errorOrgan,
+        isSuccess: isSuccessOrgan,
+        data: dataOrgan
+    } = useQuery({
+        queryKey: ['searchUserOrganQuery', { inputSearch }],
+
+        queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch)
     });
 
     // search Repository User
@@ -130,6 +146,32 @@ const Github = () => {
                 id: 5
             }
         ];
+
+        const organHandler = () => {
+            if (isSuccessOrgan && dataOrgan.length > 0) {
+                return (
+                    <div className="flex flex-col mb-3">
+                        <hr className="my-2" />
+                        <span className="font-semibold text-sm mb-3">Organizations</span>
+                        <div className="flex gap-x-2">
+                            {dataOrgan.map((itemsOrgans: any) => (
+                                <div
+                                    className="w-12 h-12 bg-gray-200 rounded-md p-1"
+                                    key={itemsOrgans.id}
+                                    title={itemsOrgans.login}
+                                >
+                                    <img
+                                        src={itemsOrgans.avatar_url}
+                                        className="object-cover rounded-md"
+                                        alt={itemsOrgans.login}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+        };
 
         const repoHandler = () => {
             if (isLoadingReposUser) {
@@ -290,7 +332,7 @@ const Github = () => {
                                     </div>
                                     <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
                                 </div>
-                               
+
                                 {/* <div className="flex gap-x-2 items-center">
                                     <RiContactsFill />
                                     <div className="flex gap-x-2 text-sm items-center">
@@ -314,7 +356,6 @@ const Github = () => {
                                         </div>
                                     </div>
                                 </div> */}
-                                
                             </div>
                         ))}
                     </div>
@@ -345,24 +386,20 @@ const Github = () => {
                             <div className="flex flex-col">
                                 <span>{data.bio}</span>
                                 <div className="flex gap-x-2 text-sm">
-                                    <div className="flex gap-x-1">
+                                    <div
+                                        className="flex  cursor-pointer gap-x-1"
+                                        onClick={() => setOpenModal({ open: true, type: 'followers' })}
+                                    >
                                         <span>{data.followers}</span>
-                                        <span
-                                            className="font-medium cursor-pointer"
-                                            onClick={() => setOpenModal({ open: true, type: 'followers' })}
-                                        >
-                                            followers
-                                        </span>
-                                        <span>.</span>
+                                        <span className="font-medium">followers</span>
                                     </div>
-                                    <div className="flex gap-x-1">
+                                    <span>.</span>
+                                    <div
+                                        className="flex  cursor-pointer gap-x-1"
+                                        onClick={() => setOpenModal({ open: true, type: 'following' })}
+                                    >
                                         <span>{data.following}</span>
-                                        <span
-                                            className="font-medium cursor-pointer"
-                                            onClick={() => setOpenModal({ open: true, type: 'following' })}
-                                        >
-                                            following
-                                        </span>
+                                        <span className="font-medium">following</span>
                                     </div>
                                 </div>
                                 <span className="text-sm">
@@ -375,14 +412,25 @@ const Github = () => {
                                         items.value && (
                                             <div className="w-full flex items-center gap-x-2 " key={items.id}>
                                                 <div className="text-gray-600">{items.icon}</div>
-                                                <span className="text-sm font-medium truncate" title={items.value}>
-                                                    {items.value}
-                                                </span>
+                                                {items.value.includes('https') ? (
+                                                    <Link
+                                                        href={items.value}
+                                                        className="text-sm font-medium truncate"
+                                                        title={items.value}
+                                                    >
+                                                        {items.value}
+                                                    </Link>
+                                                ) : (
+                                                    <span className="text-sm font-medium truncate" title={items.value}>
+                                                        {items.value}
+                                                    </span>
+                                                )}
                                             </div>
                                         )
                                 )}
                             </div>
                         </div>
+                        {organHandler()}
                     </div>
                     <div className="col-span-1 lg:col-span-3 overflow-auto bg-slate-200 p-1 rounded-md  ">
                         {repoHandler()}
@@ -390,7 +438,10 @@ const Github = () => {
                 </div>
                 <Modal
                     opened={openModal.open}
-                    onClose={() => setOpenModal({ open: false, type: '' })}
+                    onClose={() => {
+                        setOpenModal({ open: false, type: '' });
+                        setPageDataFollowFollowing(1);
+                    }}
                     title={
                         <span className="font-semibold">
                             {openModal.type} (<span className="text-sm  ">{data[openModal.type]}</span>)

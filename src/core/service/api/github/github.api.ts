@@ -8,6 +8,14 @@ export const githubApiGetUser = async (dataInput: string) => {
         return error.response?.data;
     }
 };
+
+export const githubApiGetUserOrgan = async (dataInput: string) => {
+    try {
+        return Http.get(`/users/${dataInput}/orgs`).then((res) => res.data);
+    } catch (error: any) {
+        return error.response?.data;
+    }
+};
 export const githubApiGetUserRepos = async ({
     inputSearch,
     pageDataRepos
