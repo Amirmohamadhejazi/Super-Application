@@ -35,14 +35,18 @@ const Github = () => {
         queryKey: ['searchUserQuery', { inputSearch }],
 
         queryFn: () => inputSearch && githubApiGetUser(inputSearch),
-        retry: 1
+        retry: 1,
+        retryOnMount: false,
+        staleTime: 1200
     });
 
     // search org first
     const { isSuccess: isSuccessOrgan, data: dataOrgan } = useQuery({
         queryKey: ['searchUserOrganQuery', { inputSearch }],
         queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch),
-        retry: 1
+        retry: 1,
+        retryOnMount: false,
+        staleTime: 1200
     });
 
     // search Repository User
@@ -61,7 +65,9 @@ const Github = () => {
                 pageDataRepos: pageDataRepos,
                 sortReposType: sortReposType
             }),
-        retry: 1
+        retry: 1,
+        retryOnMount: false,
+        staleTime: 1200
     });
 
     // get user Followers and Following
@@ -80,7 +86,9 @@ const Github = () => {
                 type: openModal.type,
                 pageDataFollowersAndFollowing: pageDataFollowFollowing
             }),
-        retry: 1
+        retry: 1,
+        retryOnMount: false,
+        staleTime: 1200
     });
 
     const searchSubmit = (e: any) => {
@@ -366,7 +374,9 @@ const Github = () => {
             }
 
             if (isSuccessFollowersAndFollowing) {
-                if (!dataFollowersAndFollowing) {
+                console.log(isSuccessFollowersAndFollowing);
+
+                if (!dataFollowersAndFollowing || dataFollowersAndFollowing?.length === 0) {
                     return (
                         <div className="w-full flex items-center justify-center">
                             <NoData text="User Not Found!" />
