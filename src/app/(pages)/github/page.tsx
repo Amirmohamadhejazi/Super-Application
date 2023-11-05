@@ -4,12 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import Wrapper from './components/Wrapper';
 import { Error, Loading, NoData } from '@/app/components';
 import { toast } from 'react-toastify';
-import {
-    githubApiGetUser,
-    githubApiGetUserFollowersAndFollowing,
-    githubApiGetUserOrgan,
-    githubApiGetUserRepos
-} from '@/core/service/api';
 import { RiTwitterXLine } from 'react-icons/ri';
 import { BsLink45Deg } from 'react-icons/bs';
 import { IoLocationOutline } from 'react-icons/io5';
@@ -20,6 +14,12 @@ import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
 import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
+import {
+    githubApiGetUser,
+    githubApiGetUserFollowersAndFollowing,
+    githubApiGetUserOrgan,
+    githubApiGetUserRepos
+} from '@/core/service/api';
 
 const Github = () => {
     const formRef = useRef<any>(null);
@@ -386,8 +386,7 @@ const Github = () => {
                                     <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
                                 </div>
 
-                                <div className="flex gap-x-2 items-center">
-                                    {/* <RiContactsFill /> */}
+                                {/* <div className="flex gap-x-2 items-center"> 
                                     <div className="flex gap-x-2 text-sm items-center">
                                         <div
                                             onClick={() => {
@@ -408,7 +407,7 @@ const Github = () => {
                                             <span className="font-medium">following</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         ))}
                     </div>
