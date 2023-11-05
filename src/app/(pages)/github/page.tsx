@@ -17,7 +17,6 @@ import { TbBuildingCommunity } from 'react-icons/tb';
 import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
 import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
-import { motion } from 'framer-motion';
 import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
@@ -86,6 +85,7 @@ const Github = () => {
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
         if (dataInput.trim().length !== 0) {
             setInputSearch(dataInput);
+            setPageDataRepos(1);
         }
     };
 
@@ -192,6 +192,13 @@ const Github = () => {
                 const { convertRepData } = calculator(dataReposUser);
                 const page = Math.ceil(data?.public_repos / 30);
 
+                if (convertRepData.length === 0) {
+                    return (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <NoData text="This user dont have Repository!" />
+                        </div>
+                    );
+                }
                 return (
                     <div className="flex flex-col gap-y-5 m-1">
                         <div className="flex gap-2 justify-between flex-wrap">
@@ -278,13 +285,13 @@ const Github = () => {
                                             <span className="text-sm">{itemsRepo.watchers_count}</span>
                                         </div>
                                     </div>
-                                    <div className="flex items-center justify-between mt-2">
-                                        <span className="text-xs font-semibold">
-                                            Created:{' '}
-                                            <span className=" ">
-                                                {format(new Date(itemsRepo.created_at), 'yyyy-MM-dd | hh:mm aaa ')}
-                                            </span>
+                                    <span className="text-xs font-semibold">
+                                        Created:{' '}
+                                        <span className=" ">
+                                            {format(new Date(itemsRepo.created_at), 'yyyy-MM-dd | hh:mm aaa ')}
                                         </span>
+                                    </span>
+                                    <div className="flex items-center justify-between mt-2">
                                         <div
                                             className="flex"
                                             onClick={() => toast.success(`link repository ${itemsRepo.name} copied!`)}
@@ -302,6 +309,13 @@ const Github = () => {
                                                 )}
                                             </CopyButton>
                                         </div>
+                                        {itemsRepo.homepageUrl && (
+                                            <a href={itemsRepo.homepageUrl} target="_blank">
+                                                <span className="font-semibold text-xs text-white bg-teal-700 p-2 rounded-md">
+                                                    this proje live
+                                                </span>
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             ))}
@@ -372,8 +386,8 @@ const Github = () => {
                                     <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
                                 </div>
 
-                                {/* <div className="flex gap-x-2 items-center">
-                                    <RiContactsFill />
+                                <div className="flex gap-x-2 items-center">
+                                    {/* <RiContactsFill /> */}
                                     <div className="flex gap-x-2 text-sm items-center">
                                         <div
                                             onClick={() => {
@@ -394,7 +408,7 @@ const Github = () => {
                                             <span className="font-medium">following</span>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                             </div>
                         ))}
                     </div>
