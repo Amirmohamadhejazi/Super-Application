@@ -223,10 +223,8 @@ const Github = () => {
                         </div>
                         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {convertRepData.map((itemsRepo) => (
-                                <motion.div
-                                    whileHover={{ scale: 1.009 }}
-                                    whileTap={{ scale: 0.99 }}
-                                    className="flex flex-col p-1 bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
+                                <div
+                                    className="flex flex-col p-1 hover:scale-[102%] bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
                                     key={itemsRepo.id}
                                 >
                                     <div className="grid grid-cols-3 gap-x-2">
@@ -316,7 +314,7 @@ const Github = () => {
                                             </CopyButton>
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>
