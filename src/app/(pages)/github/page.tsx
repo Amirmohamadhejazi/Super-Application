@@ -20,6 +20,7 @@ import {
     githubApiGetUserOrgan,
     githubApiGetUserRepos
 } from '@/core/service/api';
+import { tikeImg } from '../../../../public/picture';
 
 const Github = () => {
     const formRef = useRef<any>(null);
@@ -216,7 +217,7 @@ const Github = () => {
                             <span className="text-lg font-semibold">
                                 Repositories: (<span className="text-sm">{data?.public_repos}</span>)
                             </span>
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center flex-wrap-reverse gap-2">
                                 <Select
                                     size="sm"
                                     placeholder="Sort by:"
@@ -322,7 +323,7 @@ const Github = () => {
                                         </span>
                                     </div>
 
-                                    <div className="flex items-center justify-between mt-2">
+                                    <div className="flex items-end justify-between mt-2">
                                         <div
                                             className="flex"
                                             onClick={() => toast.success(`link repository ${itemsRepo.name} copied!`)}
@@ -341,10 +342,13 @@ const Github = () => {
                                             </CopyButton>
                                         </div>
                                         {itemsRepo.homepageUrl && (
-                                            <a href={itemsRepo.homepageUrl} target="_blank">
-                                                <span className="font-semibold text-xs text-white bg-teal-700 p-2 rounded-md">
-                                                    this proje live
-                                                </span>
+                                            <a
+                                                href={itemsRepo.homepageUrl}
+                                                className="flex font-semibold text-sm items-center text-white bg-teal-700 p-1 rounded-md gap-x-1"
+                                                target="_blank"
+                                            >
+                                                <span>this proje live</span>
+                                                <img src={tikeImg.src} className="w-5" alt={tikeImg.src} />
                                             </a>
                                         )}
                                     </div>
