@@ -10,8 +10,6 @@ type TDataSocial = {
     id: number;
 };
 const calculator = (data: any = []) => {
-    console.log(data);
-
     const convertRepData: TDataSocial[] = data?.map((itemsRep: any) => {
         return {
             avatarOwner: itemsRep?.owner?.avatar_url,

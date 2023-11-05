@@ -20,6 +20,8 @@ import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
 import Link from 'next/link';
+import { Tooltip } from '@mui/material';
+
 const Github = () => {
     const formRef = useRef<any>(null);
     const [openModal, setOpenModal] = useState({ open: false, type: '' });
@@ -221,24 +223,55 @@ const Github = () => {
                                     className="flex flex-col p-1 bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
                                     key={itemsRepo.id}
                                 >
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-7 h-w-7 bg-slate-600 rounded-full p-0.5">
-                                            <div className="h-full w-full brightness-75 rounded-full overflow-hidden">
-                                                <img
-                                                    src={itemsRepo.avatarOwner}
-                                                    className="w-full h-full object-cover"
-                                                    alt="itemsRepo.avatarOwner"
-                                                />
+                                    <div className="grid grid-cols-3 gap-x-2">
+                                        <div className="col-span-2 flex justify-start items-center gap-x-2 truncate">
+                                            <div className="w-7 h-w-7 bg-slate-600 rounded-full p-0.5">
+                                                <div className="h-full w-full brightness-75 rounded-full overflow-hidden">
+                                                    <img
+                                                        src={itemsRepo.avatarOwner}
+                                                        className="w-full h-full object-cover"
+                                                        alt="itemsRepo.avatarOwner"
+                                                    />
+                                                </div>
                                             </div>
+                                            <a
+                                                href={itemsRepo.url}
+                                                target="_blank"
+                                                className=" truncate"
+                                                title={itemsRepo.name}
+                                            >
+                                                <span className="text-sm font-medium ">{itemsRepo.name} </span>
+                                            </a>
                                         </div>
-                                        <a
-                                            href={itemsRepo.url}
-                                            target="_blank"
-                                            className=" truncate"
-                                            title={itemsRepo.name}
-                                        >
-                                            <span className="text-sm font-medium ">{itemsRepo.name} </span>
-                                        </a>
+
+                                        {itemsRepo.topics.length > 0 && (
+                                            <div className="col-span-1 flex justify-end items-start truncate">
+                                                <Tooltip
+                                                    title={
+                                                        <React.Fragment>
+                                                            <div className="w-full flex-wrap flex items-center gap-1 ">
+                                                                {itemsRepo.topics.map((itemsTopic, index) => (
+                                                                    <div
+                                                                        className="text-xs text-black font-medium bg-blue-200 px-2 py-1 rounded-md"
+                                                                        key={index}
+                                                                    >
+                                                                        <span>{itemsTopic}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </React.Fragment>
+                                                    }
+                                                    placement="top"
+                                                    arrow
+                                                >
+                                                    <span
+                                                        className={`text-white font-semibold text-xs cursor-pointer shadow-sm  bg-slate-600 px-1 py-1 rounded-md`}
+                                                    >
+                                                        # tags ({itemsRepo.topics.length})
+                                                    </span>
+                                                </Tooltip>
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="flex items-center justify-end gap-2 mt-2">
                                         {itemsRepo.language && (
@@ -252,14 +285,6 @@ const Github = () => {
                                             <span className="text-sm">{itemsRepo.watchers_count}</span>
                                         </div>
                                     </div>
-                                    {/* <span>tags {itemsRepo.topics.length}</span>
-                                    <div className="flex items-center flex-wrap gap-2">
-                                        {itemsRepo.topics.map((itemsTopic, index) => (
-                                            <div className="text-xs text-white bg-blue-800 px-4 py-1 rounded-md" key={index}>
-                                                <span>{itemsTopic}</span>
-                                            </div>
-                                        ))}
-                                    </div> */}
                                     <div className="flex items-center justify-between mt-2">
                                         <span className="text-xs font-semibold">
                                             Created:{' '}
