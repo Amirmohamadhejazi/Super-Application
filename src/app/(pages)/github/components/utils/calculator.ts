@@ -10,6 +10,7 @@ type TDataSocial = {
     pushed_at: string;
     homepageUrl: string;
     topics: string[];
+    forks: number;
     id: number;
 };
 const calculator = (data: any = []) => {
@@ -25,6 +26,7 @@ const calculator = (data: any = []) => {
             updated_at: itemsRep?.updated_at,
             pushed_at: itemsRep?.pushed_at,
             topics: itemsRep.topics,
+            forks: itemsRep.forks,
             homepageUrl: itemsRep.homepage,
             id: itemsRep?.id
         };

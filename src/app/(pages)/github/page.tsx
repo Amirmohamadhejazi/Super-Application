@@ -10,7 +10,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { TbBuildingCommunity } from 'react-icons/tb';
 import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
-import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineStar, AiOutlineUser } from 'react-icons/ai';
 import { Button, CopyButton, Pagination, Modal, Select } from '@mantine/core';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
@@ -21,6 +21,7 @@ import {
     githubApiGetUserRepos
 } from '@/core/service/api';
 import { tikeImg } from '@public/picture';
+import { VscRepoForked } from 'react-icons/vsc';
 
 const Github = () => {
     const formRef = useRef<any>(null);
@@ -299,25 +300,36 @@ const Github = () => {
                                         )}
                                     </div>
                                     <div className="flex items-center justify-end gap-2 mt-2">
+                                        {itemsRepo.forks !== 0 && itemsRepo.forks && (
+                                            <div className="flex items-center gap-x-1">
+                                                <VscRepoForked className="text-lg" />
+                                                <span className="text-sm">{itemsRepo.forks}</span>
+                                            </div>
+                                        )}
+                                        {itemsRepo.watchers_count !== 0 && itemsRepo.watchers_count && (
+                                            <div className="flex items-center gap-x-1">
+                                                <AiOutlineStar className="text-lg" />
+                                                <span className="text-sm">{itemsRepo.watchers_count}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="flex gap-x-2 text-xs font-semibold my-1">
+                                        <span className=" ">lang: </span>
                                         {itemsRepo.language && (
                                             <div className="flex items-center gap-x-2">
                                                 <div className="bg-blue-400 rounded-full p-1"></div>
                                                 <span className="text-xs">{itemsRepo.language}</span>
                                             </div>
                                         )}
-                                        <div className="flex items-center gap-x-1">
-                                            <AiOutlineEye className="text-lg" />
-                                            <span className="text-sm">{itemsRepo.watchers_count}</span>
-                                        </div>
                                     </div>
                                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
-                                        <span className="col-span-1 flex justify-start text-xs font-semibold ">
+                                        <span className="col-span-1 flex justify-start text-xs font-semibold  ">
+                                            Created :<span>{format(new Date(itemsRepo.created_at), 'yyyy-MM-dd')}</span>
+                                        </span>
+                                        <span className="col-span-1 flex justify-start xl:justify-end text-xs font-semibold ">
                                             Updated :<span>{format(new Date(itemsRepo.updated_at), 'yyyy-MM-dd')}</span>
                                         </span>
 
-                                        <span className="col-span-1 flex justify-start xl:justify-end text-xs font-semibold ">
-                                            Created :<span>{format(new Date(itemsRepo.created_at), 'yyyy-MM-dd')}</span>
-                                        </span>
                                         <span className="col-span-1 flex justify-start text-xs font-semibold ">
                                             Pushed :<span>{format(new Date(itemsRepo.pushed_at), 'yyyy-MM-dd')}</span>
                                         </span>
