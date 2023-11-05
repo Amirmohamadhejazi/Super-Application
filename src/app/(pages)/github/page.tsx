@@ -34,14 +34,15 @@ const Github = () => {
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: ['searchUserQuery', { inputSearch }],
 
-        queryFn: () => inputSearch && githubApiGetUser(inputSearch)
+        queryFn: () => inputSearch && githubApiGetUser(inputSearch),
+        retry: 1
     });
+
     // search org first
     const { isSuccess: isSuccessOrgan, data: dataOrgan } = useQuery({
         queryKey: ['searchUserOrganQuery', { inputSearch }],
-
-        queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch)
-        //  inputSearch && githubApiGetUserOrgan(inputSearch)
+        queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch),
+        retry: 1
     });
 
     // search Repository User
@@ -53,14 +54,14 @@ const Github = () => {
         data: dataReposUser
     } = useQuery({
         queryKey: ['searchRepoUser', { inputSearch, pageDataRepos, sortReposType }],
-
         queryFn: () =>
             inputSearch &&
             githubApiGetUserRepos({
                 inputSearch: inputSearch,
                 pageDataRepos: pageDataRepos,
                 sortReposType: sortReposType
-            })
+            }),
+        retry: 1
     });
 
     // get user Followers and Following
@@ -72,14 +73,14 @@ const Github = () => {
         data: dataFollowersAndFollowing
     } = useQuery({
         queryKey: ['getFollowerAndFollowing', [inputSearch, openModal, pageDataFollowFollowing]],
-
         queryFn: () =>
             openModal.type !== '' &&
             githubApiGetUserFollowersAndFollowing({
                 inputSearch: inputSearch,
                 type: openModal.type,
                 pageDataFollowersAndFollowing: pageDataFollowFollowing
-            })
+            }),
+        retry: 1
     });
 
     const searchSubmit = (e: any) => {
