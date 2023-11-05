@@ -9,6 +9,8 @@ export const githubApiGetUser = async (dataInput: string) => {
     }
 };
 export const githubApiGetUserOrgan = async (dataInput: string) => {
+    console.log(dataInput);
+
     try {
         return Http.get(`/users/${dataInput}/orgs`).then((res) => res.data);
     } catch (error: any) {

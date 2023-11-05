@@ -37,21 +37,10 @@ const Github = () => {
         queryFn: () => inputSearch && githubApiGetUser(inputSearch)
     });
     // search org first
-    const {
-        // isLoading: isLoadingOrgan,
-        // isError: isErrorOrgan,
-        // error: errorOrgan,
-        isSuccess: isSuccessOrgan,
-        data: dataOrgan
-    } = useQuery({
+    const { isSuccess: isSuccessOrgan, data: dataOrgan } = useQuery({
         queryKey: ['searchUserOrganQuery', { inputSearch }],
 
-        queryFn: () => {
-            if (inputSearch) {
-                githubApiGetUserOrgan(inputSearch);
-                setPageDataRepos(1);
-            }
-        }
+        queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch)
         //  inputSearch && githubApiGetUserOrgan(inputSearch)
     });
 
