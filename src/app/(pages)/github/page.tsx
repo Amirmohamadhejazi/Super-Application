@@ -20,7 +20,7 @@ import {
     githubApiGetUserOrgan,
     githubApiGetUserRepos
 } from '@/core/service/api';
-import { tikeImg } from '../../../../public/picture';
+import { tikeImg } from '@public/picture';
 
 const Github = () => {
     const formRef = useRef<any>(null);
