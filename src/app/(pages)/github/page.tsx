@@ -46,7 +46,13 @@ const Github = () => {
     } = useQuery({
         queryKey: ['searchUserOrganQuery', { inputSearch }],
 
-        queryFn: () => inputSearch && githubApiGetUserOrgan(inputSearch)
+        queryFn: () => {
+            if (inputSearch) {
+                githubApiGetUserOrgan(inputSearch);
+                setPageDataRepos(1);
+            }
+        }
+        //  inputSearch && githubApiGetUserOrgan(inputSearch)
     });
 
     // search Repository User
