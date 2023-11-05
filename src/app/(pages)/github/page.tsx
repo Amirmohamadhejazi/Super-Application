@@ -11,7 +11,7 @@ import { TbBuildingCommunity } from 'react-icons/tb';
 import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
 import { AiOutlineEye, AiOutlineUser } from 'react-icons/ai';
-import { Button, CopyButton, Pagination, Modal } from '@mantine/core';
+import { Button, CopyButton, Pagination, Modal, Select } from '@mantine/core';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
 import {
@@ -27,6 +27,7 @@ const Github = () => {
 
     const [inputSearch, setInputSearch] = useState<string>('');
     const [pageDataRepos, setPageDataRepos] = useState<number>(1);
+    const [sortReposType, setSortReposType] = useState<string>('created');
     const [pageDataFollowFollowing, setPageDataFollowFollowing] = useState<number>(1);
 
     // search first
@@ -51,13 +52,14 @@ const Github = () => {
         isSuccess: isSuccessReposUser,
         data: dataReposUser
     } = useQuery({
-        queryKey: ['searchRepoUser', { inputSearch, pageDataRepos }],
+        queryKey: ['searchRepoUser', { inputSearch, pageDataRepos, sortReposType }],
 
         queryFn: () =>
             inputSearch &&
             githubApiGetUserRepos({
                 inputSearch: inputSearch,
-                pageDataRepos: pageDataRepos
+                pageDataRepos: pageDataRepos,
+                sortReposType: sortReposType
             })
     });
 
@@ -201,21 +203,34 @@ const Github = () => {
                 }
                 return (
                     <div className="flex flex-col gap-y-5 m-1">
-                        <div className="flex gap-2 justify-between flex-wrap">
+                        <div className="flex gap-2 justify-between items-center flex-wrap">
                             <span className="text-lg font-semibold">
                                 Repositories: (<span className="text-sm">{data?.public_repos}</span>)
                             </span>
-                            {page > 1 && (
-                                <div className="flex justify-center">
-                                    <Pagination
-                                        total={page}
-                                        value={pageDataRepos}
-                                        onChange={(numPage) => setPageDataRepos(numPage)}
-                                        color="orange"
-                                        size="sm"
-                                    />
-                                </div>
-                            )}
+                            <div className="flex items-center gap-x-2">
+                                <Select
+                                    size="sm"
+                                    placeholder="Sort by:"
+                                    data={['created', 'updated', 'pushed', 'full_name']}
+                                    onChange={(e: any) => {
+                                        setSortReposType(e);
+                                        setPageDataRepos(1);
+                                    }}
+                                    value={sortReposType}
+                                    searchable
+                                />
+                                {page > 1 && (
+                                    <div className="flex justify-center">
+                                        <Pagination
+                                            total={page}
+                                            value={pageDataRepos}
+                                            onChange={setPageDataRepos}
+                                            color="orange"
+                                            size="sm"
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {convertRepData.map((itemsRepo) => (
@@ -285,12 +300,19 @@ const Github = () => {
                                             <span className="text-sm">{itemsRepo.watchers_count}</span>
                                         </div>
                                     </div>
-                                    <span className="text-xs font-semibold">
-                                        Created:{' '}
-                                        <span className=" ">
-                                            {format(new Date(itemsRepo.created_at), 'yyyy-MM-dd | hh:mm aaa ')}
+                                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
+                                        <span className="col-span-1 flex justify-start text-xs font-semibold ">
+                                            Updated :<span>{format(new Date(itemsRepo.updated_at), 'yyyy-MM-dd')}</span>
                                         </span>
-                                    </span>
+
+                                        <span className="col-span-1 flex justify-start xl:justify-end text-xs font-semibold ">
+                                            Created :<span>{format(new Date(itemsRepo.created_at), 'yyyy-MM-dd')}</span>
+                                        </span>
+                                        <span className="col-span-1 flex justify-start text-xs font-semibold ">
+                                            Pushed :<span>{format(new Date(itemsRepo.pushed_at), 'yyyy-MM-dd')}</span>
+                                        </span>
+                                    </div>
+
                                     <div className="flex items-center justify-between mt-2">
                                         <div
                                             className="flex"
@@ -369,24 +391,22 @@ const Github = () => {
                             </div>
                         )}
                         {dataFollowersAndFollowing?.map((itemsFallowAndFollowing: any) => (
-                            <div
-                                className="bg-gray-300 p-2 rounded-md flex items-center justify-between"
-                                key={itemsFallowAndFollowing.id}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <div className="w-10 h-10 bg-blue-950 shadow-2xl rounded-full p-1">
-                                        <div className="h-full w-full rounded-full overflow-hidden">
-                                            <img
-                                                src={itemsFallowAndFollowing.avatar_url}
-                                                className="w-full h-full object-cover"
-                                                alt=""
-                                            />
+                            <a href={itemsFallowAndFollowing.html_url} target="_blank" key={itemsFallowAndFollowing.id}>
+                                <div className="bg-gray-300 p-2 rounded-md flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-10 h-10 bg-blue-950 shadow-2xl rounded-full p-1">
+                                            <div className="h-full w-full rounded-full overflow-hidden">
+                                                <img
+                                                    src={itemsFallowAndFollowing.avatar_url}
+                                                    className="w-full h-full object-cover"
+                                                    alt=""
+                                                />
+                                            </div>
                                         </div>
+                                        <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
                                     </div>
-                                    <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
-                                </div>
 
-                                {/* <div className="flex gap-x-2 items-center"> 
+                                    {/* <div className="flex gap-x-2 items-center"> 
                                     <div className="flex gap-x-2 text-sm items-center">
                                         <div
                                             onClick={() => {
@@ -408,7 +428,8 @@ const Github = () => {
                                         </div>
                                     </div>
                                 </div> */}
-                            </div>
+                                </div>
+                            </a>
                         ))}
                     </div>
                 );

@@ -6,6 +6,8 @@ type TDataSocial = {
     language: string;
     watchers_count: number;
     created_at: string;
+    updated_at: string;
+    pushed_at: string;
     homepageUrl: string;
     topics: string[];
     id: number;
@@ -20,6 +22,8 @@ const calculator = (data: any = []) => {
             language: itemsRep?.language,
             watchers_count: itemsRep?.watchers_count,
             created_at: itemsRep?.created_at,
+            updated_at: itemsRep?.updated_at,
+            pushed_at: itemsRep?.pushed_at,
             topics: itemsRep.topics,
             homepageUrl: itemsRep.homepage,
             id: itemsRep?.id

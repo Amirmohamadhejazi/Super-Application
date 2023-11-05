@@ -17,13 +17,17 @@ export const githubApiGetUserOrgan = async (dataInput: string) => {
 };
 export const githubApiGetUserRepos = async ({
     inputSearch,
-    pageDataRepos
+    pageDataRepos,
+    sortReposType
 }: {
     inputSearch: string;
     pageDataRepos: number;
+    sortReposType: string;
 }) => {
     try {
-        return Http.get(`/users/${inputSearch}/repos?page=${pageDataRepos}`).then((res) => res.data);
+        return Http.get(`/users/${inputSearch}/repos?page=${pageDataRepos}&sort=${sortReposType}`).then(
+            (res) => res.data
+        );
     } catch (error: any) {
         return error.response?.data;
     }
