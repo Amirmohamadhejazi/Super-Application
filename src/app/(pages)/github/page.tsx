@@ -10,7 +10,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { TbBuildingCommunity } from 'react-icons/tb';
 import { format } from 'date-fns';
 import calculator from './components/utils/calculator';
-import { AiOutlineEye, AiOutlineStar, AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineStar, AiOutlineUser } from 'react-icons/ai';
 import { Button, CopyButton, Pagination, Modal, Select } from '@mantine/core';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
@@ -26,7 +26,11 @@ import { VscRepoForked } from 'react-icons/vsc';
 const Github = () => {
     const formRef = useRef<any>(null);
     const [openModal, setOpenModal] = useState({ open: false, type: '' });
-
+    const [test, setTest] = useState({ data: [1, 2, 3, 4, 5], name: 'A' });
+    const [modalAvatar, setModalAvatar] = useState<{ open: boolean; data: { avatar: string; name: string } }>({
+        open: false,
+        data: { avatar: '', name: '' }
+    });
     const [inputSearch, setInputSearch] = useState<string>('');
     const [pageDataRepos, setPageDataRepos] = useState<number>(1);
     const [sortReposType, setSortReposType] = useState<string>('created');
@@ -99,6 +103,7 @@ const Github = () => {
         if (dataInput.trim().length !== 0) {
             setInputSearch(dataInput);
             setPageDataRepos(1);
+            setSortReposType('created');
         }
     };
 
@@ -299,29 +304,33 @@ const Github = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="flex items-center justify-end gap-2 mt-2">
-                                        {itemsRepo.forks !== 0 && itemsRepo.forks && (
+
+                                    <div className="flex items-center justify-between my-2">
+                                        <div
+                                            className={`flex gap-x-2 text-xs font-semibold my-1 ${
+                                                !itemsRepo?.language && 'opacity-0'
+                                            }`}
+                                        >
+                                            <span>lang: </span>
+
+                                            <div className="flex items-center gap-x-2">
+                                                <div className="bg-blue-400 rounded-full p-1"></div>
+                                                <span className="text-xs">{itemsRepo?.language}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center">
                                             <div className="flex items-center gap-x-1">
                                                 <VscRepoForked className="text-lg" />
                                                 <span className="text-sm">{itemsRepo.forks}</span>
                                             </div>
-                                        )}
-                                        {itemsRepo.watchers_count !== 0 && itemsRepo.watchers_count && (
                                             <div className="flex items-center gap-x-1">
                                                 <AiOutlineStar className="text-lg" />
                                                 <span className="text-sm">{itemsRepo.watchers_count}</span>
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
-                                    <div className="flex gap-x-2 text-xs font-semibold my-1">
-                                        <span className=" ">lang: </span>
-                                        {itemsRepo.language && (
-                                            <div className="flex items-center gap-x-2">
-                                                <div className="bg-blue-400 rounded-full p-1"></div>
-                                                <span className="text-xs">{itemsRepo.language}</span>
-                                            </div>
-                                        )}
-                                    </div>
+
                                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
                                         <span className="col-span-1 flex justify-start text-xs font-semibold  ">
                                             Created :<span>{format(new Date(itemsRepo.created_at), 'yyyy-MM-dd')}</span>
@@ -359,7 +368,7 @@ const Github = () => {
                                                 className="flex font-semibold text-sm items-center text-white bg-teal-700 p-1 rounded-md gap-x-1"
                                                 target="_blank"
                                             >
-                                                <span>this proje live</span>
+                                                <span>live</span>
                                                 <img src={tikeImg.src} className="w-5" alt={tikeImg.src} />
                                             </a>
                                         )}
@@ -390,8 +399,6 @@ const Github = () => {
             }
 
             if (isSuccessFollowersAndFollowing) {
-                console.log(isSuccessFollowersAndFollowing);
-
                 if (!dataFollowersAndFollowing || dataFollowersAndFollowing?.length === 0) {
                     return (
                         <div className="w-full flex items-center justify-center">
@@ -418,22 +425,35 @@ const Github = () => {
                             </div>
                         )}
                         {dataFollowersAndFollowing?.map((itemsFallowAndFollowing: any) => (
-                            <a href={itemsFallowAndFollowing.html_url} target="_blank" key={itemsFallowAndFollowing.id}>
-                                <div className="bg-gray-300 p-2 rounded-md flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-10 h-10 bg-blue-950 shadow-2xl rounded-full p-1">
-                                            <div className="h-full w-full rounded-full overflow-hidden">
-                                                <img
-                                                    src={itemsFallowAndFollowing.avatar_url}
-                                                    className="w-full h-full object-cover"
-                                                    alt=""
-                                                />
-                                            </div>
+                            <div
+                                className="bg-gray-300 p-2 rounded-md flex items-center justify-between"
+                                key={itemsFallowAndFollowing.id}
+                            >
+                                <div className="flex items-center gap-2">
+                                    <div
+                                        className="w-10 h-10 bg-blue-950 shadow-2xl rounded-full p-1  cursor-pointer "
+                                        onClick={() =>
+                                            setModalAvatar({
+                                                open: true,
+                                                data: {
+                                                    avatar: itemsFallowAndFollowing.avatar_url,
+                                                    name: itemsFallowAndFollowing.login
+                                                }
+                                            })
+                                        }
+                                    >
+                                        <div className="h-full w-full rounded-full overflow-hidden">
+                                            <img
+                                                src={itemsFallowAndFollowing.avatar_url}
+                                                className="w-full h-full object-cover"
+                                                alt=""
+                                            />
                                         </div>
-                                        <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
                                     </div>
+                                    <span className=" font-semibold">{itemsFallowAndFollowing.login}</span>
+                                </div>
 
-                                    {/* <div className="flex gap-x-2 items-center"> 
+                                {/* <div className="flex gap-x-2 items-center"> 
                                     <div className="flex gap-x-2 text-sm items-center">
                                         <div
                                             onClick={() => {
@@ -455,20 +475,23 @@ const Github = () => {
                                         </div>
                                     </div>
                                 </div> */}
-                                </div>
-                            </a>
+                            </div>
                         ))}
                     </div>
                 );
             }
         };
-
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
                 <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 ">
                     <div className="col-span-1 lg:col-span-1 p-1">
                         <div className="flex flex-col gap-y-2">
-                            <div className="w-40 h-40 bg-blue-950 shadow-2xl rounded-full p-1">
+                            <div
+                                className="w-40 h-40 bg-blue-950 shadow-2xl rounded-full p-1 cursor-pointer"
+                                onClick={() =>
+                                    setModalAvatar({ open: true, data: { avatar: data.avatar_url, name: data.name } })
+                                }
+                            >
                                 <div className="h-full w-full rounded-full overflow-hidden">
                                     <img src={data.avatar_url} className="w-full h-full object-cover" alt="" />
                                 </div>
@@ -540,7 +563,7 @@ const Github = () => {
                 <Modal
                     opened={openModal.open}
                     onClose={() => {
-                        setOpenModal({ open: false, type: '' });
+                        setOpenModal({ open: false, type: openModal.type });
                         setPageDataFollowFollowing(1);
                     }}
                     title={
@@ -551,6 +574,24 @@ const Github = () => {
                     centered
                 >
                     <div className="  p-2 bg-slate-100 rounded-md">{followersAndFollowingHandler()}</div>
+                </Modal>
+
+                <Modal
+                    opened={modalAvatar.open}
+                    onClose={() => setModalAvatar({ open: false, data: modalAvatar.data })}
+                    withCloseButton={false}
+                    centered
+                >
+                    <div className="flex flex-col">
+                        <img
+                            src={modalAvatar.data.avatar}
+                            className="object-cover rounded-md w-full h-full object-cover"
+                            alt={modalAvatar.data.name}
+                        />
+                        <span className="text-sm text-center font-semibold mt-1 text-gray-600">
+                            {modalAvatar.data.name}
+                        </span>
+                    </div>
                 </Modal>
             </Wrapper>
         );
