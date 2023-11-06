@@ -319,14 +319,14 @@ const Github = () => {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center">
-                                            <div className="flex items-center gap-x-1">
-                                                <VscRepoForked className="text-lg" />
+                                        <div className="flex items-center gap-x-2">
+                                            <div className="flex items-center  ">
                                                 <span className="text-sm">{itemsRepo.forks}</span>
+                                                <VscRepoForked className="text-lg" />
                                             </div>
-                                            <div className="flex items-center gap-x-1">
-                                                <AiOutlineStar className="text-lg" />
+                                            <div className="flex items-center  ">
                                                 <span className="text-sm">{itemsRepo.watchers_count}</span>
+                                                <AiOutlineStar className="text-lg" />
                                             </div>
                                         </div>
                                     </div>
@@ -501,7 +501,7 @@ const Github = () => {
                                 <span className="text-sm font-light">{data.login}</span>
                             </div>
 
-                            <a href={data.html_url} target="_blank" className=" truncate" title={data.html_url}>
+                            <a href={data.html_url} target="_blank" className="w-full sm:w-1/2 lg:w-full truncate" title={data.html_url}>
                                 <div className="bg-gray-300 p-2 rounded-md text-center text-lg font-semibold">
                                     Go to Github
                                 </div>
