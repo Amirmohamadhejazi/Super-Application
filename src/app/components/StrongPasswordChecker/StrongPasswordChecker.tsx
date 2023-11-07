@@ -1,10 +1,11 @@
+'use client';
 import React, { useState } from 'react';
 
 const StrongPasswordChecker = () => {
     const [password, setPassword] = useState('');
     const [strength, setStrength] = useState(0);
 
-    const handlePasswordChange = (event : any) => {
+    const handlePasswordChange = (event: any) => {
         const password = event.target.value;
         setPassword(password);
 

@@ -1,4 +1,11 @@
 import {
+    fortniteApiShop,
+    fortniteApiCosmeticsNew,
+    fortniteApiCosmeticsSearchById,
+    fortniteApiCosmeticsAll
+} from './fortnite/fortnite.api';
+
+import {
     githubApiGetUser,
     githubApiGetUserOrgan,
     githubApiGetUserRepos,
@@ -13,5 +20,9 @@ export {
     githubApiGetUser,
     githubApiGetUserOrgan,
     githubApiGetUserRepos,
-    githubApiGetUserFollowersAndFollowing
+    githubApiGetUserFollowersAndFollowing,
+    fortniteApiShop,
+    fortniteApiCosmeticsNew,
+    fortniteApiCosmeticsSearchById,
+    fortniteApiCosmeticsAll
 };
