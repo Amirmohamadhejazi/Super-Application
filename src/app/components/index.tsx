@@ -6,4 +6,5 @@ import StrongPasswordChecker from './StrongPasswordChecker/StrongPasswordChecker
 import NoData from './NoData/NoData';
 import Loading from './Loading/Loading';
 import Error from './Error/Error';
-export { Cart, Test, TodoApp, WebSocketTest, StrongPasswordChecker, NoData, Loading, Error };
+import CartItemShopFort from './CartItemShopFort/CartItemShopFort';
+export { Cart, Test, TodoApp, WebSocketTest, StrongPasswordChecker, NoData, Loading, Error, CartItemShopFort };

@@ -19,4 +19,16 @@ type TCitiesData = {
     population_proper: string;
 };
 
-export type { IItemShop, TWeatherApi, TCitiesData };
+type TItemsShop = {
+    name: string;
+    description: string;
+    type: string;
+    rarity: {
+        name: string;
+        color: string;
+    };
+    images: string;
+    added: string;
+    id: string | number;
+};
+export type { IItemShop, TWeatherApi, TCitiesData, TItemsShop };
