@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-const NewCosmeticsTemplate = () => {
+const NewCosmetics = () => {
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: ['fortniteNew'],
 
@@ -78,4 +78,4 @@ const NewCosmeticsTemplate = () => {
     }
 };
 
-export default NewCosmeticsTemplate;
+export default NewCosmetics;

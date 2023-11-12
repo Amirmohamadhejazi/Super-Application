@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const AllCosmeticsTemplate = () => {
+const AllCosmetics = () => {
     const [convertedData, setConvertedData] = useState<TItemsShop[]>([]);
     const [paginationItems, setPaginationItems] = useState<number>(1);
     const [pagesItems, setPagesItems] = useState<number>(0);
@@ -136,4 +136,4 @@ const AllCosmeticsTemplate = () => {
     }
 };
 
-export default AllCosmeticsTemplate;
+export default AllCosmetics;

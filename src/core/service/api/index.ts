@@ -2,7 +2,8 @@ import {
     fortniteApiShop,
     fortniteApiCosmeticsNew,
     fortniteApiCosmeticsSearchById,
-    fortniteApiCosmeticsAll
+    fortniteApiCosmeticsAll,
+    fortniteApiBattleRoyalNews
 } from './fortnite/fortnite.api';
 
 import {
@@ -24,5 +25,6 @@ export {
     fortniteApiShop,
     fortniteApiCosmeticsNew,
     fortniteApiCosmeticsSearchById,
-    fortniteApiCosmeticsAll
+    fortniteApiCosmeticsAll,
+    fortniteApiBattleRoyalNews
 };

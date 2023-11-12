@@ -3,12 +3,12 @@ import { Tabs } from '@mantine/core';
 import { fortLogo } from '@public/picture';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { AllCosmeticsTemplate, NewCosmeticsTemplate, ShopTemplate } from '../components/Fortnite';
+import { AllCosmetics, NewCosmetics, News, Shop } from '../components/Fortnite';
 
 const FortniteTemplate = () => {
-    const [tab, setTab] = useState('shop');
+    const [tab, setTab] = useState('News');
 
-    const tabs = ['shop', 'NewCosmetics', 'AllCosmetics'];
+    const tabs = ['shop', 'NewCosmetics', 'AllCosmetics', 'News'];
 
     return (
         <div className="container p-2 mx-auto h-screen  ">
@@ -32,9 +32,10 @@ const FortniteTemplate = () => {
                 </Tabs>
             </div>
             <div className="flex flex-col gap-y-12 mt-8">
-                {tab === 'shop' && <ShopTemplate />}
-                {tab === 'NewCosmetics' && <NewCosmeticsTemplate />}
-                {tab === 'AllCosmetics' && <AllCosmeticsTemplate />}
+                {tab === 'shop' && <Shop />}
+                {tab === 'NewCosmetics' && <NewCosmetics />}
+                {tab === 'AllCosmetics' && <AllCosmetics />}
+                {tab === 'News' && <News />}
             </div>
         </div>
     );

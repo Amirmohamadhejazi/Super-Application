@@ -59,6 +59,18 @@ const fortniteApiCosmeticsSearchById = async (id: string) => {
         return error.response?.data;
     }
 };
+const fortniteApiBattleRoyalNews = async () => {
+    Http.defaults.baseURL = 'https://fortnite-api.com/v2';
+    Http.interceptors.request.use((config: any) => {
+        config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
+        return config;
+    });
+    try {
+        return Http.get(`/news`).then((res) => res.data.data);
+    } catch (error: any) {
+        return error.response?.data;
+    }
+};
 
 // cosmetics Search
 // cosmetics/br/search
@@ -95,4 +107,10 @@ const fortniteApiCosmeticsSearchById = async (id: string) => {
 // stw news
 // news/stw
 
-export { fortniteApiShop, fortniteApiCosmeticsNew, fortniteApiCosmeticsSearchById, fortniteApiCosmeticsAll };
+export {
+    fortniteApiShop,
+    fortniteApiCosmeticsNew,
+    fortniteApiCosmeticsSearchById,
+    fortniteApiCosmeticsAll,
+    fortniteApiBattleRoyalNews
+};

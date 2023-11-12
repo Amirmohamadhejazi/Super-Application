@@ -1,5 +1,5 @@
-import AllCosmeticsTemplate from './AllCosmeticsTemplate';
-import NewCosmeticsTemplate from './NewCosmeticsTemplate';
-import ShopTemplate from './ShopTemplate';
-
-export { AllCosmeticsTemplate, NewCosmeticsTemplate, ShopTemplate };
+import News from './News';
+import Shop from './Shop';
+import AllCosmetics from './AllCosmetics';
+import NewCosmetics from './NewCosmetics';
+export { AllCosmetics, NewCosmetics, News, Shop };

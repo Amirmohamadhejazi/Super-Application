@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-const ShopTemplate = () => {
+const Shop = () => {
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: ['fortniteShop'],
 
@@ -108,4 +108,4 @@ const ShopTemplate = () => {
     }
 };
 
-export default ShopTemplate;
+export default Shop;
