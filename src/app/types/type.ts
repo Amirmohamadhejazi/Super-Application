@@ -25,10 +25,15 @@ type TItemsShop = {
     type: string;
     rarity: {
         name: string;
-        color: string;
+        // color: string;
+        bg: {
+            color: string | null;
+            bg: any;
+        };
     };
     images: string;
     added: string;
+    shopHistory: string[] | null;
     id: string | number;
 };
 export type { IItemShop, TWeatherApi, TCitiesData, TItemsShop };
