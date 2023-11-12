@@ -115,35 +115,39 @@ const Fortnite = () => {
             });
 
             return (
-                <div className="flex flex-col gap-12 bg-slate-100 rounded-md">
-                    {convertData.map((dataAllDataShop: any) => (
-                        <div className="flex flex-col bg-slate-50 p-2 rounded-md gap-3" key={dataAllDataShop.id}>
-                            <div className="flex">
-                                {dataAllDataShop.bundle && (
-                                    <div className="p-1.5 text-sm font-semibold rounded-md bg-blue-300">
-                                        <span>bundle</span>
-                                    </div>
-                                )}
+                <div className="flex flex-col  bg-slate-100 rounded-md">
+                    {convertData.map((dataAllDataShop: any, index: number) => (
+                        <div className="flex flex-col " key={dataAllDataShop.id}>
+                            <div className="flex flex-col bg-slate-100 p-2 rounded-md gap-3">
+                                <div className="flex">
+                                    {dataAllDataShop.bundle && (
+                                        <div className="p-1.5 text-sm font-semibold rounded-md bg-blue-300">
+                                            <span>bundle</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="grid  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-3 rounded-xl ">
+                                    {dataAllDataShop.items.map((items: TItemsShop) => (
+                                        <CartItemShopFort dataItem={items} key={items.id} />
+                                    ))}
+                                </div>
+                                <div className="font-bold flex items-center gap-2">
+                                    <span>price: </span>
+                                    {dataAllDataShop.finalPrice === dataAllDataShop.regularPrice ? (
+                                        <span className="font-medium text-sm">{dataAllDataShop.regularPrice}</span>
+                                    ) : (
+                                        <div className="flex items-center gap-2">
+                                            <span className="previous-price line-through text-gray-700">
+                                                {dataAllDataShop.regularPrice}
+                                            </span>
+                                            <span className="current-price">{dataAllDataShop.finalPrice}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className="grid  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-3 rounded-xl ">
-                                {dataAllDataShop.items.map((items: TItemsShop) => (
-                                    <CartItemShopFort dataItem={items} key={items.id} />
-                                ))}
-                            </div>
-                            <div className="font-bold flex items-center gap-2">
-                                <span>price: </span>
-                                {dataAllDataShop.finalPrice === dataAllDataShop.regularPrice ? (
-                                    <span className="font-medium text-sm">{dataAllDataShop.regularPrice}</span>
-                                ) : (
-                                    <div className="flex items-center gap-2">
-                                        <span className="previous-price line-through text-gray-700">
-                                            {dataAllDataShop.regularPrice}
-                                        </span>
-                                        <span className="current-price">{dataAllDataShop.finalPrice}</span>
-                                    </div>
-                                )}
-                            </div>
-                            <hr />
+                            {convertData.length - 1 !== index && (
+                                <hr className="w-64 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
+                            )}
                         </div>
                     ))}
                 </div>
@@ -309,7 +313,7 @@ const Fortnite = () => {
                         <div className="flex items-center justify-between">
                             <span className="font-bold text-xl ">Items Shop</span>
                         </div>
-                        <hr />
+                        {/* <hr /> */}
                         {queryShopItem()}
                     </div>
                 )}
