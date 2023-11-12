@@ -75,18 +75,20 @@ const fortniteApiBattleRoyalNews = async () => {
 // cosmetics Search
 // cosmetics/br/search
 
-// const fortniteApiCosmeticsSearchByName = async () => {
-//     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
-//     Http.interceptors.request.use((config: any) => {
-//         config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
-//         return config;
-//     });
-//     try {
-//         return Http.get(`/cosmetics/br/search`).then((res) => res.data.data);
-//     } catch (error: any) {
-//         return error.response?.data;
-//     }
-// };
+const fortniteApiCosmeticsSearchByName = async (data) => {
+    console.log(data);
+
+    Http.defaults.baseURL = 'https://fortnite-api.com/v2';
+    Http.interceptors.request.use((config: any) => {
+        config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
+        return config;
+    });
+    try {
+        return Http.get(`/cosmetics/br/search`, data).then((res) => res.data.data);
+    } catch (error: any) {
+        return error.response?.data;
+    }
+};
 
 // const fortniteApiSearch = async () => {
 //     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
@@ -112,5 +114,6 @@ export {
     fortniteApiCosmeticsNew,
     fortniteApiCosmeticsSearchById,
     fortniteApiCosmeticsAll,
-    fortniteApiBattleRoyalNews
+    fortniteApiBattleRoyalNews,
+    fortniteApiCosmeticsSearchByName
 };
