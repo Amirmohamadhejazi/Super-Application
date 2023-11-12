@@ -1,6 +1,4 @@
 export const calculator = (data: any) => {
-    console.log(data);
-
     const convertData = {
         data: data.entries.map((itemsData: any) => {
             return {

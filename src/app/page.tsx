@@ -10,6 +10,9 @@ export default function Home() {
             <Link href="/github" className="hover:text-lg  transition-all duration-400">
                 GithubStatus
             </Link>
+            <Link href="/fortnite" className="hover:text-lg  transition-all duration-400">
+                Fortnite
+            </Link>
             <Link href="/todoApp" className="hover:text-lg  transition-all duration-400">
                 TodoApp
             </Link>
