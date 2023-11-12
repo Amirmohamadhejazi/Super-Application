@@ -143,6 +143,7 @@ const Fortnite = () => {
                                     </div>
                                 )}
                             </div>
+                            <hr />
                         </div>
                     ))}
                 </div>
