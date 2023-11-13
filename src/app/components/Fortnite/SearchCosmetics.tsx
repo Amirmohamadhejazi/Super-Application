@@ -22,7 +22,7 @@ const SearchCosmetics = () => {
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: ['searchUserQuery', { inputSearch }],
 
-        queryFn: () => inputSearch && fortniteApiCosmeticsSearchByName(inputSearch),
+        queryFn: () => inputSearch && fortniteApiCosmeticsSearchByName({name:inputSearch}),
         retry: 1,
         retryOnMount: false,
         staleTime: 1200

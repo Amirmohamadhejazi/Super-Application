@@ -75,7 +75,7 @@ const fortniteApiBattleRoyalNews = async () => {
 // cosmetics Search
 // cosmetics/br/search
 
-const fortniteApiCosmeticsSearchByName = async (data) => {
+const fortniteApiCosmeticsSearchByName = async (data: any) => {
     console.log(data);
 
     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
