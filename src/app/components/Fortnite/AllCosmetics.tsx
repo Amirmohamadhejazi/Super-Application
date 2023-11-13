@@ -63,6 +63,7 @@ const AllCosmetics = () => {
             }
         }
     }, [isSuccess, selectItems]);
+
     if (isLoading) {
         return (
             <div className="w-full flex items-center justify-center">

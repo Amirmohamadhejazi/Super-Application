@@ -1,4 +1,4 @@
-import FortniteTemplate from '@/app/Template/FortniteTemplate';
+import { FortniteTemplate } from '@/app/Template';
 
 const Fortnite = () => {
     return <FortniteTemplate />;
