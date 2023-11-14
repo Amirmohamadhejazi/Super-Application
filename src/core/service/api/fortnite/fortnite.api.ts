@@ -88,18 +88,18 @@ const fortniteApiCosmeticsSearchByName = async (inputText: any) => {
     }
 };
 
-// const fortniteApiSearch = async () => {
-//     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
-//     Http.interceptors.request.use((config: any) => {
-//         config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
-//         return config;
-//     });
-//     try {
-//         return Http.get(`/stats/br/v2/ninja`).then((res) => res.data.data);
-//     } catch (error: any) {
-//         return error.response?.data;
-//     }
-// };
+const fortniteApiSearch = async (inputText: string) => {
+    Http.defaults.baseURL = 'https://fortnite-api.com/v2';
+    Http.interceptors.request.use((config: any) => {
+        config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
+        return config;
+    });
+    try {
+        return Http.get(`/stats/br/v2?name=${inputText}`).then((res) => res.data.data);
+    } catch (error: any) {
+        return error.response?.data;
+    }
+};
 
 // battle royal news
 // news
@@ -113,5 +113,6 @@ export {
     fortniteApiCosmeticsSearchById,
     fortniteApiCosmeticsAll,
     fortniteApiBattleRoyalNews,
-    fortniteApiCosmeticsSearchByName
+    fortniteApiCosmeticsSearchByName,
+    fortniteApiSearch
 };

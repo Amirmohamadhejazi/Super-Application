@@ -13,6 +13,7 @@ import {
     slurp,
     starWars
 } from '@public/picture/rarity';
+import Spoiler from './Spoiler/Spoiler';
 const bgChecker = (nameColor: string) => {
     switch (nameColor) {
         case 'common':
@@ -117,4 +118,4 @@ const bgChecker = (nameColor: string) => {
 //     'shadow', ------------------
 //     'slurp',  ------------------
 // ];
-export { CustomLog, paginateArray, removeDuplicateObjects, bgChecker };
+export { CustomLog, paginateArray, removeDuplicateObjects, bgChecker, Spoiler };

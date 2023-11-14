@@ -1,12 +1,11 @@
 'use client';
-import { Tabs, camelToKebabCase } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import { fortLogo } from '@public/picture';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { AllCosmetics, NewCosmetics, News, Shop, SearchCosmetics } from '../components/Fortnite';
+import { AllCosmetics, NewCosmetics, News, Shop, SearchCosmetics, FortniteStats } from '../components/Fortnite';
 import { useSearchParams } from 'next/navigation';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { Error, NoData } from '../components';
+import { Error } from '../components';
 
 type TTab = string | null;
 const FortniteTemplate = () => {
@@ -14,7 +13,7 @@ const FortniteTemplate = () => {
     const currentTab: TTab = searchParams.get('tab') || 'shop';
     const [, setQuery] = useQueryParam('tab', StringParam);
 
-    const tabs = ['shop', 'newcosmetics', 'allcosmetics', 'news', 'searchcosmetics'];
+    const tabs = ['shop', 'newcosmetics', 'allcosmetics', 'news', 'searchcosmetics', 'fortnitestats'];
 
     return (
         <div className="container p-2 mx-auto h-screen  ">
@@ -45,6 +44,7 @@ const FortniteTemplate = () => {
                         {currentTab === tabs[2] && <AllCosmetics />}
                         {currentTab === tabs[3] && <News />}
                         {currentTab === tabs[4] && <SearchCosmetics />}
+                        {currentTab === tabs[5] && <FortniteStats />}
                     </div>
                 </>
             ) : (

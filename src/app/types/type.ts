@@ -36,4 +36,28 @@ type TItemsShop = {
     shopHistory: string[] | null;
     id: string | number;
 };
-export type { IItemShop, TWeatherApi, TCitiesData, TItemsShop };
+
+
+
+
+
+interface GameType {
+    id: number;
+    name: string;
+}
+
+interface Stats {
+    [key: string]: {
+        [key: string]: any;
+    };
+}
+
+interface ConvertData {
+    name: string;
+    icon: React.ReactNode | null;
+    typeGames: { id: number; name: string; data: any }[];
+}
+
+
+
+export type { IItemShop, TWeatherApi, TCitiesData, TItemsShop , ConvertData , GameType  , Stats};

@@ -1,4 +1,4 @@
-const Error = () => {
+const Error = ({ text = '...' }: { text?: string }) => {
     return (
         <div className="flex flex-col justify-center items-center gap-2 py-8">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" className="w-10">
@@ -8,7 +8,7 @@ const Error = () => {
                     className="color2b3344 svgShape"
                 ></path>
             </svg>
-            <p className="font-medium text-sm">Error .. .</p>
+            <p className="font-medium text-sm">Error {text}</p>
         </div>
     );
 };
