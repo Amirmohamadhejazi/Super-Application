@@ -144,49 +144,56 @@ const FortniteStats = () => {
                                                     >
                                                         <span className="text-lg font-bold">{itemsGames.name}</span>
                                                         <div className="flex flex-col gap-1 text-sm font-semibold">
-                                                            <span className="flex items-center gap-2">
-                                                                Score:{' '}
-                                                                {itemsGames.data.score || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
-                                                            <span className="flex items-center gap-2">
-                                                                Matches:{' '}
-                                                                {itemsGames.data.matches || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
+                                                            <div className="flex items-center justify-between flex-wrap">
+                                                                {' '}
+                                                                <span className="flex items-center gap-2">
+                                                                    Matches:{' '}
+                                                                    {itemsGames.data.matches || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                                <span className="flex items-center gap-2">
+                                                                    Score:{' '}
+                                                                    {itemsGames.data.score || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex items-center justify-between ">
+                                                                <span className="flex items-center gap-2">
+                                                                    kills:{' '}
+                                                                    {itemsGames.data.kills || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                                {/* <span className="flex items-center gap-2">
+                                                                    deaths:{' '}
+                                                                    {itemsGames.data.deaths || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span> */}
+                                                                <span className="flex items-center gap-2">
+                                                                    K/D:{' '}
+                                                                    {itemsGames.data.kd || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                            </div>
 
-                                                            <span className="flex items-center gap-2">
-                                                                K/D:{' '}
-                                                                {itemsGames.data.kd || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
-                                                            <span className="flex items-center gap-2">
-                                                                kills:{' '}
-                                                                {itemsGames.data.kills || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
-                                                            <span className="flex items-center gap-2">
-                                                                deaths:{' '}
-                                                                {itemsGames.data.deaths || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
-                                                            <span className="flex items-center gap-2">
-                                                                Wins:{' '}
-                                                                {itemsGames.data.wins || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
-                                                            <span className="flex items-center gap-2">
-                                                                WinRate:{' '}
-                                                                {itemsGames.data.winRate || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
+                                                            <div className="flex items-center justify-between">
+                                                                <span className="flex items-center gap-2">
+                                                                    Wins:{' '}
+                                                                    {itemsGames.data.wins || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                                <span className="flex items-center gap-2">
+                                                                    WinRate:{' '}
+                                                                    {itemsGames.data.winRate || (
+                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
+                                                                    )}
+                                                                </span>
+                                                            </div>
                                                             {/* <span className="flex items-center gap-2">
                                                                 Top 3:{' '}
                                                                 {itemsGames.data.top3 || (
