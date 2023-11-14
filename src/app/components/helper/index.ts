@@ -13,27 +13,6 @@ import {
     slurp,
     starWars
 } from '@public/picture/rarity';
-const colorChecker = (nameColor: string) => {
-    switch (nameColor) {
-        case 'common':
-            return '#40464d';
-        case 'uncommon':
-            return '#016604';
-        case 'rare':
-            return '#008DD4';
-        case 'epic':
-            return '#8A2BE2';
-        case 'legendary':
-            return '#de6e0e';
-        case 'mythic':
-            return '#B8860b';
-        case 'exotic':
-            return '#62bdbd';
-        default:
-            break;
-    }
-};
-
 const bgChecker = (nameColor: string) => {
     switch (nameColor) {
         case 'common':
@@ -138,4 +117,4 @@ const bgChecker = (nameColor: string) => {
 //     'shadow', ------------------
 //     'slurp',  ------------------
 // ];
-export { CustomLog, paginateArray, removeDuplicateObjects, colorChecker, bgChecker };
+export { CustomLog, paginateArray, removeDuplicateObjects, bgChecker };

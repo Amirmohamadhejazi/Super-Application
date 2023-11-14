@@ -31,7 +31,6 @@ const fortniteApiCosmeticsAll = async () => {
 
 // new cosmetics
 // cosmetics/br/new
-
 const fortniteApiCosmeticsNew = async () => {
     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
     Http.interceptors.request.use((config: any) => {
@@ -59,6 +58,7 @@ const fortniteApiCosmeticsSearchById = async (id: string) => {
         return error.response?.data;
     }
 };
+
 const fortniteApiBattleRoyalNews = async () => {
     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
     Http.interceptors.request.use((config: any) => {
@@ -75,16 +75,14 @@ const fortniteApiBattleRoyalNews = async () => {
 // cosmetics Search
 // cosmetics/br/search
 
-const fortniteApiCosmeticsSearchByName = async (data: any) => {
-    console.log(data);
-
+const fortniteApiCosmeticsSearchByName = async (inputText: any) => {
     Http.defaults.baseURL = 'https://fortnite-api.com/v2';
     Http.interceptors.request.use((config: any) => {
         config.headers['Authorization'] = '410fd76e-4256-4357-9c21-d088c401c992';
         return config;
     });
     try {
-        return Http.get(`/cosmetics/br/search`, data).then((res) => res.data.data);
+        return Http.get(`/cosmetics/br/search/all${inputText && `?name=${inputText}`}`).then((res) => res.data.data);
     } catch (error: any) {
         return error.response?.data;
     }

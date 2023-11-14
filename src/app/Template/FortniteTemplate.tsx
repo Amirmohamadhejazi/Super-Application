@@ -14,7 +14,7 @@ const FortniteTemplate = () => {
     const currentTab: TTab = searchParams.get('tab') || 'shop';
     const [, setQuery] = useQueryParam('tab', StringParam);
 
-    const tabs = ['shop', 'newcosmetics', 'allcosmetics', 'news'];
+    const tabs = ['shop', 'newcosmetics', 'allcosmetics', 'news', 'searchcosmetics'];
 
     return (
         <div className="container p-2 mx-auto h-screen  ">
@@ -44,7 +44,7 @@ const FortniteTemplate = () => {
                         {currentTab === tabs[1] && <NewCosmetics />}
                         {currentTab === tabs[2] && <AllCosmetics />}
                         {currentTab === tabs[3] && <News />}
-                        {/* {currentTab === tabs[4] && <SearchCosmetics />} */}
+                        {currentTab === tabs[4] && <SearchCosmetics />}
                     </div>
                 </>
             ) : (
