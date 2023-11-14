@@ -11,6 +11,7 @@ import { Spoiler, bgChecker } from '../helper';
 import { FaGamepad, FaPlaystation } from 'react-icons/fa6';
 import { MdOutlineTouchApp, MdPersonalVideo } from 'react-icons/md';
 import { LiaBullseyeSolid } from 'react-icons/lia';
+import { format } from 'date-fns';
 
 const FortniteStats = () => {
     const formRef = useRef<any>(null);
@@ -194,24 +195,18 @@ const FortniteStats = () => {
                                                                     )}
                                                                 </span>
                                                             </div>
-                                                            {/* <span className="flex items-center gap-2">
-                                                                Top 3:{' '}
-                                                                {itemsGames.data.top3 || (
+                                                            <span className="flex items-center gap-2">
+                                                                Last Match:{' '}
+                                                                {itemsGames.data.lastModified ? (
+                                                                    format(
+                                                                        new Date(itemsGames.data.lastModified),
+                                                                        'yyyy-MM-dd'
+                                                                    )
+                                                                ) : (
                                                                     <LiaBullseyeSolid className="text-lg text-gray-500" />
                                                                 )}
                                                             </span>
-                                                            <span className="flex items-center gap-2">
-                                                                Top 6:{' '}
-                                                                {itemsGames.data.top6 || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span> */}
-                                                            <span className="flex items-center gap-2">
-                                                                Score:{' '}
-                                                                {itemsGames.data.score || (
-                                                                    <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                )}
-                                                            </span>
+                                                          
                                                         </div>
                                                     </div>
                                                 )
