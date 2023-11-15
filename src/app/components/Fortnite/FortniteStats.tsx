@@ -2,13 +2,11 @@
 import React, { useRef, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { IoSearch } from 'react-icons/io5';
-import { VscGithub } from 'react-icons/vsc';
 import { useQuery } from '@tanstack/react-query';
-import { fortniteApiCosmeticsSearchByName, fortniteApiSearch } from '@/core/service/api/fortnite/fortnite.api';
-import { CartItemShopFort, Error, Loading, NoData } from '..';
-import { toast } from 'react-toastify';
-import { Spoiler, bgChecker } from '../helper';
-import { FaGamepad, FaPlaystation } from 'react-icons/fa6';
+import { fortniteApiSearch } from '@/core/service/api/fortnite/fortnite.api';
+import { Error, Loading, NoData } from '..';
+import { Spoiler } from '../helper';
+import { FaGamepad } from 'react-icons/fa6';
 import { MdOutlineTouchApp, MdPersonalVideo } from 'react-icons/md';
 import { LiaBullseyeSolid } from 'react-icons/lia';
 import { format } from 'date-fns';
@@ -67,43 +65,39 @@ const FortniteStats = () => {
                 );
             }
 
-            const { stats, battlePass, account } = data;
-
-            const typeGameHandler = (dataKey: string) => {
-                const dataState = stats[dataKey];
-                if (dataState) {
-                    return [
-                        { id: 0, name: 'overall', data: dataState?.overall },
-                        { id: 1, name: 'solo', data: dataState?.solo },
-                        { id: 2, name: 'duo', data: dataState?.duo },
-                        { id: 3, name: 'trio', data: dataState?.trio },
-                        { id: 4, name: 'squad', data: dataState?.squad },
-                        { id: 5, name: 'ltm', data: dataState?.ltm }
-                    ];
+            const { stats, account } = data;
+            // const { stats, battlePass, account } = data;
+            const iconHandler = (key: string) => {
+                switch (key) {
+                    case 'all':
+                        return null;
+                    case 'keyboardMouse':
+                        return <MdPersonalVideo className="text-2xl" />;
+                    case 'gamepad':
+                        return <FaGamepad className="text-2xl" />;
+                    case 'touch':
+                        return <MdOutlineTouchApp className="text-2xl" />;
                 }
             };
-            const convertDataState = [
-                {
-                    name: 'All Platforms',
-                    icon: null,
-                    typeGames: typeGameHandler('all')
-                },
-                {
-                    name: 'PC',
-                    icon: <MdPersonalVideo className="text-2xl" />,
-                    typeGames: typeGameHandler('keyboardMouse')
-                },
-                {
-                    name: 'Gamepad',
-                    icon: <FaGamepad className="text-2xl" />,
-                    typeGames: typeGameHandler('gamepad')
-                },
-                {
-                    name: 'Touch',
-                    icon: <MdOutlineTouchApp className="text-2xl" />,
-                    typeGames: typeGameHandler('touch')
-                }
-            ];
+
+            const convertDataState = Object.keys(stats)
+                .map((key) => {
+                    return {
+                        name: key,
+                        icon: iconHandler(key),
+                        typeGames: stats[key]
+                    };
+                })
+                .map((platform) => ({
+                    name: platform.name,
+                    icon: platform.icon,
+                    data: Object.keys(platform.typeGames || {}).map((gameType, index) => ({
+                        id: index,
+                        name: gameType,
+                        data: platform.typeGames ? platform.typeGames[gameType] : null
+                    }))
+                }));
+            const bgColors = ['#FAF6F0', '#F4EAE0', '#F4EAE0', '#F5EFE7'];
 
             return (
                 <div className="w-full flex flex-col gap-6">
@@ -128,25 +122,26 @@ const FortniteStats = () => {
                         <div className="flex flex-col  gap-4">
                             {convertDataState.map((itemState, index: number) => (
                                 <div className="flex flex-col gap-1" key={index}>
-                                    {itemState.typeGames && (
+                                    {itemState.data.length > 0 && (
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl font-bold">{itemState.name}</span>
+                                            <span className="text-xl font-bold">{itemState.name.toUpperCase()}</span>
                                             {itemState.icon}
                                         </div>
                                     )}
-
                                     <div className="grid  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-7 rounded-xl ">
-                                        {itemState.typeGames?.map(
+                                        {itemState.data?.map(
                                             (itemsGames) =>
                                                 itemsGames.data && (
                                                     <div
-                                                        className="flex flex-col p-2 gap-1 rounded-md bg-slate-200 shadow-xl"
+                                                        className={`flex flex-col p-2 gap-1 rounded-md shadow-xl`}
+                                                        style={{
+                                                            background: index > 3 ? bgColors[3] : bgColors[index]
+                                                        }}
                                                         key={itemsGames.id}
                                                     >
                                                         <span className="text-lg font-bold">{itemsGames.name}</span>
                                                         <div className="flex flex-col gap-1 text-sm font-semibold">
                                                             <div className="flex items-center justify-between flex-wrap">
-                                                                {' '}
                                                                 <span className="flex items-center gap-2">
                                                                     Matches:{' '}
                                                                     {itemsGames.data.matches || (
@@ -162,17 +157,11 @@ const FortniteStats = () => {
                                                             </div>
                                                             <div className="flex items-center justify-between ">
                                                                 <span className="flex items-center gap-2">
-                                                                    kills:{' '}
+                                                                    Kills:{' '}
                                                                     {itemsGames.data.kills || (
                                                                         <LiaBullseyeSolid className="text-lg text-gray-500" />
                                                                     )}
                                                                 </span>
-                                                                {/* <span className="flex items-center gap-2">
-                                                                    deaths:{' '}
-                                                                    {itemsGames.data.deaths || (
-                                                                        <LiaBullseyeSolid className="text-lg text-gray-500" />
-                                                                    )}
-                                                                </span> */}
                                                                 <span className="flex items-center gap-2">
                                                                     K/D:{' '}
                                                                     {itemsGames.data.kd || (
@@ -206,14 +195,11 @@ const FortniteStats = () => {
                                                                     <LiaBullseyeSolid className="text-lg text-gray-500" />
                                                                 )}
                                                             </span>
-                                                          
                                                         </div>
                                                     </div>
                                                 )
                                         )}
                                     </div>
-                                    {/* {index !== convertDataState.length - 1 ||
-                                        (itemState?.typeGames[index].data && <hr className="border-2 my-3" />)} */}
                                 </div>
                             ))}
                         </div>
