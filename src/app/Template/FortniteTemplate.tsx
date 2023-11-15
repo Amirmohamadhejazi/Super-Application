@@ -2,7 +2,7 @@
 import { Tabs } from '@mantine/core';
 import { fortLogo } from '@public/picture';
 import Image from 'next/image';
-import { AllCosmetics, NewCosmetics, News, Shop, SearchCosmetics, FortniteStats } from '../components/Fortnite';
+import { AllCosmetics, NewCosmetics, News, Shop, SearchCosmetics, FortniteStats } from '../components/pages/Fortnite';
 import { useSearchParams } from 'next/navigation';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Error } from '../components';

@@ -5,9 +5,9 @@ import { IoSearch } from 'react-icons/io5';
 import { VscGithub } from 'react-icons/vsc';
 import { useQuery } from '@tanstack/react-query';
 import { fortniteApiCosmeticsSearchByName } from '@/core/service/api/fortnite/fortnite.api';
-import { CartItemShopFort, Error, Loading, NoData } from '..';
+import { CartItemShopFort, Error, Loading, NoData } from '../..';
 import { toast } from 'react-toastify';
-import { bgChecker } from '../helper';
+import { bgChecker } from '../../helper';
 import { TItemsShop } from '@/app/types/type';
 
 const SearchCosmetics = () => {
@@ -77,7 +77,7 @@ const SearchCosmetics = () => {
             });
             return (
                 <div className="flex flex-col">
-                    <hr className='my-5'/>
+                    <hr className="my-5" />
                     <div className="grid  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5   gap-3 rounded-xl ">
                         {convertData.map((itemsConverted) => (
                             <CartItemShopFort dataItem={itemsConverted} key={itemsConverted.id} />
@@ -91,7 +91,7 @@ const SearchCosmetics = () => {
         <div className="w-full  flex flex-col  container items-center mx-auto ">
             <form className=" w-full sm:w-auto" ref={formRef} onSubmit={searchSubmit}>
                 <TextInput
-                    type="text" 
+                    type="text"
                     placeholder="Enter item Fortnite!"
                     size="lg"
                     name="search"

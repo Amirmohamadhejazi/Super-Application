@@ -1,3 +1,3 @@
 import FortniteTemplate from './FortniteTemplate';
-
-export { FortniteTemplate };
+import GithubTemplate from './GithubTemplate';
+export { FortniteTemplate, GithubTemplate };
