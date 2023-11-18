@@ -11,20 +11,22 @@ import { AiOutlineStar } from 'react-icons/ai';
 import { format } from 'date-fns';
 import { tikeImg } from '@public/picture';
 import { useSearchParams } from 'next/navigation';
-import { NumberParam, useQueryParam } from 'use-query-params';
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
 
 const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
     const [sortReposType, setSortReposType] = useState<string>('created');
     const searchParams = useSearchParams();
     const currentTab = Number(searchParams.get('pageRepository')) || 1;
     const [, setQuery] = useQueryParam('pageRepository', NumberParam);
+    const reposType = searchParams.get('reposType') || 'created';
+    const [, setReposType] = useQueryParam('reposType', StringParam);
     const { isLoading, isError, error, isSuccess, data } = useQuery({
         queryKey: [
             'searchRepoUser',
             {
                 inputSearch,
                 currentTab,
-                sortReposType
+                reposType
             }
         ],
         queryFn: () =>
@@ -32,12 +34,13 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
             githubApiGetUserRepos({
                 inputSearch: inputSearch,
                 pageDataRepos: currentTab,
-                sortReposType: sortReposType
+                sortReposType: reposType
             }),
         retry: 1,
         retryOnMount: false,
         staleTime: 1200
     });
+
     // const repoHandler = () => {
     if (isLoading) {
         return (
@@ -68,6 +71,10 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
             );
         }
 
+        const typeReposHandler = (data: string) => {
+            setReposType(data);
+        };
+
         return (
             <div className="flex flex-col gap-y-5 m-1">
                 <div className="flex gap-2 justify-between items-center flex-wrap">
@@ -79,11 +86,8 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
                             size="sm"
                             placeholder="Sort by:"
                             data={['created', 'updated', 'pushed', 'full_name']}
-                            onChange={(e: any) => {
-                                setSortReposType(e);
-                                setQuery(1);
-                            }}
-                            value={sortReposType}
+                            onChange={(e: any) => typeReposHandler(e)}
+                            value={reposType}
                             searchable
                         />
                         {page > 1 && (

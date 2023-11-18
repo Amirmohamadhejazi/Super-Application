@@ -2,51 +2,29 @@
 
 import { useRef, useState } from 'react';
 import { SearchUser } from '../components/pages/Github';
-import { Modal } from '@mantine/core';
-
-// import React, { useRef, useState } from 'react';
-// import { useQuery } from '@tanstack/react-query';
-// import Wrapper from '../(pages)/github/components/Wrapper';
-// import { Error, Loading, NoData } from '@/app/components';
-// import { toast } from 'react-toastify';
-// import { RiTwitterXLine } from 'react-icons/ri';
-// import { BsLink45Deg } from 'react-icons/bs';
-// import { IoLocationOutline } from 'react-icons/io5';
-// import { TbBuildingCommunity } from 'react-icons/tb';
-// import { format } from 'date-fns';
-// import calculator from '../(pages)/github/components/utils/calculator';
-// import { AiOutlineStar, AiOutlineUser } from 'react-icons/ai';
-// import { Button, CopyButton, Pagination, Modal, Select } from '@mantine/core';
-// import Link from 'next/link';
-// import { Tooltip } from '@mui/material';
-// import {
-//     githubApiGetUser,
-//     githubApiGetUserFollowersAndFollowing,
-//     githubApiGetUserOrgan,
-//     githubApiGetUserRepos
-// } from '@/core/service/api';
-// import { tikeImg } from '@public/picture';
-// import { VscRepoForked } from 'react-icons/vsc';
+import { useSearchParams } from 'next/navigation';
+import { NumberParam, StringParam, useQueryParam, useQueryParams } from 'use-query-params';
 
 const GithubTemplate = () => {
     const [inputSearch, setInputSearch] = useState<string>('');
     const formRef = useRef<any>(null);
-    const [openModal, setOpenModal] = useState({ open: false, type: '' });
-
+    const [query, setQuery] = useQueryParams({
+        pageRepository: NumberParam,
+        reposType: StringParam
+    });
     const searchSubmit = (e: any) => {
         e.preventDefault();
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
         if (dataInput.trim().length !== 0) {
             setInputSearch(dataInput);
-            // setPageDataRepos(1);
-            // setSortReposType('created');
+            setQuery({ reposType: undefined, pageRepository: undefined });
         }
     };
     return (
         <>
             <SearchUser inputSearch={inputSearch} searchSubmit={searchSubmit} formRef={formRef} />
 
-            <Modal
+            {/* <Modal
                 opened={openModal.open}
                 onClose={() => {
                     setOpenModal({ open: false, type: openModal.type });
@@ -78,13 +56,13 @@ const GithubTemplate = () => {
                         {modalAvatar.data.name}
                     </span>
                 </div>
-            </Modal>
+            </Modal> */}
         </>
     );
     // const formRef = useRef<any>(null);
 
     // const [pageDataRepos, setPageDataRepos] = useState<number>(1);
-     // const [pageDataFollowFollowing, setPageDataFollowFollowing] = useState<number>(1);
+    // const [pageDataFollowFollowing, setPageDataFollowFollowing] = useState<number>(1);
 
     // -------------------------------------------------------------------- searchUser
     // search first
