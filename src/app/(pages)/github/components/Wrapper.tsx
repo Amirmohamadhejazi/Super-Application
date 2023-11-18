@@ -36,7 +36,7 @@ const Wrapper = ({
                     }
                 />
             </form>
-            <div className="w-full flex flex-grow shadow-md p-5  bg-slate-100 relative overflow-auto rounded-md">
+            <div className="w-full flex flex-grow shadow-md  p-2 sm:p-5  bg-slate-100 relative overflow-auto rounded-md">
                 {children}
             </div>
         </div>

@@ -18,6 +18,7 @@ const config: Config = {
         },
         screens: {
             xs: '500px',
+            // => @media (min-width: 500px) { ... }
             sm: '640px',
             // => @media (min-width: 640px) { ... }
 
@@ -37,6 +38,3 @@ const config: Config = {
     plugins: [require('daisyui')]
 };
 export default config;
-
-
-
