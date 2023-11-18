@@ -14,7 +14,6 @@ import { useSearchParams } from 'next/navigation';
 import { NumberParam, StringParam, useQueryParam } from 'use-query-params';
 
 const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
-    const [sortReposType, setSortReposType] = useState<string>('created');
     const searchParams = useSearchParams();
     const currentTab = Number(searchParams.get('pageRepository')) || 1;
     const [, setQuery] = useQueryParam('pageRepository', NumberParam);
@@ -104,7 +103,7 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
                     </div>
                 </div>
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {convertRepData.map((itemsRepo) => (
+                    {convertRepData.map((itemsRepo: any) => (
                         <div
                             className="flex flex-col p-1 hover:scale-[102%] bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
                             key={itemsRepo.id}
@@ -136,7 +135,7 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
                                             title={
                                                 <React.Fragment>
                                                     <div className="w-full flex-wrap flex items-center gap-1 ">
-                                                        {itemsRepo.topics.map((itemsTopic, index) => (
+                                                        {itemsRepo.topics.map((itemsTopic: any, index: number) => (
                                                             <div
                                                                 className="text-xs text-black font-medium bg-blue-200 px-2 py-1 rounded-md"
                                                                 key={index}

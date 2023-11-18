@@ -1,3 +1,5 @@
 import SearchUser from './SearchUser';
 import SearchRepoUser from './SearchRepoUser';
-export { SearchUser, SearchRepoUser };
+import UserFollowersAndFollowing from './UserFollowersAndFollowing';
+import OrgansUser from './OrgansUser';
+export { SearchUser, SearchRepoUser, UserFollowersAndFollowing, OrgansUser };

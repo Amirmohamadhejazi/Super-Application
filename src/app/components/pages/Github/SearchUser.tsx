@@ -13,12 +13,21 @@ import { RiTwitterXLine } from 'react-icons/ri';
 import Link from 'next/link';
 import { Modal } from '@mantine/core';
 import { useState } from 'react';
-import { SearchRepoUser } from '.';
+import { OrgansUser, SearchRepoUser, UserFollowersAndFollowing } from '.';
+import { NumberParam, useQueryParam } from 'use-query-params';
 
 const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
+    const [, setQuery] = useQueryParam('pageFollowersAndFollowing', NumberParam);
     const [modalAvatar, setModalAvatar] = useState<{ open: boolean; data: { avatar: string; name: string } }>({
         open: false,
         data: { avatar: '', name: '' }
+    });
+    const [OpenModal, setOpenModal] = useState<{
+        open: boolean;
+        type: string;
+    }>({
+        open: false,
+        type: ''
     });
     // -------------------------------------------------------------------- searchUser
     // search first
@@ -30,6 +39,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
         retryOnMount: false,
         staleTime: 1200
     });
+
     if (isLoading) {
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
@@ -91,9 +101,9 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                         <div className="flex flex-col gap-y-2">
                             <div
                                 className="w-40 h-40 bg-blue-950 shadow-2xl rounded-full p-1 cursor-pointer"
-                                // onClick={() =>
-                                //     setModalAvatar({ open: true, data: { avatar: data.avatar_url, name: data.name } })
-                                // }
+                                onClick={() =>
+                                    setModalAvatar({ open: true, data: { avatar: data.avatar_url, name: data.name } })
+                                }
                             >
                                 <div className="h-full w-full rounded-full overflow-hidden">
                                     <img src={data.avatar_url} className="w-full h-full object-cover" alt="" />
@@ -120,7 +130,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                                     <AiOutlineUser className="text-xl" />
                                     <div
                                         className="flex  cursor-pointer gap-x-1"
-                                        // onClick={() => setOpenModal({ open: true, type: 'followers' })}
+                                        onClick={() => setOpenModal({ open: true, type: 'followers' })}
                                     >
                                         <span>{data.followers}</span>
                                         <span className="">followers</span>
@@ -128,7 +138,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                                     <span>.</span>
                                     <div
                                         className="flex  cursor-pointer gap-x-1"
-                                        // onClick={() => setOpenModal({ open: true, type: 'following' })}
+                                        onClick={() => setOpenModal({ open: true, type: 'following' })}
                                     >
                                         <span>{data.following}</span>
                                         <span className="">following</span>
@@ -163,28 +173,33 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                             </div>
                         </div>
                         {/* {organHandler()} */}
+                        <OrgansUser inputSearch={inputSearch} />
                     </div>
                     <div className="col-span-1 lg:col-span-3 overflow-auto bg-slate-200 p-1 rounded-md  ">
-                        {/* {repoHandler()} */}
-                        <SearchRepoUser inputSearch={inputSearch} dataUser={data}/>
+                        <SearchRepoUser inputSearch={inputSearch} dataUser={data} />
                     </div>
                 </div>
-                {/* <Modal
-                    opened={openModal.open}
+                <Modal
+                    opened={OpenModal.open}
                     onClose={() => {
-                        setOpenModal({ open: false, type: openModal.type });
-                        // setPageDataFollowFollowing(1);
+                        setOpenModal({ open: false, type: OpenModal.type });
+                        setQuery(undefined);
                     }}
                     title={
                         <span className="font-semibold">
-                            {openModal.type} (<span className="text-sm  ">{data[openModal.type]}</span>)
+                            {OpenModal.type} (<span className="text-sm  ">{data[OpenModal.type]}</span>)
                         </span>
                     }
                     centered
                 >
                     <div className="  p-2 bg-slate-100 rounded-md">
-                        {followersAndFollowingHandler()}
-                        </div>
+                        <UserFollowersAndFollowing
+                            openModal={OpenModal}
+                            setModalAvatar={setModalAvatar}
+                            userDetailSocial={{ followers: data.followers, following: data.following }}
+                            inputSearch={inputSearch}
+                        />
+                    </div>
                 </Modal>
 
                 <Modal
@@ -203,7 +218,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                             {modalAvatar.data.name}
                         </span>
                     </div>
-                </Modal> */}
+                </Modal>
             </Wrapper>
         );
     }
