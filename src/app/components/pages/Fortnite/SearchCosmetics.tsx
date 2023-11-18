@@ -58,7 +58,6 @@ const SearchCosmetics = () => {
                     </div>
                 );
             }
-            console.log(data);
 
             const convertData: TItemsShop[] = data.map((itemsSearch: any) => {
                 return {

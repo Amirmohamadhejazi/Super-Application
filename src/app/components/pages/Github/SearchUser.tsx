@@ -70,8 +70,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                     </div>
                 </Wrapper>
             );
-        }
-
+        } 
         const dataSocial = [
             {
                 value: data.company,

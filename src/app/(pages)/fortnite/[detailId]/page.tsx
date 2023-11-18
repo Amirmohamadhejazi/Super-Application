@@ -37,8 +37,7 @@ const DetailPage = ({ params }: { params: { detailId: string } }) => {
         );
     }
 
-    if (isSuccessDetail) {
-        console.log(dataDetail);
+    if (isSuccessDetail) { 
 
         return (
             <div className="flex flex-col ">

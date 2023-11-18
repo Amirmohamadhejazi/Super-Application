@@ -20,7 +20,6 @@ const UserFollowersAndFollowing = ({
     // pageDataFollowFollowing: number;
 }) => {
     const searchParams = useSearchParams();
-    console.log(followers, following);
 
     const currentPageFollowersAndFollowing = Number(searchParams.get('pageFollowersAndFollowing')) || 1;
     const [, setQuery] = useQueryParam('pageFollowersAndFollowing', NumberParam);
