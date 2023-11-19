@@ -15,7 +15,7 @@ const Wrapper = ({
     formRef: any;
 }) => {
     const searchParams = useSearchParams();
-    const searchQueryParams = searchParams.get('search');
+    const searchQueryParams = searchParams.get('search') || "";
     return (
         <div className="w-[90%] sm:w-auto lg:h-screen flex flex-col  container items-center mx-auto py-4  ">
             <div className="flex items-center gap-2 flex-wrap">
