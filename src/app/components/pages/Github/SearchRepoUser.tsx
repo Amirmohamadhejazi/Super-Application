@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { githubApiGetUserRepos } from '@/core/service/api';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -19,7 +20,13 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
     const [, setQuery] = useQueryParam('pageRepository', NumberParam);
     const reposType = searchParams.get('reposType') || 'created';
     const [, setReposType] = useQueryParam('reposType', StringParam);
-    const { isLoading, isError, error, isSuccess, data } = useQuery({
+    const {
+        isLoading,
+        isError,
+        isSuccess,
+        error,
+        data
+    }: { isLoading: boolean; isError: boolean; error: any; isSuccess: boolean; data: any } = useQuery({
         queryKey: [
             'searchRepoUser',
             {
@@ -50,10 +57,9 @@ const SearchRepoUser = ({ inputSearch, dataUser }: any) => {
     }
 
     if (isError) {
-        toast.error(error?.message);
         return (
             <div className="w-full flex items-center justify-center">
-                <Error />
+                <Error text={error.response.data.message} />
             </div>
         );
     }

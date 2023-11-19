@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { githubApiGetUser } from '@/core/service/api';
 import { useQuery } from '@tanstack/react-query';
@@ -15,8 +16,11 @@ import { Modal } from '@mantine/core';
 import { useState } from 'react';
 import { OrgansUser, SearchRepoUser, UserFollowersAndFollowing } from '.';
 import { NumberParam, useQueryParam } from 'use-query-params';
+import { useSearchParams } from 'next/navigation';
 
-const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
+const SearchUser = ({ searchSubmit, formRef }: any) => {
+    const searchParams = useSearchParams();
+    const searchQueryParams = searchParams.get('search');
     const [, setQuery] = useQueryParam('pageFollowersAndFollowing', NumberParam);
     const [modalAvatar, setModalAvatar] = useState<{ open: boolean; data: { avatar: string; name: string } }>({
         open: false,
@@ -31,10 +35,15 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
     });
     // -------------------------------------------------------------------- searchUser
     // search first
-    const { isLoading, isError, error, isSuccess, data } = useQuery({
-        queryKey: ['searchUserQuery', { inputSearch }],
-
-        queryFn: () => inputSearch && githubApiGetUser(inputSearch),
+    const {
+        isLoading,
+        isError,
+        isSuccess,
+        error,
+        data
+    }: { isLoading: boolean; isError: boolean; error: any; isSuccess: boolean; data: any } = useQuery({
+        queryKey: ['searchUserQuery', { searchQueryParams }],
+        queryFn: () => searchQueryParams && githubApiGetUser(searchQueryParams),
         retry: 1,
         retryOnMount: false,
         staleTime: 1200
@@ -51,11 +60,10 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
     }
 
     if (isError) {
-        toast.error(error?.message);
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
                 <div className="w-full flex items-center justify-center">
-                    <Error />
+                    <Error text={error.response.data.message} />
                 </div>
             </Wrapper>
         );
@@ -70,7 +78,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                     </div>
                 </Wrapper>
             );
-        } 
+        }
         const dataSocial = [
             {
                 value: data.company,
@@ -172,10 +180,10 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                             </div>
                         </div>
                         {/* {organHandler()} */}
-                        <OrgansUser inputSearch={inputSearch} />
+                        <OrgansUser inputSearch={searchQueryParams} />
                     </div>
                     <div className="col-span-1 lg:col-span-3 overflow-auto bg-slate-200 p-1 rounded-md  ">
-                        <SearchRepoUser inputSearch={inputSearch} dataUser={data} />
+                        <SearchRepoUser inputSearch={searchQueryParams} dataUser={data} />
                     </div>
                 </div>
                 <Modal
@@ -195,8 +203,9 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                         <UserFollowersAndFollowing
                             openModal={OpenModal}
                             setModalAvatar={setModalAvatar}
+                            setOpenModal={setOpenModal}
                             userDetailSocial={{ followers: data.followers, following: data.following }}
-                            inputSearch={inputSearch}
+                            inputSearch={searchQueryParams}
                         />
                     </div>
                 </Modal>
@@ -210,7 +219,7 @@ const SearchUser = ({ inputSearch, searchSubmit, formRef }: any) => {
                     <div className="flex flex-col">
                         <img
                             src={modalAvatar.data.avatar}
-                            className="object-cover rounded-md w-full h-full object-cover"
+                            className="object-cover rounded-md w-full h-full"
                             alt={modalAvatar.data.name}
                         />
                         <span className="text-sm text-center font-semibold mt-1 text-gray-600">

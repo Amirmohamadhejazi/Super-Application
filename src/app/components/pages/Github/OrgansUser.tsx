@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { githubApiGetUserOrgan } from '@/core/service/api';
 import { useQuery } from '@tanstack/react-query';
 
-const OrgansUser = ({ inputSearch }: { inputSearch: string }) => {
+const OrgansUser = ({ inputSearch }: { inputSearch: string | null }) => {
     // search org first
     const { isSuccess, data } = useQuery({
         queryKey: ['searchUserOrganQuery', { inputSearch }],

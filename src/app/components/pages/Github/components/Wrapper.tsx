@@ -3,6 +3,7 @@ import React from 'react';
 import { TextInput } from '@mantine/core';
 import { IoSearch } from 'react-icons/io5';
 import { VscGithub } from 'react-icons/vsc';
+import { useSearchParams } from 'next/navigation';
 
 const Wrapper = ({
     children,
@@ -13,6 +14,8 @@ const Wrapper = ({
     searchSubmit: any;
     formRef: any;
 }) => {
+    const searchParams = useSearchParams();
+    const searchQueryParams = searchParams.get('search');
     return (
         <div className="w-[90%] sm:w-auto lg:h-screen flex flex-col  container items-center mx-auto py-4  ">
             <div className="flex items-center gap-2 flex-wrap">
@@ -22,6 +25,7 @@ const Wrapper = ({
             <form className=" w-full sm:w-auto" ref={formRef} onSubmit={searchSubmit}>
                 <TextInput
                     type="text"
+                    defaultValue={searchQueryParams}
                     className="my-4"
                     placeholder="Enter User Name Github"
                     size="lg"

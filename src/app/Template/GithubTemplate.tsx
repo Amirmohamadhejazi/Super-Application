@@ -9,20 +9,19 @@ const GithubTemplate = () => {
     const formRef = useRef<any>(null);
     const [, setQuery] = useQueryParams({
         pageRepository: NumberParam,
-        reposType: StringParam
+        reposType: StringParam,
+        search: StringParam
     });
     const searchSubmit = (e: any) => {
         e.preventDefault();
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
         if (dataInput.trim().length !== 0) {
-            setInputSearch(dataInput);
-            setQuery({ reposType: undefined, pageRepository: undefined });
+            // console.log(dataInput);
+
+            //     setInputSearch(dataInput);
+            setQuery({ search: dataInput, reposType: undefined, pageRepository: undefined });
         }
     };
-    return (
-        <>
-            <SearchUser inputSearch={inputSearch} searchSubmit={searchSubmit} formRef={formRef} />
-        </>
-    );
+    return <SearchUser searchSubmit={searchSubmit} formRef={formRef} />;
 };
 export default GithubTemplate;
