@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { IoSearch } from 'react-icons/io5';
 import { VscGithub } from 'react-icons/vsc';
@@ -15,7 +15,14 @@ const Wrapper = ({
     formRef: any;
 }) => {
     const searchParams = useSearchParams();
-    const searchQueryParams = searchParams.get('search') || "";
+    const searchQueryParams = searchParams.get('search') || '';
+
+    const [inputSearch, setInputSearch] = useState<string>();
+
+    useEffect(() => {
+        setInputSearch(searchQueryParams);
+    }, [searchQueryParams]);
+
     return (
         <div className="w-[90%] sm:w-auto lg:h-screen flex flex-col  container items-center mx-auto py-4  ">
             <div className="flex items-center gap-2 flex-wrap">
@@ -25,7 +32,8 @@ const Wrapper = ({
             <form className=" w-full sm:w-auto" ref={formRef} onSubmit={searchSubmit}>
                 <TextInput
                     type="text"
-                    defaultValue={searchQueryParams}
+                    value={inputSearch || ''}
+                    onChange={(e) => setInputSearch(e.target.value)}
                     className="my-4"
                     placeholder="Enter User Name Github"
                     size="lg"
