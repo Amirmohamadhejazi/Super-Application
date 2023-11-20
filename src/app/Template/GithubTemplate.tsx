@@ -16,9 +16,6 @@ const GithubTemplate = () => {
         e.preventDefault();
         const dataInput: any = Object.fromEntries(new FormData(formRef.current).entries()).search;
         if (dataInput.trim().length !== 0) {
-            // console.log(dataInput);
-
-            //     setInputSearch(dataInput);
             setQuery({ search: dataInput, reposType: undefined, pageRepository: undefined });
         }
     };
