@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import Wrapper from './components/Wrapper';
 import { AiOutlineUser } from 'react-icons/ai';
 import { format } from 'date-fns';
-import { toast } from 'react-toastify';
 import { Error, Loading, NoData } from '../..';
 import { IoLocationOutline } from 'react-icons/io5';
 import { BsLink45Deg } from 'react-icons/bs';
@@ -24,7 +23,6 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
     const searchParams = useSearchParams();
     const searchQueryParams = searchParams.get('search');
     const [favorite, setFavorite] = useState<any[]>(JSON.parse(localStorage.getItem('DataFavoriteUser') || '[]'));
-    // const [lastSearch, setLastSearch] = useState<any[]>(JSON.parse(localStorage.getItem('lastSearchUser') || '[]'));
 
     const [, setQuery] = useQueryParam('pageFollowersAndFollowing', NumberParam);
     const [modalAvatar, setModalAvatar] = useState<{ open: boolean; data: { avatar: string; name: string } }>({
