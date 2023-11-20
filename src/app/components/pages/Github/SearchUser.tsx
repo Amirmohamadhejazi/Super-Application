@@ -381,7 +381,7 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                     centered
                 >
                     <div className="flex flex-col">
-                        <div className="bg-slate-50  rounded-md">
+                        <div className="bg-blue-950 rounded-md">
                             <img
                                 src={modalAvatar.data.avatar}
                                 className="object-cover rounded-md w-full h-full"
