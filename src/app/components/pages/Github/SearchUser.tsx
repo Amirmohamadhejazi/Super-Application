@@ -13,14 +13,18 @@ import { TbBuildingCommunity } from 'react-icons/tb';
 import { RiTwitterXLine } from 'react-icons/ri';
 import Link from 'next/link';
 import { Modal } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OrgansUser, SearchRepoUser, UserFollowersAndFollowing } from '.';
 import { NumberParam, useQueryParam } from 'use-query-params';
 import { useSearchParams } from 'next/navigation';
+import { FaRegHeart, FaHeart } from 'react-icons/fa6';
+import { deleteCookie, getCookie, getCookies, setCookie } from 'cookies-next';
 
 const SearchUser = ({ searchSubmit, formRef }: any) => {
     const searchParams = useSearchParams();
     const searchQueryParams = searchParams.get('search');
+    const [favorite, setFavorite] = useState<any[]>(JSON.parse(localStorage.getItem('DataFavoriteUser') || '[]'));
+
     const [, setQuery] = useQueryParam('pageFollowersAndFollowing', NumberParam);
     const [modalAvatar, setModalAvatar] = useState<{ open: boolean; data: { avatar: string; name: string } }>({
         open: false,
@@ -70,11 +74,80 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
     }
 
     if (isSuccess) {
+        const ToggleFavoriteHandler = (dataFavorite: any) => {
+            if (favorite.find((itemsF) => itemsF.id === dataFavorite.id)) {
+                const NewDataDeleted: any = favorite.filter((itemsF) => itemsF.id !== dataFavorite.id);
+                localStorage.setItem('DataFavoriteUser', JSON.stringify(NewDataDeleted));
+                setFavorite(NewDataDeleted);
+            } else {
+                const NewDataAdded: any = [...favorite, dataFavorite];
+                localStorage.setItem('DataFavoriteUser', JSON.stringify(NewDataAdded));
+                setFavorite(NewDataAdded);
+            }
+        };
         if (!data) {
             return (
                 <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
-                    <div className="w-full flex items-center justify-center">
-                        <NoData text="User Not Found!" />
+                    <div className="w-full gap-5 flex flex-col items-start">
+                        <span className="text-xl font-semibold">favorite:</span>
+                        {favorite.length > 0 ? (
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-3">
+                                {favorite.map((itemsFavorite: any) => (
+                                    <div
+                                        className="flex flex-col gap-1 p-1 hover:scale-[102%] bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
+                                        key={itemsFavorite.id}
+                                    >
+                                        <div className="col-span-2 flex justify-between items-center gap-x-2 truncate">
+                                            <div className="flex gap-2">
+                                                <div className="w-7 h-w-7 bg-slate-600 rounded-full p-0.5">
+                                                    <div className="h-full w-full brightness-75 rounded-full overflow-hidden">
+                                                        <img
+                                                            src={itemsFavorite.avatar_url}
+                                                            className="w-full h-full object-cover"
+                                                            alt="avatar"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <Link
+                                                    href={`/github?search=${itemsFavorite.login}`}
+                                                    className=" truncate"
+                                                >
+                                                    <span className="text-sm font-medium ">{itemsFavorite.login} </span>
+                                                </Link>
+                                            </div>
+                                            <div
+                                                className="flex items-center cursor-pointer"
+                                                onClick={() => ToggleFavoriteHandler(itemsFavorite)}
+                                            >
+                                                <FaHeart className="text-xl text-red-600" />
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-x-1 text-sm font-semibold">
+                                            <AiOutlineUser className="text-lg" />
+                                            <div className="flex  cursor-pointer gap-x-1">
+                                                <span>{itemsFavorite.followers}</span>
+                                                <span className="">followers</span>
+                                            </div>
+                                            <span>.</span>
+                                            <div className="flex  cursor-pointer gap-x-1">
+                                                <span>{itemsFavorite.following}</span>
+                                                <span className="">following</span>
+                                            </div>
+                                        </div>
+                                        <span className="text-xs font-semibold">
+                                            Creation date: {format(new Date(itemsFavorite.created_at), 'yyyy-MM-dd')}
+                                        </span>
+                                        <span className="text-xs font-semibold">
+                                            last Update: {format(new Date(itemsFavorite.updated_at), 'yyyy-MM-dd')}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="w-full flex items-center justify-center">
+                                <NoData text="you are dont have favorite!" />
+                            </div>
+                        )}
                     </div>
                 </Wrapper>
             );
@@ -117,11 +190,23 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                                     <img src={data.avatar_url} className="w-full h-full object-cover" alt="" />
                                 </div>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-lg font-semibold">{data.name}</span>
-                                <span className="text-sm font-light">{data.login}</span>
-                            </div>
+                            <div className="flex justify-between items-start">
+                                <div className="flex flex-col">
+                                    <span className="text-lg font-semibold">{data.name}</span>
 
+                                    <span className="text-sm font-light">{data.login}</span>
+                                </div>
+                                <div
+                                    className="flex items-center cursor-pointer"
+                                    onClick={() => ToggleFavoriteHandler(data)}
+                                >
+                                    {favorite.find((itemsF) => itemsF.login === data.login) ? (
+                                        <FaHeart className="text-xl text-red-600" />
+                                    ) : (
+                                        <FaRegHeart className="text-xl" />
+                                    )}
+                                </div>
+                            </div>
                             <a
                                 href={data.html_url}
                                 target="_blank"
