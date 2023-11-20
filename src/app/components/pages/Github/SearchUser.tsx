@@ -101,6 +101,7 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                 id: 5
             }
         ];
+
         return (
             <Wrapper searchSubmit={searchSubmit} formRef={formRef}>
                 <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 ">
@@ -109,7 +110,7 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                             <div
                                 className="w-40 h-40 bg-blue-950 shadow-2xl rounded-full p-1 cursor-pointer"
                                 onClick={() =>
-                                    setModalAvatar({ open: true, data: { avatar: data.avatar_url, name: data.name } })
+                                    setModalAvatar({ open: true, data: { avatar: data.avatar_url, name: data.login } })
                                 }
                             >
                                 <div className="h-full w-full rounded-full overflow-hidden">
@@ -217,11 +218,13 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                     centered
                 >
                     <div className="flex flex-col">
-                        <img
-                            src={modalAvatar.data.avatar}
-                            className="object-cover rounded-md w-full h-full"
-                            alt={modalAvatar.data.name}
-                        />
+                        <div className="bg-slate-50  rounded-md">
+                            <img
+                                src={modalAvatar.data.avatar}
+                                className="object-cover rounded-md w-full h-full"
+                                alt={modalAvatar.data.name}
+                            />
+                        </div>
                         <span className="text-sm text-center font-semibold mt-1 text-gray-600">
                             {modalAvatar.data.name}
                         </span>

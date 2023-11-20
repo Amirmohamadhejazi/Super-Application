@@ -17,7 +17,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
         <QueryClientProvider client={queryClient}>
             <QueryParamProvider adapter={NextAdapterApp}>
                 <MantineProvider>
-                    <div className=" mx-auto">{children}</div>
+                    {children}
                     <ToastContainer />
                 </MantineProvider>
             </QueryParamProvider>
