@@ -159,7 +159,7 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                             <span className="text-xl font-semibold">last Search:</span>
                             {lastSearch.length > 0 ? (
                                 <div className="w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                                    {lastSearch.map((itemsFavorite: any) => (
+                                    {lastSearch.reverse().map((itemsFavorite: any) => (
                                         <div
                                             className="flex flex-col gap-1 p-1 hover:scale-[102%] bg-slate-300 z-30 shadow-md hover:bg-slate-800 text-black hover:text-white transition-all duration-100 rounded-md"
                                             key={itemsFavorite.id}
@@ -183,6 +183,16 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                                                             {itemsFavorite.login}{' '}
                                                         </span>
                                                     </Link>
+                                                </div>
+                                                <div
+                                                    className="flex items-center cursor-pointer"
+                                                    onClick={() => ToggleFavoriteHandler(itemsFavorite)}
+                                                >
+                                                    {favorite.find((itemsF) => itemsF.login === itemsFavorite.login) ? (
+                                                        <FaHeart className="text-xl text-red-600" />
+                                                    ) : (
+                                                        <FaRegHeart className="text-xl" />
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className="flex gap-x-1 text-sm font-semibold">
