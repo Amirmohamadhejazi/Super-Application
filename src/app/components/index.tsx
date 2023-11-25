@@ -7,4 +7,16 @@ import NoData from './NoData/NoData';
 import Loading from './Loading/Loading';
 import Error from './Error/Error';
 import CartItemShopFort from './CartItemShopFort/CartItemShopFort';
-export { Cart, Test, TodoApp, WebSocketTest, StrongPasswordChecker, NoData, Loading, Error, CartItemShopFort };
+import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
+export {
+    Cart,
+    Test,
+    TodoApp,
+    WebSocketTest,
+    StrongPasswordChecker,
+    NoData,
+    Loading,
+    Error,
+    CartItemShopFort,
+    ExpenseCalculator
+};

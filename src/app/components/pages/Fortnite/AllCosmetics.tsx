@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { CartItemShopFort, Error, Loading, NoData } from '@/app/components';
 import { bgChecker, paginateArray, removeDuplicateObjects } from '@/app/components/helper';

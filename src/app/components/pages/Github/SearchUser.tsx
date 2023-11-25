@@ -273,7 +273,7 @@ const SearchUser = ({ searchSubmit, formRef }: any) => {
                                     <span className="text-sm font-light">{data.login}</span>
                                 </div>
                                 <div
-                                    className="flex items-center cursor-pointer"
+                                    className="flex items-center cursor-pointer transition ease-in-out delay-150 "
                                     onClick={() => ToggleFavoriteHandler(data)}
                                 >
                                     {favorite.find((itemsF) => itemsF.login === data.login) ? (

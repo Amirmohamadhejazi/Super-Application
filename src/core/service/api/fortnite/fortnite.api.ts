@@ -12,7 +12,6 @@ const fortniteApiShop = async () => {
         return error.response?.data;
     }
 };
-
 // cosmetics List
 // cosmetics/br
 // All
@@ -43,6 +42,7 @@ const fortniteApiCosmeticsNew = async () => {
         return error.response?.data;
     }
 };
+// *********************************************************************************************************************************************************************************************************************************
 
 // cosmetics by ID (detail)
 // cosmetics/br/{cosmetic-id}

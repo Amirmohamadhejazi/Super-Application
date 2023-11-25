@@ -1,7 +1,7 @@
 import { Http } from '../../interceptor';
-Http.defaults.baseURL = 'https://api.github.com';
 
 export const githubApiGetUser = async (dataInput: string) => {
+    Http.defaults.baseURL = 'https://api.github.com';
     try {
         return Http.get(`/users/${dataInput}`).then((res) => res.data);
     } catch (error: any) {
@@ -9,6 +9,7 @@ export const githubApiGetUser = async (dataInput: string) => {
     }
 };
 export const githubApiGetUserOrgan = async (dataInput: string) => {
+    Http.defaults.baseURL = 'https://api.github.com';
     try {
         return Http.get(`/users/${dataInput}/orgs`).then((res) => res.data);
     } catch (error: any) {
@@ -24,6 +25,7 @@ export const githubApiGetUserRepos = async ({
     pageDataRepos: number;
     sortReposType: string;
 }) => {
+    Http.defaults.baseURL = 'https://api.github.com';
     try {
         return Http.get(`/users/${inputSearch}/repos?page=${pageDataRepos}&sort=${sortReposType}`).then(
             (res) => res.data
@@ -41,6 +43,7 @@ export const githubApiGetUserFollowersAndFollowing = async ({
     type: string;
     pageDataFollowersAndFollowing: number;
 }) => {
+    Http.defaults.baseURL = 'https://api.github.com';
     try {
         return Http.get(`/users/${inputSearch}/${type}?page=${pageDataFollowersAndFollowing}`).then((res) => res.data);
     } catch (error: any) {

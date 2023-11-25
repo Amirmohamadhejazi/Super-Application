@@ -5,7 +5,6 @@ import { SearchUser } from '../components/pages/Github';
 import { NumberParam, StringParam, useQueryParams } from 'use-query-params';
 
 const GithubTemplate = () => {
-    const [inputSearch, setInputSearch] = useState<string>('');
     const formRef = useRef<any>(null);
     const [, setQuery] = useQueryParams({
         pageRepository: NumberParam,
